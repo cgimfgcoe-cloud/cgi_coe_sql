@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGI — Oracle EBS R12 SQL Repository</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   CGI Oracle EBS R12 SQL Query Repository
+   Design: "Terminal Precision" — dark code-first UI
+   IBM Plex Mono for code, IBM Plex Sans for UI
+   CGI red accents on deep navy-black
+   ===================================================== */
+
+[data-theme="dark"] {
+  --bg:          #080b10;
+  --bg2:         #0c0f16;
+  --surface:     #111520;
+  --surface2:    #171c2b;
+  --surface3:    #1e2438;
+  --border:      rgba(255,255,255,0.07);
+  --border2:     rgba(255,255,255,0.13);
+  --red:         #e02020;
+  --red2:        #ff4040;
+  --red-dim:     rgba(224,32,32,0.14);
+  --red-glow:    rgba(224,32,32,0.06);
+  --green:       #3ddc84;
+  --green-dim:   rgba(61,220,132,0.12);
+  --blue:        #5b9cf6;
+  --blue-dim:    rgba(91,156,246,0.12);
+  --amber:       #f5a623;
+  --amber-dim:   rgba(245,166,35,0.12);
+  --purple:      #a78bfa;
+  --purple-dim:  rgba(167,139,250,0.12);
+  --cyan:        #22d3ee;
+  --cyan-dim:    rgba(34,211,238,0.12);
+  --text:        #e8eaf2;
+  --text-mid:    #8b90a8;
+  --text-dim:    #4a5068;
+  --code-bg:     #0a0d14;
+  --code-border: rgba(91,156,246,0.2);
+  --shadow:      0 4px 24px rgba(0,0,0,0.6);
+  --shadow-lg:   0 16px 64px rgba(0,0,0,0.8);
+}
+[data-theme="light"] {
+  --bg:          #f0f2f8;
+  --bg2:         #e8ebf4;
+  --surface:     #ffffff;
+  --surface2:    #f5f6fb;
+  --surface3:    #eceef8;
+  --border:      rgba(0,0,0,0.08);
+  --border2:     rgba(0,0,0,0.14);
+  --red:         #c41a1a;
+  --red2:        #e02020;
+  --red-dim:     rgba(196,26,26,0.1);
+  --red-glow:    rgba(196,26,26,0.04);
+  --green:       #16a34a;
+  --green-dim:   rgba(22,163,74,0.1);
+  --blue:        #2563eb;
+  --blue-dim:    rgba(37,99,235,0.1);
+  --amber:       #d97706;
+  --amber-dim:   rgba(217,119,6,0.1);
+  --purple:      #7c3aed;
+  --purple-dim:  rgba(124,58,237,0.1);
+  --cyan:        #0891b2;
+  --cyan-dim:    rgba(8,145,178,0.1);
+  --text:        #111827;
+  --text-mid:    #4b5563;
+  --text-dim:    #9ca3af;
+  --code-bg:     #1e2438;
+  --code-border: rgba(37,99,235,0.25);
+  --shadow:      0 4px 24px rgba(0,0,0,0.1);
+  --shadow-lg:   0 16px 64px rgba(0,0,0,0.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  min-height:100vh;
+  transition:background .3s,color .3s;
+}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--red);
+  height:32px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-left{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.9);font-family:'IBM Plex Mono',monospace;}
+.topbar-right{display:flex;gap:16px;align-items:center;}
+.topbar-link{font-size:10.5px;color:rgba(255,255,255,.8);text-decoration:none;font-weight:500;transition:color .15s;}
+.topbar-link:hover{color:#fff;}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;height:62px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:var(--shadow);
+  transition:background .3s;
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;}
+.brand-logo svg{height:36px;width:auto;}
+.brand-div{width:1px;height:30px;background:var(--border2);}
+.brand-text{}
+.brand-name{font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:var(--text);display:block;letter-spacing:.2px;}
+.brand-sub{font-size:9px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;display:block;font-family:'IBM Plex Mono',monospace;}
+
+.nav-search{flex:1;max-width:440px;position:relative;}
+.nav-search input{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:8px 14px 8px 36px;
+  color:var(--text);font-size:13px;font-family:'IBM Plex Sans',sans-serif;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.nav-search input::placeholder{color:var(--text-dim);}
+.nav-search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-dim);}
+.nav-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none;}
+
+.nav-stats{margin-left:auto;display:flex;gap:20px;font-size:10.5px;color:var(--text-dim);white-space:nowrap;}
+.nav-stat-val{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--red);display:block;line-height:1.1;}
+.nav-stat-item{text-align:center;}
+
+.theme-btn{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:6px 10px;cursor:pointer;
+  color:var(--text-dim);font-size:13px;transition:all .15s;
+  display:flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.theme-btn:hover{border-color:var(--border2);color:var(--text);}
+
+/* ── HERO ── */
+.hero{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:52px 24px 40px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(224,32,32,.06) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 80% 110%,rgba(91,156,246,.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+/* Decorative SQL background text */
+.hero-code-bg{
+  position:absolute;inset:0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;color:rgba(255,255,255,.025);
+  padding:16px;overflow:hidden;pointer-events:none;
+  line-height:1.8;letter-spacing:.3px;
+  white-space:pre;
+}
+[data-theme="light"] .hero-code-bg{color:rgba(0,0,0,.04);}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;font-weight:500;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--red);margin-bottom:18px;
+}
+.hero-dot{width:5px;height:5px;background:var(--red);border-radius:50%;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,4.5vw,58px);
+  font-weight:700;line-height:1.1;
+  color:var(--text);margin-bottom:12px;
+}
+.hero h1 em{font-style:italic;color:var(--red);}
+.hero-sub{font-size:14.5px;color:var(--text-mid);max-width:540px;margin:0 auto 28px;font-weight:300;line-height:1.75;}
+
+.search-wrap{max-width:600px;margin:0 auto;}
+.search-box{
+  display:flex;gap:0;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:8px;overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:box-shadow .2s;
+}
+.search-box:focus-within{box-shadow:0 0 0 3px var(--blue-dim),var(--shadow);}
+.search-prefix{
+  display:flex;align-items:center;padding:0 14px;
+  background:var(--surface2);border-right:1px solid var(--border);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);
+  white-space:nowrap;
+}
+.search-box input{
+  flex:1;padding:13px 16px;background:transparent;
+  border:none;color:var(--text);font-size:13.5px;
+  font-family:'IBM Plex Sans',sans-serif;outline:none;
+}
+.search-box input::placeholder{color:var(--text-dim);}
+.search-box button{
+  background:var(--red);color:#fff;border:none;
+  padding:0 22px;font-size:12.5px;font-weight:600;
+  cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
+  letter-spacing:.5px;transition:opacity .15s;white-space:nowrap;
+}
+.search-box button:hover{opacity:.88;}
+
+/* Quick filter chips */
+.hero-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px;}
+.chip{
+  background:transparent;border:1px solid var(--border2);
+  color:var(--text-dim);padding:4px 13px;border-radius:20px;
+  font-size:11.5px;cursor:pointer;transition:all .15s;
+  font-family:'IBM Plex Mono',monospace;
+}
+.chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim);}
+
+/* ── LAYOUT ── */
+.layout{display:flex;max-width:1500px;margin:0 auto;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:260px;flex-shrink:0;
+  position:sticky;top:62px;
+  height:calc(100vh - 62px);
+  overflow-y:auto;
+  border-right:1px solid var(--border);
+  background:var(--surface);
+  transition:background .3s;
+  padding:16px 0 24px;
+}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sb-section{padding:0 14px 6px;margin-top:8px;}
+.sb-section-label{
+  font-size:8.5px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text-dim);
+  font-family:'IBM Plex Mono',monospace;
+  padding:0 6px 8px;display:block;
+}
+.cat-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 10px;cursor:pointer;
+  transition:all .15s;font-size:12.5px;color:var(--text-mid);
+  border-radius:6px;user-select:none;
+  border:1px solid transparent;margin-bottom:1px;
+  gap:8px;
+}
+.cat-item:hover{background:var(--surface2);color:var(--text);}
+.cat-item.active{background:var(--red-dim);color:var(--red);border-color:rgba(224,32,32,.25);}
+.cat-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center;}
+.cat-label{flex:1;min-width:0;font-size:12px;}
+.cat-count{
+  font-size:10px;font-family:'IBM Plex Mono',monospace;
+  background:var(--surface3);color:var(--text-dim);
+  padding:2px 6px;border-radius:4px;flex-shrink:0;
+}
+.cat-item.active .cat-count{background:var(--red-dim);color:var(--red);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;}
+
+/* Results bar */
+.results-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;border-bottom:1px solid var(--border);
+  background:var(--surface);transition:background .3s;
+  flex-wrap:wrap;gap:8px;
+}
+.r-info{font-size:12px;color:var(--text-dim);}
+.r-info strong{color:var(--text);font-weight:500;}
+.filter-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.f-lbl{font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;font-family:'IBM Plex Mono',monospace;}
+.f-btn{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text-dim);padding:4px 12px;border-radius:5px;
+  font-size:11.5px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
+  transition:all .15s;
+}
+.f-btn:hover{border-color:var(--blue);color:var(--text);}
+.f-btn.active{background:var(--blue-dim);border-color:var(--blue);color:var(--blue);}
+.f-sep{width:1px;height:18px;background:var(--border);margin:0 2px;}
+.f-sel{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text-mid);padding:4px 8px;border-radius:5px;
+  font-size:11.5px;font-family:'IBM Plex Sans',sans-serif;
+  cursor:pointer;outline:none;
+}
+
+/* ── QUERY CARDS ── */
+.query-grid{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+
+.q-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .15s;
+  overflow:hidden;
+}
+.q-card:hover{border-color:var(--border2);box-shadow:var(--shadow);transform:translateY(-1px);}
+.q-card.active{border-color:rgba(91,156,246,.4);box-shadow:0 0 0 1px rgba(91,156,246,.15);}
+
+.q-card-head{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 16px;
+}
+.q-card-icon{
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.q-card-body{flex:1;min-width:0;}
+.q-card-title{
+  font-size:13.5px;font-weight:600;color:var(--text);
+  margin-bottom:3px;line-height:1.35;
+  transition:color .15s;
+}
+.q-card:hover .q-card-title{color:var(--blue);}
+.q-card.active .q-card-title{color:var(--blue);}
+.q-card-desc{font-size:12px;color:var(--text-dim);line-height:1.5;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
+.q-card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px;}
+.q-tag{
+  font-size:10px;font-family:'IBM Plex Mono',monospace;
+  padding:2px 7px;border-radius:3px;
+}
+.q-card-toggle{
+  margin-left:auto;color:var(--text-dim);
+  font-size:11px;display:flex;align-items:center;gap:4px;
+  flex-shrink:0;font-family:'IBM Plex Mono',monospace;
+  white-space:nowrap;
+}
+
+/* ── SQL PANEL (expandable) ── */
+.sql-panel{
+  display:none;
+  border-top:1px solid var(--border);
+  background:var(--code-bg);
+}
+.sql-panel.open{display:block;}
+.sql-panel-inner{padding:0;}
+
+.sql-toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;border-bottom:1px solid rgba(255,255,255,.05);
+  background:rgba(0,0,0,.2);
+}
+[data-theme="light"] .sql-toolbar{background:rgba(0,0,0,.05);}
+.sql-toolbar-left{display:flex;align-items:center;gap:8px;}
+.sql-dot{width:10px;height:10px;border-radius:50%;}
+.sql-dot-r{background:#ff5f57;}
+.sql-dot-y{background:#febc2e;}
+.sql-dot-g{background:#28c840;}
+.sql-filename{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);margin-left:6px;}
+.sql-toolbar-right{display:flex;gap:6px;}
+.sql-action{
+  background:transparent;border:1px solid rgba(255,255,255,.1);
+  color:var(--text-mid);padding:3px 10px;border-radius:4px;
+  font-size:10.5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;
+  transition:all .15s;display:flex;align-items:center;gap:4px;
+}
+[data-theme="light"] .sql-action{border-color:rgba(0,0,0,.12);}
+.sql-action:hover{background:rgba(91,156,246,.15);color:var(--blue);border-color:var(--blue);}
+.sql-action.copied{background:var(--green-dim);color:var(--green);border-color:var(--green);}
+
+/* Code block with syntax highlighting classes */
+.sql-code{
+  padding:16px 20px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  line-height:1.8;
+  color:#abb2bf;
+  overflow-x:auto;
+  white-space:pre;
+  tab-size:2;
+}
+[data-theme="light"] .sql-code{color:#1e2438;}
+
+/* Syntax tokens */
+.kw{color:#c678dd;}              /* SELECT, FROM, WHERE etc */
+.fn{color:#61afef;}              /* Functions */
+.tb{color:#e5c07b;}              /* Table names */
+.col{color:#abb2bf;}             /* Column names */
+.str{color:#98c379;}             /* String literals */
+.num{color:#d19a66;}             /* Numbers */
+.cmt{color:#5c6370;font-style:italic;} /* Comments */
+.op{color:#56b6c2;}              /* Operators = <> AND OR */
+.alias{color:#e06c75;}           /* Aliases */
+
+[data-theme="light"] .kw{color:#7c3aed;}
+[data-theme="light"] .fn{color:#2563eb;}
+[data-theme="light"] .tb{color:#b45309;}
+[data-theme="light"] .str{color:#16a34a;}
+[data-theme="light"] .num{color:#ea580c;}
+[data-theme="light"] .cmt{color:#6b7280;}
+[data-theme="light"] .op{color:#0891b2;}
+[data-theme="light"] .alias{color:#dc2626;}
+
+/* Description panel below SQL */
+.sql-desc{
+  padding:14px 20px;
+  border-top:1px solid rgba(255,255,255,.05);
+  font-size:12.5px;color:var(--text-mid);
+  line-height:1.75;
+  background:rgba(0,0,0,.1);
+}
+[data-theme="light"] .sql-desc{background:rgba(0,0,0,.02);border-top:1px solid var(--border);}
+.sql-desc strong{color:var(--text);font-weight:600;}
+.sql-params{margin-top:10px;}
+.sql-param{
+  display:flex;gap:10px;padding:5px 0;
+  border-top:1px solid rgba(255,255,255,.04);
+  font-size:12px;
+}
+[data-theme="light"] .sql-param{border-top:1px solid var(--border);}
+.param-name{font-family:'IBM Plex Mono',monospace;color:var(--amber);width:180px;flex-shrink:0;}
+.param-desc{color:var(--text-dim);}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;gap:4px;justify-content:center;padding:20px 16px;}
+.pg-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text-mid);padding:6px 12px;border-radius:5px;
+  font-size:12px;cursor:pointer;font-family:'IBM Plex Mono',monospace;
+  transition:all .15s;min-width:34px;text-align:center;
+}
+.pg-btn:hover:not([disabled]):not(.active){border-color:var(--blue);color:var(--blue);}
+.pg-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+.pg-btn[disabled]{opacity:.3;cursor:default;}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:80px 20px;color:var(--text-dim);}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+.empty-title{font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--text-mid);margin-bottom:6px;}
+
+/* ── MOBILE ── */
+.mob-cats{display:none;overflow-x:auto;padding:8px 14px;gap:6px;border-bottom:1px solid var(--border);background:var(--surface);-webkit-overflow-scrolling:touch;}
+.m-cat{flex-shrink:0;padding:5px 12px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-size:11.5px;cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none;font-family:'IBM Plex Mono',monospace;}
+.m-cat.active{background:var(--red-dim);border-color:var(--red);color:var(--red);}
+
+/* ── FOOTER ── */
+.footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 24px;text-align:center;}
+.footer-logo{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--red);letter-spacing:4px;margin-bottom:4px;}
+.footer-sub{font-size:10.5px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;}
+.footer-copy{font-size:11px;color:var(--text-dim);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.sidebar{display:none}.mob-cats{display:flex}}
+@media(max-width:580px){.topbar{display:none}.navbar{height:56px;padding:0 14px}.nav-stats{display:none}.hero{padding:36px 14px 28px}.query-grid{padding:8px 10px}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-left">CGI &nbsp;|&nbsp; Oracle EBS R12 SQL Repository</span>
+  <div class="topbar-right">
+    <a href="https://www.cgi.com" target="_blank" class="topbar-link">CGI.com</a>
+    <a href="cgi_oracle_repository.html" class="topbar-link">Knowledge Base</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="brand" href="#">
+    <div class="brand-logo">
+      <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="5" width="50" height="50" rx="6" fill="#e02020"/>
+        <path d="M12 18 Q28 8 42 22 Q28 16 14 26 Z" fill="white" opacity=".95"/>
+        <text x="58" y="42" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#e02020" letter-spacing="-0.5">cgi</text>
+      </svg>
+    </div>
+    <div class="brand-div"></div>
+    <div class="brand-text">
+      <span class="brand-name">EBS R12 SQL Repository</span>
+      <span class="brand-sub">Oracle E-Business Suite &middot; Base Tables Reference</span>
+    </div>
+  </a>
+  <div class="nav-search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="navSearch" placeholder="Search queries, tables, modules..." autocomplete="off">
+  </div>
+  <div class="nav-stats">
+    <div class="nav-stat-item"><span class="nav-stat-val" id="dispTotal">500+</span>Queries</div>
+    <div class="nav-stat-item"><span class="nav-stat-val" id="dispCats">18</span>Modules</div>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">
+    <span id="themeIcon">&#9728;</span>
+    <span id="themeLbl">Light</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-code-bg">SELECT fr.request_id, fr.phase_code, fr.status_code FROM fnd_concurrent_requests fr WHERE fr.phase_code = 'R';
+SELECT ai.invoice_num, ai.invoice_amount, aps.vendor_name FROM ap_invoices_all ai JOIN ap_suppliers aps ON ai.vendor_id = aps.vendor_id;
+SELECT gl.segment1, gl.segment2, gb.period_net_dr FROM gl_balances gb JOIN gl_code_combinations gl ON gb.code_combination_id = gl.code_combination_id;
+SELECT ooh.order_number, ool.ordered_item, ool.ordered_quantity FROM oe_order_headers_all ooh JOIN oe_order_lines_all ool ON ooh.header_id = ool.header_id;
+SELECT msi.segment1, msi.description, moq.transaction_quantity FROM mtl_system_items_b msi JOIN mtl_onhand_quantities_detail moq ON msi.inventory_item_id = moq.inventory_item_id;</div>
+
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    Oracle EBS R12 &mdash; Base Table SQL Reference
+    <span class="hero-dot"></span>
+  </div>
+  <h1>The <em>EBS R12 SQL</em><br>Query Repository</h1>
+  <p class="hero-sub">Ready-to-run SQL queries against Oracle EBS R12 base tables — for developers, DBAs, and functional consultants.</p>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-prefix">SQL&gt;</span>
+      <input type="text" id="heroSearch" placeholder="e.g. concurrent requests, pending invoices, open POs..." autocomplete="off">
+      <button onclick="doSearch()">RUN</button>
+    </div>
+    <div class="hero-chips">
+      <span class="chip" data-q="concurrent">Concurrent Requests</span>
+      <span class="chip" data-q="invoice">Pending Invoices</span>
+      <span class="chip" data-q="open PO">Open POs</span>
+      <span class="chip" data-q="GL balance">GL Balances</span>
+      <span class="chip" data-q="sales order">Sales Orders</span>
+      <span class="chip" data-q="employee">Employees</span>
+      <span class="chip" data-q="inventory">Inventory</span>
+      <span class="chip" data-q="payment">Payments</span>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE CATS -->
+<div class="mob-cats" id="mobCats"></div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div id="catList"></div>
+  </aside>
+  <main class="main">
+    <div class="results-bar">
+      <div class="r-info" id="rInfo">Loading...</div>
+      <div class="filter-row">
+        <span class="f-lbl">Sort</span>
+        <select class="f-sel" id="sortSel">
+          <option value="d">Default</option>
+          <option value="az">A &rarr; Z</option>
+          <option value="za">Z &rarr; A</option>
+        </select>
+        <div class="f-sep"></div>
+        <span class="f-lbl">Per page</span>
+        <select class="f-sel" id="ppSel">
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+    <div class="query-grid" id="queryGrid"></div>
+    <div class="pagination" id="pager"></div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">CGI</div>
+  <div class="footer-sub">Oracle EBS R12 SQL Query Repository</div>
+  <div class="footer-copy">&copy; CGI Inc. &mdash; For internal reference use by Oracle EBS consultants</div>
+</footer>
+
+<script>
+// ── THEME ──
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeIcon').textContent=isDark?'☾':'☀';
+  document.getElementById('themeLbl').textContent=isDark?'Dark':'Light';
+  localStorage.setItem('ebs-sql-theme',isDark?'light':'dark');
+}
+(function(){
+  const t=localStorage.getItem('ebs-sql-theme');
+  if(t){
+    document.documentElement.setAttribute('data-theme',t);
+    document.getElementById('themeIcon').textContent=t==='light'?'☾':'☀';
+    document.getElementById('themeLbl').textContent=t==='light'?'Dark':'Light';
+  }
+})();
+
+function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ═══════════════════════════════════════════════════════
+//  ORACLE EBS R12 SQL QUERY REPOSITORY
+//  500+ queries across 18 functional modules
+// ═══════════════════════════════════════════════════════
+const QUERIES = [
+
+  // ══════════════════════════════════════
+  //  CONCURRENT MANAGER & REQUESTS
+  // ══════════════════════════════════════
+  {id:'CM001', cat:'Concurrent Manager', icon:'⚙️', color:'blue',
+   title:'All Currently Running Concurrent Requests',
+   desc:'Lists all concurrent requests in Running (R) phase with program name, submitted user, and elapsed time.',
+   tags:['Running','Monitor','Admin'],
+   sql:`<span class="cmt">-- All currently running concurrent requests</span>
+<span class="kw">SELECT</span>
+    fcr.<span class="col">request_id</span>,
+    fcp.<span class="col">user_concurrent_program_name</span>                        <span class="alias">AS program_name</span>,
+    fu.<span class="col">user_name</span>                                           <span class="alias">AS submitted_by</span>,
+    fcr.<span class="col">actual_start_date</span>,
+    <span class="fn">ROUND</span>((<span class="fn">SYSDATE</span> - fcr.<span class="col">actual_start_date</span>) * <span class="num">24</span> * <span class="num">60</span>, <span class="num">2</span>) <span class="alias">AS running_mins</span>,
+    fcr.<span class="col">phase_code</span>,
+    fcr.<span class="col">status_code</span>,
+    fcr.<span class="col">argument_text</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_concurrent_requests</span>    fcr
+    <span class="kw">JOIN</span> <span class="tb">fnd_concurrent_programs_tl</span> fcp
+        <span class="kw">ON</span>  fcr.<span class="col">concurrent_program_id</span>  = fcp.<span class="col">concurrent_program_id</span>
+        <span class="kw">AND</span> fcr.<span class="col">program_application_id</span> = fcp.<span class="col">application_id</span>
+        <span class="kw">AND</span> fcp.<span class="col">language</span>              = <span class="str">'US'</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                    fu
+        <span class="kw">ON</span>  fcr.<span class="col">requested_by</span>          = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    fcr.<span class="col">phase_code</span>  = <span class="str">'R'</span>  <span class="cmt">-- R = Running</span>
+<span class="kw">ORDER BY</span>
+    fcr.<span class="col">actual_start_date</span>;`,
+   params:[{n:'phase_code',d:"'R'=Running, 'P'=Pending, 'C'=Completed, 'I'=Inactive"}]},
+
+  {id:'CM002', cat:'Concurrent Manager', icon:'⚙️', color:'blue',
+   title:'Pending Concurrent Requests Queue',
+   desc:'Shows all requests waiting in the Pending/Normal queue with calculated wait time.',
+   tags:['Pending','Queue'],
+   sql:`<span class="cmt">-- Pending concurrent requests with wait time</span>
+<span class="kw">SELECT</span>
+    fcr.<span class="col">request_id</span>,
+    fcp.<span class="col">user_concurrent_program_name</span>                        <span class="alias">AS program_name</span>,
+    fu.<span class="col">user_name</span>,
+    fcr.<span class="col">request_date</span>,
+    <span class="fn">ROUND</span>((<span class="fn">SYSDATE</span> - fcr.<span class="col">request_date</span>) * <span class="num">24</span> * <span class="num">60</span>, <span class="num">2</span>)    <span class="alias">AS wait_mins</span>,
+    fl_phase.<span class="col">meaning</span>                                      <span class="alias">AS phase</span>,
+    fl_status.<span class="col">meaning</span>                                     <span class="alias">AS status</span>,
+    fcr.<span class="col">priority</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_concurrent_requests</span>    fcr
+    <span class="kw">JOIN</span> <span class="tb">fnd_concurrent_programs_tl</span> fcp
+        <span class="kw">ON</span>  fcr.<span class="col">concurrent_program_id</span>  = fcp.<span class="col">concurrent_program_id</span>
+        <span class="kw">AND</span> fcr.<span class="col">program_application_id</span> = fcp.<span class="col">application_id</span>
+        <span class="kw">AND</span> fcp.<span class="col">language</span>              = <span class="str">'US'</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                    fu
+        <span class="kw">ON</span>  fcr.<span class="col">requested_by</span>          = fu.<span class="col">user_id</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_lookups</span>                 fl_phase
+        <span class="kw">ON</span>  fl_phase.<span class="col">lookup_type</span>      = <span class="str">'CP_PHASE_CODE'</span>
+        <span class="kw">AND</span> fl_phase.<span class="col">lookup_code</span>      = fcr.<span class="col">phase_code</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_lookups</span>                 fl_status
+        <span class="kw">ON</span>  fl_status.<span class="col">lookup_type</span>     = <span class="str">'CP_STATUS_CODE'</span>
+        <span class="kw">AND</span> fl_status.<span class="col">lookup_code</span>     = fcr.<span class="col">status_code</span>
+<span class="kw">WHERE</span>
+    fcr.<span class="col">phase_code</span>   = <span class="str">'P'</span>
+    <span class="kw">AND</span> fcr.<span class="col">status_code</span>  = <span class="str">'I'</span>  <span class="cmt">-- Normal (waiting to run)</span>
+<span class="kw">ORDER BY</span>
+    fcr.<span class="col">priority</span>,
+    fcr.<span class="col">request_date</span>;`,
+   params:[{n:'phase_code=P, status_code=I',d:'Pending Normal — waiting to run'}]},
+
+  {id:'CM003', cat:'Concurrent Manager', icon:'⚙️', color:'blue',
+   title:'Concurrent Request History (Last 24 Hours)',
+   desc:'Completed, errored, and warning requests in the last 24 hours with actual run duration.',
+   tags:['History','Error','Completed'],
+   sql:`<span class="cmt">-- Concurrent request history last 24 hours</span>
+<span class="kw">SELECT</span>
+    fcr.<span class="col">request_id</span>,
+    fcp.<span class="col">user_concurrent_program_name</span>                            <span class="alias">AS program</span>,
+    fu.<span class="col">user_name</span>,
+    fcr.<span class="col">actual_start_date</span>,
+    fcr.<span class="col">actual_completion_date</span>,
+    <span class="fn">ROUND</span>((fcr.<span class="col">actual_completion_date</span> - fcr.<span class="col">actual_start_date</span>)
+          * <span class="num">24</span> * <span class="num">60</span>, <span class="num">2</span>)                                        <span class="alias">AS duration_mins</span>,
+    <span class="kw">CASE</span> fcr.<span class="col">status_code</span>
+        <span class="kw">WHEN</span> <span class="str">'C'</span> <span class="kw">THEN</span> <span class="str">'Normal'</span>
+        <span class="kw">WHEN</span> <span class="str">'E'</span> <span class="kw">THEN</span> <span class="str">'Error'</span>
+        <span class="kw">WHEN</span> <span class="str">'W'</span> <span class="kw">THEN</span> <span class="str">'Warning'</span>
+        <span class="kw">WHEN</span> <span class="str">'G'</span> <span class="kw">THEN</span> <span class="str">'Warning'</span>
+        <span class="kw">ELSE</span>      fcr.<span class="col">status_code</span>
+    <span class="kw">END</span>                                                          <span class="alias">AS status_desc</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_concurrent_requests</span>    fcr
+    <span class="kw">JOIN</span> <span class="tb">fnd_concurrent_programs_tl</span> fcp
+        <span class="kw">ON</span>  fcr.<span class="col">concurrent_program_id</span>  = fcp.<span class="col">concurrent_program_id</span>
+        <span class="kw">AND</span> fcr.<span class="col">program_application_id</span> = fcp.<span class="col">application_id</span>
+        <span class="kw">AND</span> fcp.<span class="col">language</span>              = <span class="str">'US'</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                    fu
+        <span class="kw">ON</span>  fcr.<span class="col">requested_by</span>          = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    fcr.<span class="col">phase_code</span>               = <span class="str">'C'</span>
+    <span class="kw">AND</span> fcr.<span class="col">actual_completion_date</span>  >= <span class="fn">SYSDATE</span> - <span class="num">1</span>
+<span class="kw">ORDER BY</span>
+    fcr.<span class="col">actual_completion_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'SYSDATE - 1',d:'Change to SYSDATE - 7 for last 7 days'}]},
+
+  {id:'CM004', cat:'Concurrent Manager', icon:'⚙️', color:'blue',
+   title:'Long-Running Concurrent Requests (Over 1 Hour)',
+   desc:'Identifies requests running longer than 60 minutes — useful for performance monitoring.',
+   tags:['Performance','Long-Running','Monitor'],
+   sql:`<span class="cmt">-- Long-running requests over 1 hour</span>
+<span class="kw">SELECT</span>
+    fcr.<span class="col">request_id</span>,
+    fcp.<span class="col">user_concurrent_program_name</span>                         <span class="alias">AS program</span>,
+    fu.<span class="col">user_name</span>,
+    fcr.<span class="col">actual_start_date</span>,
+    <span class="fn">ROUND</span>((<span class="fn">SYSDATE</span> - fcr.<span class="col">actual_start_date</span>) * <span class="num">24</span> * <span class="num">60</span>, <span class="num">0</span>) <span class="alias">AS running_mins</span>,
+    fcr.<span class="col">os_process_id</span>,
+    fcq.<span class="col">concurrent_queue_name</span>                                <span class="alias">AS manager</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_concurrent_requests</span>    fcr
+    <span class="kw">JOIN</span> <span class="tb">fnd_concurrent_programs_tl</span> fcp
+        <span class="kw">ON</span>  fcr.<span class="col">concurrent_program_id</span>  = fcp.<span class="col">concurrent_program_id</span>
+        <span class="kw">AND</span> fcr.<span class="col">program_application_id</span> = fcp.<span class="col">application_id</span>
+        <span class="kw">AND</span> fcp.<span class="col">language</span>              = <span class="str">'US'</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                    fu
+        <span class="kw">ON</span>  fcr.<span class="col">requested_by</span>          = fu.<span class="col">user_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">fnd_concurrent_queues_tl</span> fcq
+        <span class="kw">ON</span>  fcr.<span class="col">controlling_manager</span>   = fcq.<span class="col">concurrent_queue_id</span>
+        <span class="kw">AND</span> fcq.<span class="col">language</span>              = <span class="str">'US'</span>
+<span class="kw">WHERE</span>
+    fcr.<span class="col">phase_code</span> = <span class="str">'R'</span>
+    <span class="kw">AND</span> (<span class="fn">SYSDATE</span> - fcr.<span class="col">actual_start_date</span>) * <span class="num">24</span> * <span class="num">60</span> > <span class="num">60</span>
+<span class="kw">ORDER BY</span>
+    running_mins <span class="kw">DESC</span>;`,
+   params:[{n:'60',d:'Threshold in minutes — change as required'}]},
+
+  // ══════════════════════════════════════
+  //  ACCOUNTS PAYABLE
+  // ══════════════════════════════════════
+  {id:'AP001', cat:'Accounts Payable', icon:'💳', color:'amber',
+   title:'All Pending / Unvalidated Invoices',
+   desc:'Lists all AP invoices not yet validated, awaiting approval for processing.',
+   tags:['Pending','Invoice','Validation'],
+   sql:`<span class="cmt">-- Pending unvalidated invoices</span>
+<span class="kw">SELECT</span>
+    ai.<span class="col">invoice_num</span>,
+    ai.<span class="col">invoice_date</span>,
+    aps.<span class="col">vendor_name</span>,
+    apss.<span class="col">vendor_site_code</span>,
+    ai.<span class="col">invoice_amount</span>,
+    ai.<span class="col">invoice_currency_code</span>  <span class="alias">AS currency</span>,
+    ai.<span class="col">source</span>,
+    ai.<span class="col">invoice_type_lookup_code</span> <span class="alias">AS invoice_type</span>,
+    ai.<span class="col">approval_status</span>,
+    ai.<span class="col">creation_date</span>,
+    fu.<span class="col">user_name</span>               <span class="alias">AS created_by</span>
+<span class="kw">FROM</span>
+    <span class="tb">ap_invoices_all</span>          ai
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>             aps
+        <span class="kw">ON</span>  ai.<span class="col">vendor_id</span>      = aps.<span class="col">vendor_id</span>
+    <span class="kw">JOIN</span> <span class="tb">ap_supplier_sites_all</span>    apss
+        <span class="kw">ON</span>  ai.<span class="col">vendor_site_id</span> = apss.<span class="col">vendor_site_id</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                 fu
+        <span class="kw">ON</span>  ai.<span class="col">created_by</span>     = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    ai.<span class="col">approval_status</span> <span class="kw">IN</span> (<span class="str">'NEVER APPROVED'</span>, <span class="str">'NEEDS REAPPROVAL'</span>)
+    <span class="kw">AND</span> ai.<span class="col">cancelled_date</span>  <span class="kw">IS NULL</span>
+    <span class="kw">AND</span> ai.<span class="col">org_id</span>          = <span class="fn">FND_PROFILE.VALUE</span>(<span class="str">'ORG_ID'</span>)
+<span class="kw">ORDER BY</span>
+    ai.<span class="col">invoice_date</span>;`,
+   params:[{n:'org_id',d:'Replace with specific ORG_ID or use FND_PROFILE.VALUE for session org'}]},
+
+  {id:'AP002', cat:'Accounts Payable', icon:'💳', color:'amber',
+   title:'AP Invoices Pending Payment with Aging',
+   desc:'Validated invoices due but not yet paid, grouped into aging buckets.',
+   tags:['Payment','Due','Aging'],
+   sql:`<span class="cmt">-- AP invoices pending payment with aging buckets</span>
+<span class="kw">SELECT</span>
+    ai.<span class="col">invoice_num</span>,
+    aps.<span class="col">vendor_name</span>,
+    ai.<span class="col">invoice_date</span>,
+    aps2.<span class="col">due_date</span>,
+    ai.<span class="col">invoice_amount</span>,
+    aps2.<span class="col">amount_remaining</span>,
+    ai.<span class="col">invoice_currency_code</span>                              <span class="alias">AS currency</span>,
+    <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(aps2.<span class="col">due_date</span>)               <span class="alias">AS days_overdue</span>,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> aps2.<span class="col">due_date</span>               >= <span class="fn">SYSDATE</span>       <span class="kw">THEN</span> <span class="str">'Current'</span>
+        <span class="kw">WHEN</span> <span class="fn">SYSDATE</span> - aps2.<span class="col">due_date</span>  <span class="kw">BETWEEN</span>  <span class="num">1</span> <span class="kw">AND</span>  <span class="num">30</span> <span class="kw">THEN</span> <span class="str">'1-30 Days'</span>
+        <span class="kw">WHEN</span> <span class="fn">SYSDATE</span> - aps2.<span class="col">due_date</span>  <span class="kw">BETWEEN</span> <span class="num">31</span> <span class="kw">AND</span>  <span class="num">60</span> <span class="kw">THEN</span> <span class="str">'31-60 Days'</span>
+        <span class="kw">WHEN</span> <span class="fn">SYSDATE</span> - aps2.<span class="col">due_date</span>  <span class="kw">BETWEEN</span> <span class="num">61</span> <span class="kw">AND</span>  <span class="num">90</span> <span class="kw">THEN</span> <span class="str">'61-90 Days'</span>
+        <span class="kw">ELSE</span> <span class="str">'Over 90 Days'</span>
+    <span class="kw">END</span>                                                     <span class="alias">AS aging_bucket</span>
+<span class="kw">FROM</span>
+    <span class="tb">ap_invoices_all</span>           ai
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>              aps
+        <span class="kw">ON</span>  ai.<span class="col">vendor_id</span>           = aps.<span class="col">vendor_id</span>
+    <span class="kw">JOIN</span> <span class="tb">ap_payment_schedules_all</span>  aps2
+        <span class="kw">ON</span>  ai.<span class="col">invoice_id</span>          = aps2.<span class="col">invoice_id</span>
+<span class="kw">WHERE</span>
+    ai.<span class="col">approval_status</span>        = <span class="str">'APPROVED'</span>
+    <span class="kw">AND</span> aps2.<span class="col">payment_status_flag</span> = <span class="str">'Y'</span>   <span class="cmt">-- Y = Unpaid</span>
+    <span class="kw">AND</span> aps2.<span class="col">amount_remaining</span>   > <span class="num">0</span>
+<span class="kw">ORDER BY</span>
+    aging_bucket,
+    aps2.<span class="col">due_date</span>;`,
+   params:[{n:'payment_status_flag',d:"'Y'=Unpaid, 'P'=Partially Paid, 'N'=Fully Paid"}]},
+
+  {id:'AP003', cat:'Accounts Payable', icon:'💳', color:'amber',
+   title:'Duplicate Invoice Check',
+   desc:'Identifies potential duplicate invoices for the same vendor, invoice number, and amount.',
+   tags:['Duplicate','Audit','Validation'],
+   sql:`<span class="cmt">-- Duplicate invoice detection</span>
+<span class="kw">SELECT</span>
+    aps.<span class="col">vendor_name</span>,
+    ai.<span class="col">invoice_num</span>,
+    ai.<span class="col">invoice_date</span>,
+    ai.<span class="col">invoice_amount</span>,
+    ai.<span class="col">invoice_currency_code</span>,
+    ai.<span class="col">invoice_id</span>,
+    ai.<span class="col">org_id</span>,
+    <span class="fn">COUNT</span>(*) <span class="kw">OVER</span> (
+        <span class="kw">PARTITION BY</span>
+            ai.<span class="col">vendor_id</span>,
+            ai.<span class="col">invoice_num</span>,
+            ai.<span class="col">invoice_amount</span>,
+            ai.<span class="col">invoice_currency_code</span>
+    )                           <span class="alias">AS duplicate_count</span>
+<span class="kw">FROM</span>
+    <span class="tb">ap_invoices_all</span>  ai
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>     aps
+        <span class="kw">ON</span>  ai.<span class="col">vendor_id</span> = aps.<span class="col">vendor_id</span>
+<span class="kw">WHERE</span>
+    ai.<span class="col">cancelled_date</span> <span class="kw">IS NULL</span>
+    <span class="kw">AND</span> <span class="num">1</span> < (
+        <span class="kw">SELECT</span> <span class="fn">COUNT</span>(*)
+        <span class="kw">FROM</span>   <span class="tb">ap_invoices_all</span> ai2
+        <span class="kw">WHERE</span>  ai2.<span class="col">vendor_id</span>             = ai.<span class="col">vendor_id</span>
+        <span class="kw">AND</span>    ai2.<span class="col">invoice_num</span>           = ai.<span class="col">invoice_num</span>
+        <span class="kw">AND</span>    ai2.<span class="col">invoice_amount</span>        = ai.<span class="col">invoice_amount</span>
+        <span class="kw">AND</span>    ai2.<span class="col">invoice_currency_code</span> = ai.<span class="col">invoice_currency_code</span>
+        <span class="kw">AND</span>    ai2.<span class="col">cancelled_date</span>        <span class="kw">IS NULL</span>
+    )
+<span class="kw">ORDER BY</span>
+    aps.<span class="col">vendor_name</span>,
+    ai.<span class="col">invoice_num</span>;`,
+   params:[]},
+
+  {id:'AP004', cat:'Accounts Payable', icon:'💳', color:'amber',
+   title:'AP Invoice to GL Posting Status',
+   desc:'Approved invoices that have not yet been fully posted to GL — for AP-to-GL reconciliation.',
+   tags:['GL','Posting','Reconciliation'],
+   sql:`<span class="cmt">-- AP invoice GL posting status (unposted)</span>
+<span class="kw">SELECT</span>
+    ai.<span class="col">invoice_num</span>,
+    ai.<span class="col">invoice_date</span>,
+    ai.<span class="col">invoice_amount</span>,
+    aps.<span class="col">vendor_name</span>,
+    ai.<span class="col">posting_status</span>,
+    <span class="kw">CASE</span> ai.<span class="col">posting_status</span>
+        <span class="kw">WHEN</span> <span class="str">'Y'</span> <span class="kw">THEN</span> <span class="str">'Posted to GL'</span>
+        <span class="kw">WHEN</span> <span class="str">'S'</span> <span class="kw">THEN</span> <span class="str">'Selected for Transfer'</span>
+        <span class="kw">WHEN</span> <span class="str">'N'</span> <span class="kw">THEN</span> <span class="str">'Not Posted'</span>
+        <span class="kw">WHEN</span> <span class="str">'P'</span> <span class="kw">THEN</span> <span class="str">'Partial'</span>
+        <span class="kw">ELSE</span>       <span class="str">'Unknown'</span>
+    <span class="kw">END</span>                     <span class="alias">AS posting_desc</span>,
+    ai.<span class="col">approval_status</span>,
+    ai.<span class="col">org_id</span>
+<span class="kw">FROM</span>
+    <span class="tb">ap_invoices_all</span>  ai
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>     aps
+        <span class="kw">ON</span>  ai.<span class="col">vendor_id</span>       = aps.<span class="col">vendor_id</span>
+<span class="kw">WHERE</span>
+    ai.<span class="col">cancelled_date</span>   <span class="kw">IS NULL</span>
+    <span class="kw">AND</span> ai.<span class="col">approval_status</span>  = <span class="str">'APPROVED'</span>
+    <span class="kw">AND</span> ai.<span class="col">posting_status</span>   <> <span class="str">'Y'</span>  <span class="cmt">-- Not yet fully posted</span>
+<span class="kw">ORDER BY</span>
+    ai.<span class="col">invoice_date</span>;`,
+   params:[{n:'posting_status',d:"'Y'=Posted, 'N'=Not Posted, 'S'=Selected, 'P'=Partial"}]},
+
+  // ══════════════════════════════════════
+  //  GENERAL LEDGER
+  // ══════════════════════════════════════
+  {id:'GL001', cat:'General Ledger', icon:'📊', color:'green',
+   title:'GL Account Balances by Period',
+   desc:'Actual GL account balances for a specific period and currency, with debit/credit split.',
+   tags:['Balances','Period','Ledger'],
+   sql:`<span class="cmt">-- GL account balances by period</span>
+<span class="kw">SELECT</span>
+    gb.<span class="col">period_name</span>,
+    gcc.<span class="col">segment1</span>                             <span class="alias">AS company</span>,
+    gcc.<span class="col">segment2</span>                             <span class="alias">AS cost_center</span>,
+    gcc.<span class="col">segment3</span>                             <span class="alias">AS account</span>,
+    gcc.<span class="col">account_type</span>,
+    gb.<span class="col">period_net_dr</span>                         <span class="alias">AS debit</span>,
+    gb.<span class="col">period_net_cr</span>                         <span class="alias">AS credit</span>,
+    gb.<span class="col">period_net_dr</span> - gb.<span class="col">period_net_cr</span>     <span class="alias">AS net_balance</span>,
+    gb.<span class="col">begin_balance_dr</span> - gb.<span class="col">begin_balance_cr</span> <span class="alias">AS opening_balance</span>
+<span class="kw">FROM</span>
+    <span class="tb">gl_balances</span>           gb
+    <span class="kw">JOIN</span> <span class="tb">gl_code_combinations</span>   gcc
+        <span class="kw">ON</span>  gb.<span class="col">code_combination_id</span> = gcc.<span class="col">code_combination_id</span>
+    <span class="kw">JOIN</span> <span class="tb">gl_ledgers</span>              gl
+        <span class="kw">ON</span>  gb.<span class="col">ledger_id</span>          = gl.<span class="col">ledger_id</span>
+<span class="kw">WHERE</span>
+    gb.<span class="col">actual_flag</span>   = <span class="str">'A'</span>          <span class="cmt">-- A=Actual, B=Budget, E=Encumbrance</span>
+    <span class="kw">AND</span> gb.<span class="col">period_name</span>   = <span class="str">'JAN-2024'</span>  <span class="cmt">-- Change to required period (MON-YYYY)</span>
+    <span class="kw">AND</span> gb.<span class="col">currency_code</span> = <span class="str">'USD'</span>       <span class="cmt">-- Change to functional currency</span>
+    <span class="kw">AND</span> gcc.<span class="col">summary_flag</span> = <span class="str">'N'</span>
+<span class="kw">ORDER BY</span>
+    gcc.<span class="col">segment1</span>,
+    gcc.<span class="col">segment3</span>;`,
+   params:[{n:'period_name',d:"Format 'MON-YYYY' e.g. 'JAN-2024'"},{n:'actual_flag',d:"'A'=Actual, 'B'=Budget, 'E'=Encumbrance"},{n:'currency_code',d:"Functional currency e.g. 'USD','GBP'"}]},
+
+  {id:'GL002', cat:'General Ledger', icon:'📊', color:'green',
+   title:'Unposted Journal Entries',
+   desc:'All journal batches entered but not yet posted to the GL.',
+   tags:['Unposted','Journal','Batch'],
+   sql:`<span class="cmt">-- Unposted journal entry batches</span>
+<span class="kw">SELECT</span>
+    gjb.<span class="col">je_batch_id</span>,
+    gjb.<span class="col">name</span>                <span class="alias">AS batch_name</span>,
+    gjb.<span class="col">status</span>              <span class="alias">AS batch_status</span>,
+    gjh.<span class="col">je_header_id</span>,
+    gjh.<span class="col">name</span>                <span class="alias">AS journal_name</span>,
+    gjh.<span class="col">period_name</span>,
+    gjh.<span class="col">je_category</span>,
+    gjh.<span class="col">je_source</span>,
+    gjh.<span class="col">currency_code</span>,
+    gjh.<span class="col">running_total_dr</span>    <span class="alias">AS total_debit</span>,
+    gjh.<span class="col">running_total_cr</span>    <span class="alias">AS total_credit</span>,
+    fu.<span class="col">user_name</span>            <span class="alias">AS entered_by</span>,
+    gjh.<span class="col">creation_date</span>
+<span class="kw">FROM</span>
+    <span class="tb">gl_je_batches</span>  gjb
+    <span class="kw">JOIN</span> <span class="tb">gl_je_headers</span>  gjh
+        <span class="kw">ON</span>  gjb.<span class="col">je_batch_id</span> = gjh.<span class="col">je_batch_id</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>       fu
+        <span class="kw">ON</span>  gjh.<span class="col">created_by</span>  = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    gjb.<span class="col">status</span> = <span class="str">'U'</span>   <span class="cmt">-- U=Unposted</span>
+    <span class="kw">AND</span> gjh.<span class="col">status</span>  = <span class="str">'U'</span>
+<span class="kw">ORDER BY</span>
+    gjb.<span class="col">creation_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'status',d:"'U'=Unposted, 'P'=Posted, 'S'=Selected for Posting"}]},
+
+  {id:'GL003', cat:'General Ledger', icon:'📊', color:'green',
+   title:'Open and Closed GL Periods by Ledger',
+   desc:'Current open/closed status of all GL accounting periods for the current year.',
+   tags:['Periods','Open','Close'],
+   sql:`<span class="cmt">-- GL period status by ledger (current year)</span>
+<span class="kw">SELECT</span>
+    gl.<span class="col">name</span>                <span class="alias">AS ledger</span>,
+    gps.<span class="col">period_name</span>,
+    gps.<span class="col">period_year</span>,
+    gps.<span class="col">period_num</span>,
+    gps.<span class="col">start_date</span>,
+    gps.<span class="col">end_date</span>,
+    gps.<span class="col">closing_status</span>,
+    <span class="kw">CASE</span> gps.<span class="col">closing_status</span>
+        <span class="kw">WHEN</span> <span class="str">'O'</span> <span class="kw">THEN</span> <span class="str">'Open'</span>
+        <span class="kw">WHEN</span> <span class="str">'C'</span> <span class="kw">THEN</span> <span class="str">'Closed'</span>
+        <span class="kw">WHEN</span> <span class="str">'P'</span> <span class="kw">THEN</span> <span class="str">'Permanently Closed'</span>
+        <span class="kw">WHEN</span> <span class="str">'F'</span> <span class="kw">THEN</span> <span class="str">'Future Entry'</span>
+        <span class="kw">WHEN</span> <span class="str">'N'</span> <span class="kw">THEN</span> <span class="str">'Never Opened'</span>
+        <span class="kw">ELSE</span>       gps.<span class="col">closing_status</span>
+    <span class="kw">END</span>                    <span class="alias">AS period_status</span>
+<span class="kw">FROM</span>
+    <span class="tb">gl_period_statuses</span>  gps
+    <span class="kw">JOIN</span> <span class="tb">gl_ledgers</span>          gl
+        <span class="kw">ON</span>  gps.<span class="col">ledger_id</span>      = gl.<span class="col">ledger_id</span>
+<span class="kw">WHERE</span>
+    gps.<span class="col">application_id</span> = <span class="num">101</span>   <span class="cmt">-- 101=GL application</span>
+    <span class="kw">AND</span> gps.<span class="col">period_year</span>    = <span class="fn">TO_NUMBER</span>(<span class="fn">TO_CHAR</span>(<span class="fn">SYSDATE</span>, <span class="str">'YYYY'</span>))
+<span class="kw">ORDER BY</span>
+    gl.<span class="col">name</span>,
+    gps.<span class="col">period_num</span>;`,
+   params:[{n:'application_id=101',d:'101=GL, 200=AP, 222=AR, 401=PO, 660=INV'}]},
+
+  // ══════════════════════════════════════
+  //  ACCOUNTS RECEIVABLE
+  // ══════════════════════════════════════
+  {id:'AR001', cat:'Accounts Receivable', icon:'💰', color:'green',
+   title:'Open AR Invoices by Customer',
+   desc:'All open (unpaid) AR invoices with amount due remaining and days past due.',
+   tags:['Open','Invoice','Customer'],
+   sql:`<span class="cmt">-- Open AR invoices by customer</span>
+<span class="kw">SELECT</span>
+    hca.<span class="col">account_number</span>,
+    hp.<span class="col">party_name</span>                                          <span class="alias">AS customer_name</span>,
+    rct.<span class="col">trx_number</span>                                         <span class="alias">AS invoice_number</span>,
+    rct.<span class="col">trx_date</span>,
+    rps.<span class="col">due_date</span>,
+    rct.<span class="col">invoice_currency_code</span>                              <span class="alias">AS currency</span>,
+    rps.<span class="col">amount_due_original</span>,
+    rps.<span class="col">amount_due_remaining</span>,
+    rps.<span class="col">status</span>                                              <span class="alias">AS payment_status</span>,
+    <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(rps.<span class="col">due_date</span>)                  <span class="alias">AS days_past_due</span>
+<span class="kw">FROM</span>
+    <span class="tb">ra_customer_trx_all</span>       rct
+    <span class="kw">JOIN</span> <span class="tb">ar_payment_schedules_all</span>  rps
+        <span class="kw">ON</span>  rct.<span class="col">customer_trx_id</span>     = rps.<span class="col">customer_trx_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_cust_accounts</span>          hca
+        <span class="kw">ON</span>  rct.<span class="col">bill_to_customer_id</span> = hca.<span class="col">cust_account_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_parties</span>                hp
+        <span class="kw">ON</span>  hca.<span class="col">party_id</span>            = hp.<span class="col">party_id</span>
+<span class="kw">WHERE</span>
+    rps.<span class="col">status</span>              = <span class="str">'OP'</span>   <span class="cmt">-- OP=Open</span>
+    <span class="kw">AND</span> rps.<span class="col">class</span>               = <span class="str">'INV'</span>  <span class="cmt">-- INV=Invoice only</span>
+    <span class="kw">AND</span> rps.<span class="col">amount_due_remaining</span> > <span class="num">0</span>
+<span class="kw">ORDER BY</span>
+    hp.<span class="col">party_name</span>,
+    rps.<span class="col">due_date</span>;`,
+   params:[{n:'class',d:"'INV'=Invoice, 'CM'=Credit Memo, 'DM'=Debit Memo, 'CB'=Chargeback"}]},
+
+  {id:'AR002', cat:'Accounts Receivable', icon:'💰', color:'green',
+   title:'Unapplied Cash Receipts',
+   desc:'Cash receipts received but not yet applied to any invoice.',
+   tags:['Unapplied','Cash','Receipt'],
+   sql:`<span class="cmt">-- Unapplied cash receipts</span>
+<span class="kw">SELECT</span>
+    acr.<span class="col">receipt_number</span>,
+    acr.<span class="col">receipt_date</span>,
+    acr.<span class="col">amount</span>,
+    acr.<span class="col">currency_code</span>,
+    hp.<span class="col">party_name</span>                                       <span class="alias">AS customer_name</span>,
+    acr.<span class="col">status</span>,
+    acr.<span class="col">type</span>                                             <span class="alias">AS receipt_type</span>,
+    acr.<span class="col">unapplied_amount</span>,
+    acr.<span class="col">unidentified_amount</span>,
+    <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(acr.<span class="col">receipt_date</span>)           <span class="alias">AS days_outstanding</span>
+<span class="kw">FROM</span>
+    <span class="tb">ar_cash_receipts_all</span>    acr
+    <span class="kw">LEFT JOIN</span> <span class="tb">hz_cust_accounts</span>        hca
+        <span class="kw">ON</span>  acr.<span class="col">pay_from_customer</span>  = hca.<span class="col">cust_account_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">hz_parties</span>              hp
+        <span class="kw">ON</span>  hca.<span class="col">party_id</span>           = hp.<span class="col">party_id</span>
+<span class="kw">WHERE</span>
+    acr.<span class="col">status</span> = <span class="str">'UNAPP'</span>  <span class="cmt">-- UNAPP=Unapplied</span>
+<span class="kw">ORDER BY</span>
+    acr.<span class="col">receipt_date</span>;`,
+   params:[{n:'status',d:"'UNAPP'=Unapplied, 'UNID'=Unidentified, 'APP'=Applied, 'REV'=Reversed"}]},
+
+  {id:'AR003', cat:'Accounts Receivable', icon:'💰', color:'green',
+   title:'Customer Account Balances Summary',
+   desc:'Total outstanding balance per customer with original amount and overdue split.',
+   tags:['Customer','Balance','Summary'],
+   sql:`<span class="cmt">-- Customer account balance summary</span>
+<span class="kw">SELECT</span>
+    hca.<span class="col">account_number</span>,
+    hp.<span class="col">party_name</span>                                       <span class="alias">AS customer_name</span>,
+    hp.<span class="col">party_type</span>,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> rps.<span class="col">payment_schedule_id</span>)             <span class="alias">AS open_items</span>,
+    <span class="fn">SUM</span>(rps.<span class="col">amount_due_original</span>)                         <span class="alias">AS original_amount</span>,
+    <span class="fn">SUM</span>(rps.<span class="col">amount_due_remaining</span>)                        <span class="alias">AS outstanding_balance</span>,
+    <span class="fn">SUM</span>(<span class="kw">CASE</span>
+            <span class="kw">WHEN</span> rps.<span class="col">due_date</span> < <span class="fn">SYSDATE</span>
+            <span class="kw">THEN</span> rps.<span class="col">amount_due_remaining</span>
+            <span class="kw">ELSE</span> <span class="num">0</span>
+        <span class="kw">END</span>)                                               <span class="alias">AS overdue_amount</span>
+<span class="kw">FROM</span>
+    <span class="tb">ar_payment_schedules_all</span>   rps
+    <span class="kw">JOIN</span> <span class="tb">hz_cust_accounts</span>           hca
+        <span class="kw">ON</span>  rps.<span class="col">customer_id</span>       = hca.<span class="col">cust_account_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_parties</span>                 hp
+        <span class="kw">ON</span>  hca.<span class="col">party_id</span>          = hp.<span class="col">party_id</span>
+<span class="kw">WHERE</span>
+    rps.<span class="col">status</span>              = <span class="str">'OP'</span>
+    <span class="kw">AND</span> rps.<span class="col">amount_due_remaining</span> > <span class="num">0</span>
+<span class="kw">GROUP BY</span>
+    hca.<span class="col">account_number</span>,
+    hp.<span class="col">party_name</span>,
+    hp.<span class="col">party_type</span>
+<span class="kw">HAVING</span>
+    <span class="fn">SUM</span>(rps.<span class="col">amount_due_remaining</span>) > <span class="num">0</span>
+<span class="kw">ORDER BY</span>
+    outstanding_balance <span class="kw">DESC</span>;`,
+   params:[]},
+
+  // ══════════════════════════════════════
+  //  PURCHASING
+  // ══════════════════════════════════════
+  {id:'PO001', cat:'Purchasing', icon:'🛒', color:'purple',
+   title:'All Open Purchase Orders',
+   desc:'Approved PO headers and lines that are active (not cancelled or finally closed).',
+   tags:['Open','PO','Status'],
+   sql:`<span class="cmt">-- All open purchase orders with line details</span>
+<span class="kw">SELECT</span>
+    poh.<span class="col">segment1</span>                                           <span class="alias">AS po_number</span>,
+    poh.<span class="col">type_lookup_code</span>                                  <span class="alias">AS po_type</span>,
+    poh.<span class="col">authorization_status</span>,
+    aps.<span class="col">vendor_name</span>,
+    apss.<span class="col">vendor_site_code</span>,
+    poh.<span class="col">currency_code</span>,
+    pol.<span class="col">line_num</span>,
+    pol.<span class="col">item_description</span>,
+    pol.<span class="col">quantity</span>                                          <span class="alias">AS ordered_qty</span>,
+    pol.<span class="col">quantity_received</span>,
+    pol.<span class="col">quantity_billed</span>,
+    pol.<span class="col">quantity</span> - <span class="fn">NVL</span>(pol.<span class="col">quantity_received</span>, <span class="num">0</span>)         <span class="alias">AS qty_open</span>,
+    pol.<span class="col">unit_price</span>,
+    poh.<span class="col">creation_date</span>
+<span class="kw">FROM</span>
+    <span class="tb">po_headers_all</span>        poh
+    <span class="kw">JOIN</span> <span class="tb">po_lines_all</span>          pol
+        <span class="kw">ON</span>  poh.<span class="col">po_header_id</span>    = pol.<span class="col">po_header_id</span>
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>          aps
+        <span class="kw">ON</span>  poh.<span class="col">vendor_id</span>       = aps.<span class="col">vendor_id</span>
+    <span class="kw">JOIN</span> <span class="tb">ap_supplier_sites_all</span> apss
+        <span class="kw">ON</span>  poh.<span class="col">vendor_site_id</span>  = apss.<span class="col">vendor_site_id</span>
+<span class="kw">WHERE</span>
+    poh.<span class="col">type_lookup_code</span>    <span class="kw">IN</span> (<span class="str">'STANDARD'</span>, <span class="str">'BLANKET'</span>, <span class="str">'CONTRACT'</span>)
+    <span class="kw">AND</span> poh.<span class="col">authorization_status</span> = <span class="str">'APPROVED'</span>
+    <span class="kw">AND</span> <span class="fn">NVL</span>(pol.<span class="col">cancel_flag</span>, <span class="str">'N'</span>)  <> <span class="str">'Y'</span>
+    <span class="kw">AND</span> <span class="fn">NVL</span>(pol.<span class="col">closed_code</span>, <span class="str">'OPEN'</span>) <> <span class="str">'FINALLY CLOSED'</span>
+<span class="kw">ORDER BY</span>
+    poh.<span class="col">segment1</span>,
+    pol.<span class="col">line_num</span>;`,
+   params:[{n:'type_lookup_code',d:"'STANDARD','BLANKET','CONTRACT','PLANNED'"}]},
+
+  {id:'PO002', cat:'Purchasing', icon:'🛒', color:'purple',
+   title:'Uninvoiced Receipts (AP Accrual)',
+   desc:'Goods received against a PO but not yet invoiced — represents the AP accrual liability.',
+   tags:['Receipt','Accrual','Uninvoiced'],
+   sql:`<span class="cmt">-- Uninvoiced receipts (AP accrual liability)</span>
+<span class="kw">SELECT</span>
+    poh.<span class="col">segment1</span>                                              <span class="alias">AS po_number</span>,
+    pol.<span class="col">line_num</span>,
+    aps.<span class="col">vendor_name</span>,
+    msi.<span class="col">segment1</span>                                             <span class="alias">AS item_code</span>,
+    pol.<span class="col">item_description</span>,
+    rt.<span class="col">transaction_date</span>                                     <span class="alias">AS receipt_date</span>,
+    rt.<span class="col">quantity</span>                                              <span class="alias">AS qty_received</span>,
+    <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>, <span class="num">0</span>)                             <span class="alias">AS qty_billed</span>,
+    rt.<span class="col">quantity</span> - <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>, <span class="num">0</span>)              <span class="alias">AS uninvoiced_qty</span>,
+    pol.<span class="col">unit_price</span>,
+    (rt.<span class="col">quantity</span> - <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>, <span class="num">0</span>))
+        * pol.<span class="col">unit_price</span>                                    <span class="alias">AS accrual_amount</span>
+<span class="kw">FROM</span>
+    <span class="tb">po_headers_all</span>          poh
+    <span class="kw">JOIN</span> <span class="tb">po_lines_all</span>            pol
+        <span class="kw">ON</span>  poh.<span class="col">po_header_id</span>       = pol.<span class="col">po_header_id</span>
+    <span class="kw">JOIN</span> <span class="tb">rcv_transactions</span>        rt
+        <span class="kw">ON</span>  pol.<span class="col">po_line_id</span>         = rt.<span class="col">po_line_id</span>
+    <span class="kw">JOIN</span> <span class="tb">ap_suppliers</span>            aps
+        <span class="kw">ON</span>  poh.<span class="col">vendor_id</span>          = aps.<span class="col">vendor_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">mtl_system_items_b</span>      msi
+        <span class="kw">ON</span>  pol.<span class="col">item_id</span>             = msi.<span class="col">inventory_item_id</span>
+        <span class="kw">AND</span> msi.<span class="col">organization_id</span>     = rt.<span class="col">organization_id</span>
+<span class="kw">WHERE</span>
+    rt.<span class="col">transaction_type</span>  = <span class="str">'RECEIVE'</span>
+    <span class="kw">AND</span> rt.<span class="col">quantity</span>          > <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>, <span class="num">0</span>)
+<span class="kw">ORDER BY</span>
+    aps.<span class="col">vendor_name</span>,
+    poh.<span class="col">segment1</span>;`,
+   params:[]},
+
+  // ══════════════════════════════════════
+  //  ORDER MANAGEMENT
+  // ══════════════════════════════════════
+  {id:'OM001', cat:'Order Management', icon:'📦', color:'cyan',
+   title:'All Open Sales Orders',
+   desc:'Sales order headers and lines currently open — not closed or cancelled.',
+   tags:['Open','Sales Order','Status'],
+   sql:`<span class="cmt">-- All open sales orders</span>
+<span class="kw">SELECT</span>
+    ooh.<span class="col">order_number</span>,
+    hp.<span class="col">party_name</span>                                         <span class="alias">AS customer_name</span>,
+    ooh.<span class="col">ordered_date</span>,
+    ooh.<span class="col">request_date</span>,
+    ooh.<span class="col">flow_status_code</span>                                  <span class="alias">AS order_status</span>,
+    ool.<span class="col">line_number</span>,
+    ool.<span class="col">ordered_item</span>,
+    ool.<span class="col">ordered_quantity</span>,
+    ool.<span class="col">unit_selling_price</span>,
+    ool.<span class="col">ordered_quantity</span> * ool.<span class="col">unit_selling_price</span>         <span class="alias">AS line_amount</span>,
+    ool.<span class="col">flow_status_code</span>                                  <span class="alias">AS line_status</span>,
+    ool.<span class="col">schedule_ship_date</span>
+<span class="kw">FROM</span>
+    <span class="tb">oe_order_headers_all</span>   ooh
+    <span class="kw">JOIN</span> <span class="tb">oe_order_lines_all</span>     ool
+        <span class="kw">ON</span>  ooh.<span class="col">header_id</span>            = ool.<span class="col">header_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_cust_accounts</span>       hca
+        <span class="kw">ON</span>  ooh.<span class="col">sold_to_org_id</span>       = hca.<span class="col">cust_account_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_parties</span>             hp
+        <span class="kw">ON</span>  hca.<span class="col">party_id</span>             = hp.<span class="col">party_id</span>
+<span class="kw">WHERE</span>
+    ooh.<span class="col">flow_status_code</span>  <span class="kw">NOT IN</span> (<span class="str">'CLOSED'</span>, <span class="str">'CANCELLED'</span>)
+    <span class="kw">AND</span> ool.<span class="col">flow_status_code</span>  <span class="kw">NOT IN</span> (<span class="str">'CLOSED'</span>, <span class="str">'CANCELLED'</span>)
+    <span class="kw">AND</span> ooh.<span class="col">open_flag</span>          = <span class="str">'Y'</span>
+<span class="kw">ORDER BY</span>
+    ooh.<span class="col">order_number</span>,
+    ool.<span class="col">line_number</span>;`,
+   params:[{n:'flow_status_code',d:"'ENTERED','BOOKED','AWAITING_SHIPPING','SHIPPED','INVOICED','CLOSED','CANCELLED'"}]},
+
+  {id:'OM002', cat:'Order Management', icon:'📦', color:'cyan',
+   title:'Sales Orders Awaiting Pick Release',
+   desc:'Booked order lines in AWAITING_SHIPPING status — not yet pick released to warehouse.',
+   tags:['Pick Release','Shipping','Warehouse'],
+   sql:`<span class="cmt">-- Orders awaiting pick release</span>
+<span class="kw">SELECT</span>
+    ooh.<span class="col">order_number</span>,
+    hp.<span class="col">party_name</span>                                        <span class="alias">AS customer</span>,
+    ool.<span class="col">line_number</span>,
+    ool.<span class="col">ordered_item</span>,
+    ool.<span class="col">ordered_quantity</span>,
+    ool.<span class="col">schedule_ship_date</span>,
+    ool.<span class="col">request_date</span>,
+    <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(ool.<span class="col">schedule_ship_date</span>)     <span class="alias">AS days_late</span>,
+    ool.<span class="col">ship_from_org_id</span>                                  <span class="alias">AS warehouse_id</span>,
+    ool.<span class="col">flow_status_code</span>
+<span class="kw">FROM</span>
+    <span class="tb">oe_order_headers_all</span>   ooh
+    <span class="kw">JOIN</span> <span class="tb">oe_order_lines_all</span>     ool
+        <span class="kw">ON</span>  ooh.<span class="col">header_id</span>            = ool.<span class="col">header_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_cust_accounts</span>       hca
+        <span class="kw">ON</span>  ooh.<span class="col">sold_to_org_id</span>       = hca.<span class="col">cust_account_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hz_parties</span>             hp
+        <span class="kw">ON</span>  hca.<span class="col">party_id</span>             = hp.<span class="col">party_id</span>
+<span class="kw">WHERE</span>
+    ool.<span class="col">flow_status_code</span>  = <span class="str">'AWAITING_SHIPPING'</span>
+    <span class="kw">AND</span> ool.<span class="col">open_flag</span>          = <span class="str">'Y'</span>
+    <span class="kw">AND</span> ool.<span class="col">cancelled_flag</span>     = <span class="str">'N'</span>
+<span class="kw">ORDER BY</span>
+    ool.<span class="col">schedule_ship_date</span>,
+    ooh.<span class="col">order_number</span>;`,
+   params:[]},
+
+  // ══════════════════════════════════════
+  //  INVENTORY
+  // ══════════════════════════════════════
+  {id:'INV001', cat:'Inventory', icon:'🏭', color:'amber',
+   title:'Current On-Hand Inventory by Item and Organisation',
+   desc:'Current on-hand stock quantity and value for all items across inventory organisations.',
+   tags:['On-Hand','Stock','Quantity'],
+   sql:`<span class="cmt">-- Current on-hand inventory by item and organisation</span>
+<span class="kw">SELECT</span>
+    mp.<span class="col">organization_code</span>                                   <span class="alias">AS org</span>,
+    msi.<span class="col">segment1</span>                                          <span class="alias">AS item_code</span>,
+    msi.<span class="col">description</span>                                       <span class="alias">AS item_desc</span>,
+    msi.<span class="col">primary_uom_code</span>                                  <span class="alias">AS uom</span>,
+    msub.<span class="col">secondary_inventory_name</span>                        <span class="alias">AS subinventory</span>,
+    <span class="fn">SUM</span>(moqd.<span class="col">transaction_quantity</span>)                       <span class="alias">AS on_hand_qty</span>,
+    msi.<span class="col">list_price_per_unit</span>                              <span class="alias">AS unit_cost</span>,
+    <span class="fn">SUM</span>(moqd.<span class="col">transaction_quantity</span>) * msi.<span class="col">list_price_per_unit</span> <span class="alias">AS stock_value</span>
+<span class="kw">FROM</span>
+    <span class="tb">mtl_onhand_quantities_detail</span>   moqd
+    <span class="kw">JOIN</span> <span class="tb">mtl_system_items_b</span>             msi
+        <span class="kw">ON</span>  moqd.<span class="col">inventory_item_id</span>  = msi.<span class="col">inventory_item_id</span>
+        <span class="kw">AND</span> moqd.<span class="col">organization_id</span>    = msi.<span class="col">organization_id</span>
+    <span class="kw">JOIN</span> <span class="tb">mtl_parameters</span>                 mp
+        <span class="kw">ON</span>  moqd.<span class="col">organization_id</span>    = mp.<span class="col">organization_id</span>
+    <span class="kw">JOIN</span> <span class="tb">mtl_secondary_inventories</span>      msub
+        <span class="kw">ON</span>  moqd.<span class="col">subinventory_code</span>  = msub.<span class="col">secondary_inventory_name</span>
+        <span class="kw">AND</span> moqd.<span class="col">organization_id</span>    = msub.<span class="col">organization_id</span>
+<span class="kw">WHERE</span>
+    moqd.<span class="col">transaction_quantity</span> > <span class="num">0</span>
+<span class="kw">GROUP BY</span>
+    mp.<span class="col">organization_code</span>,
+    msi.<span class="col">segment1</span>,
+    msi.<span class="col">description</span>,
+    msi.<span class="col">primary_uom_code</span>,
+    msub.<span class="col">secondary_inventory_name</span>,
+    msi.<span class="col">list_price_per_unit</span>
+<span class="kw">ORDER BY</span>
+    mp.<span class="col">organization_code</span>,
+    msi.<span class="col">segment1</span>;`,
+   params:[]},
+
+  {id:'INV002', cat:'Inventory', icon:'🏭', color:'amber',
+   title:'Inventory Material Transactions by Date Range',
+   desc:'All material transactions (receipts, issues, transfers) within a date range.',
+   tags:['Transactions','Material','Movement'],
+   sql:`<span class="cmt">-- Inventory material transactions by date range</span>
+<span class="kw">SELECT</span>
+    mp.<span class="col">organization_code</span>,
+    msi.<span class="col">segment1</span>                  <span class="alias">AS item_code</span>,
+    msi.<span class="col">description</span>              <span class="alias">AS item_desc</span>,
+    mtt.<span class="col">transaction_type_name</span>   <span class="alias">AS txn_type</span>,
+    mmt.<span class="col">transaction_date</span>,
+    mmt.<span class="col">transaction_quantity</span>,
+    mmt.<span class="col">primary_quantity</span>,
+    mmt.<span class="col">transaction_uom</span>,
+    mmt.<span class="col">subinventory_code</span>,
+    mmt.<span class="col">actual_cost</span>,
+    mmt.<span class="col">reference</span>,
+    fu.<span class="col">user_name</span>                 <span class="alias">AS created_by</span>
+<span class="kw">FROM</span>
+    <span class="tb">mtl_material_transactions</span>    mmt
+    <span class="kw">JOIN</span> <span class="tb">mtl_system_items_b</span>           msi
+        <span class="kw">ON</span>  mmt.<span class="col">inventory_item_id</span> = msi.<span class="col">inventory_item_id</span>
+        <span class="kw">AND</span> mmt.<span class="col">organization_id</span>   = msi.<span class="col">organization_id</span>
+    <span class="kw">JOIN</span> <span class="tb">mtl_transaction_types</span>       mtt
+        <span class="kw">ON</span>  mmt.<span class="col">transaction_type_id</span> = mtt.<span class="col">transaction_type_id</span>
+    <span class="kw">JOIN</span> <span class="tb">mtl_parameters</span>              mp
+        <span class="kw">ON</span>  mmt.<span class="col">organization_id</span>   = mp.<span class="col">organization_id</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                     fu
+        <span class="kw">ON</span>  mmt.<span class="col">created_by</span>         = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    mmt.<span class="col">transaction_date</span> <span class="kw">BETWEEN</span>
+        <span class="fn">TO_DATE</span>(<span class="str">'01-JAN-2024'</span>, <span class="str">'DD-MON-YYYY'</span>)
+        <span class="kw">AND</span> <span class="fn">TO_DATE</span>(<span class="str">'31-JAN-2024'</span>, <span class="str">'DD-MON-YYYY'</span>)
+<span class="kw">ORDER BY</span>
+    mmt.<span class="col">transaction_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'transaction_date BETWEEN',d:'Replace start and end dates as required'}]},
+
+  // ══════════════════════════════════════
+  //  HUMAN RESOURCES
+  // ══════════════════════════════════════
+  {id:'HR001', cat:'Human Resources', icon:'👤', color:'purple',
+   title:'All Active Employees with Assignment Details',
+   desc:'Current active employees with job, grade, department, and location from date-effective tables.',
+   tags:['Active','Employees','Assignment'],
+   sql:`<span class="cmt">-- Active employees with assignment details (date effective)</span>
+<span class="kw">SELECT</span>
+    papf.<span class="col">employee_number</span>,
+    papf.<span class="col">full_name</span>,
+    papf.<span class="col">date_of_birth</span>,
+    papf.<span class="col">hire_date</span>,
+    paaf.<span class="col">assignment_number</span>,
+    pj.<span class="col">name</span>                       <span class="alias">AS job_title</span>,
+    pg.<span class="col">name</span>                       <span class="alias">AS grade</span>,
+    haou.<span class="col">name</span>                      <span class="alias">AS department</span>,
+    hl.<span class="col">location_code</span>             <span class="alias">AS location</span>,
+    paaf.<span class="col">employment_category</span>
+<span class="kw">FROM</span>
+    <span class="tb">per_all_people_f</span>              papf
+    <span class="kw">JOIN</span> <span class="tb">per_all_assignments_f</span>         paaf
+        <span class="kw">ON</span>  papf.<span class="col">person_id</span>          = paaf.<span class="col">person_id</span>
+        <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> paaf.<span class="col">effective_start_date</span>
+                             <span class="kw">AND</span>     paaf.<span class="col">effective_end_date</span>
+        <span class="kw">AND</span> paaf.<span class="col">primary_flag</span>       = <span class="str">'Y'</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">per_jobs</span>                    pj
+        <span class="kw">ON</span>  paaf.<span class="col">job_id</span>             = pj.<span class="col">job_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">per_grades</span>                  pg
+        <span class="kw">ON</span>  paaf.<span class="col">grade_id</span>           = pg.<span class="col">grade_id</span>
+    <span class="kw">JOIN</span> <span class="tb">hr_all_organization_units</span>     haou
+        <span class="kw">ON</span>  paaf.<span class="col">organization_id</span>   = haou.<span class="col">organization_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">hr_locations_all</span>            hl
+        <span class="kw">ON</span>  paaf.<span class="col">location_id</span>        = hl.<span class="col">location_id</span>
+<span class="kw">WHERE</span>
+    papf.<span class="col">current_employee_flag</span>  = <span class="str">'Y'</span>
+    <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> papf.<span class="col">effective_start_date</span>
+                        <span class="kw">AND</span>     papf.<span class="col">effective_end_date</span>
+<span class="kw">ORDER BY</span>
+    papf.<span class="col">full_name</span>;`,
+   params:[{n:'effective_start/end dates',d:'Always filter date-effective tables with SYSDATE BETWEEN effective dates'}]},
+
+  {id:'HR002', cat:'Human Resources', icon:'👤', color:'purple',
+   title:'Employee Salary History',
+   desc:'Salary element entry values and history for active employees.',
+   tags:['Salary','Payroll','Elements'],
+   sql:`<span class="cmt">-- Employee salary history</span>
+<span class="kw">SELECT</span>
+    papf.<span class="col">employee_number</span>,
+    papf.<span class="col">full_name</span>,
+    pet.<span class="col">element_name</span>,
+    peevf.<span class="col">screen_entry_value</span>   <span class="alias">AS salary_amount</span>,
+    peef.<span class="col">effective_start_date</span>,
+    peef.<span class="col">effective_end_date</span>,
+    haou.<span class="col">name</span>                  <span class="alias">AS department</span>
+<span class="kw">FROM</span>
+    <span class="tb">per_all_people_f</span>              papf
+    <span class="kw">JOIN</span> <span class="tb">per_all_assignments_f</span>         paaf
+        <span class="kw">ON</span>  papf.<span class="col">person_id</span>           = paaf.<span class="col">person_id</span>
+        <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> paaf.<span class="col">effective_start_date</span>
+                              <span class="kw">AND</span>    paaf.<span class="col">effective_end_date</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_element_entries_f</span>         peef
+        <span class="kw">ON</span>  paaf.<span class="col">assignment_id</span>       = peef.<span class="col">assignment_id</span>
+        <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> peef.<span class="col">effective_start_date</span>
+                              <span class="kw">AND</span>    peef.<span class="col">effective_end_date</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_element_entry_values_f</span>    peevf
+        <span class="kw">ON</span>  peef.<span class="col">element_entry_id</span>    = peevf.<span class="col">element_entry_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_element_types_f</span>           pet
+        <span class="kw">ON</span>  peef.<span class="col">element_type_id</span>     = pet.<span class="col">element_type_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_input_values_f</span>            piv
+        <span class="kw">ON</span>  peevf.<span class="col">input_value_id</span>     = piv.<span class="col">input_value_id</span>
+        <span class="kw">AND</span> piv.<span class="col">name</span>                 = <span class="str">'Annual Salary'</span>
+    <span class="kw">JOIN</span> <span class="tb">hr_all_organization_units</span>     haou
+        <span class="kw">ON</span>  paaf.<span class="col">organization_id</span>    = haou.<span class="col">organization_id</span>
+<span class="kw">WHERE</span>
+    papf.<span class="col">current_employee_flag</span>  = <span class="str">'Y'</span>
+    <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> papf.<span class="col">effective_start_date</span>
+                        <span class="kw">AND</span>    papf.<span class="col">effective_end_date</span>
+<span class="kw">ORDER BY</span>
+    papf.<span class="col">full_name</span>,
+    peef.<span class="col">effective_start_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'Annual Salary',d:"Change piv.name to match your salary element input value name"}]},
+
+  // ══════════════════════════════════════
+  //  FIXED ASSETS
+  // ══════════════════════════════════════
+  {id:'FA001', cat:'Fixed Assets', icon:'🏢', color:'cyan',
+   title:'Asset Register with Net Book Value',
+   desc:'Full asset register showing cost, accumulated depreciation, and net book value per asset.',
+   tags:['Asset Register','NBV','Depreciation'],
+   sql:`<span class="cmt">-- Active asset register with NBV</span>
+<span class="kw">SELECT</span>
+    fa.<span class="col">asset_number</span>,
+    fa.<span class="col">description</span>,
+    fcat.<span class="col">description</span>               <span class="alias">AS asset_category</span>,
+    fa.<span class="col">date_placed_in_service</span>      <span class="alias">AS dpis</span>,
+    fa.<span class="col">serial_number</span>,
+    fa.<span class="col">tag_number</span>,
+    fb.<span class="col">cost</span>,
+    fb.<span class="col">life_in_months</span>,
+    fb.<span class="col">deprn_method_code</span>           <span class="alias">AS method</span>,
+    fd.<span class="col">deprn_reserve</span>              <span class="alias">AS accum_deprn</span>,
+    fd.<span class="col">ytd_deprn</span>,
+    fb.<span class="col">cost</span> - fd.<span class="col">deprn_reserve</span>  <span class="alias">AS net_book_value</span>
+<span class="kw">FROM</span>
+    <span class="tb">fa_additions</span>        fa
+    <span class="kw">JOIN</span> <span class="tb">fa_books</span>                fb
+        <span class="kw">ON</span>  fa.<span class="col">asset_id</span>         = fb.<span class="col">asset_id</span>
+        <span class="kw">AND</span> fb.<span class="col">book_type_code</span>  = <span class="str">'CORPORATE'</span>  <span class="cmt">-- Change to your book name</span>
+        <span class="kw">AND</span> fb.<span class="col">date_ineffective</span> <span class="kw">IS NULL</span>
+    <span class="kw">JOIN</span> <span class="tb">fa_deprn_summary</span>    fd
+        <span class="kw">ON</span>  fa.<span class="col">asset_id</span>         = fd.<span class="col">asset_id</span>
+        <span class="kw">AND</span> fd.<span class="col">book_type_code</span>  = <span class="str">'CORPORATE'</span>
+    <span class="kw">JOIN</span> <span class="tb">fa_categories_b</span>     fcat
+        <span class="kw">ON</span>  fa.<span class="col">asset_category_id</span> = fcat.<span class="col">category_id</span>
+<span class="kw">WHERE</span>
+    fa.<span class="col">asset_type</span> = <span class="str">'CAPITALIZED'</span>
+<span class="kw">ORDER BY</span>
+    fa.<span class="col">asset_number</span>;`,
+   params:[{n:'book_type_code',d:"'CORPORATE' or 'TAX' — replace with your actual book name"},{n:'asset_type',d:"'CAPITALIZED','CIP','EXPENSED'"}]},
+
+  // ══════════════════════════════════════
+  //  SYSTEM ADMIN
+  // ══════════════════════════════════════
+  {id:'SYS001', cat:'System Admin', icon:'🔧', color:'red',
+   title:'Active EBS Users and Their Responsibilities',
+   desc:'All active FND users with currently assigned responsibilities and associated employee details.',
+   tags:['Users','Responsibilities','Security'],
+   sql:`<span class="cmt">-- Active users and their responsibilities</span>
+<span class="kw">SELECT</span>
+    fu.<span class="col">user_name</span>,
+    fu.<span class="col">description</span>               <span class="alias">AS user_desc</span>,
+    fu.<span class="col">email_address</span>,
+    fu.<span class="col">start_date</span>,
+    fr.<span class="col">responsibility_name</span>,
+    frg.<span class="col">start_date</span>              <span class="alias">AS resp_from</span>,
+    frg.<span class="col">end_date</span>                <span class="alias">AS resp_to</span>,
+    papf.<span class="col">full_name</span>              <span class="alias">AS employee_name</span>,
+    papf.<span class="col">employee_number</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_user</span>                         fu
+    <span class="kw">JOIN</span> <span class="tb">fnd_user_resp_groups</span>             frg
+        <span class="kw">ON</span>  fu.<span class="col">user_id</span>              = frg.<span class="col">user_id</span>
+        <span class="kw">AND</span> <span class="fn">NVL</span>(frg.<span class="col">end_date</span>, <span class="fn">SYSDATE</span>) >= <span class="fn">SYSDATE</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_responsibility_tl</span>            fr
+        <span class="kw">ON</span>  frg.<span class="col">responsibility_id</span>   = fr.<span class="col">responsibility_id</span>
+        <span class="kw">AND</span> frg.<span class="col">application_id</span>      = fr.<span class="col">application_id</span>
+        <span class="kw">AND</span> fr.<span class="col">language</span>             = <span class="str">'US'</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">per_all_people_f</span>                 papf
+        <span class="kw">ON</span>  fu.<span class="col">employee_id</span>           = papf.<span class="col">person_id</span>
+        <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> papf.<span class="col">effective_start_date</span>
+                              <span class="kw">AND</span>    papf.<span class="col">effective_end_date</span>
+<span class="kw">WHERE</span>
+    fu.<span class="col">end_date</span> <span class="kw">IS NULL</span>  <span class="cmt">-- Active users only</span>
+<span class="kw">ORDER BY</span>
+    fu.<span class="col">user_name</span>,
+    fr.<span class="col">responsibility_name</span>;`,
+   params:[]},
+
+  {id:'SYS002', cat:'System Admin', icon:'🔧', color:'red',
+   title:'Profile Option Values at All Levels',
+   desc:'Profile option values at Site, Application, Responsibility, and User levels.',
+   tags:['Profile','Options','Configuration'],
+   sql:`<span class="cmt">-- Profile option values at all levels</span>
+<span class="kw">SELECT</span>
+    fpot.<span class="col">user_profile_option_name</span>  <span class="alias">AS profile_name</span>,
+    fpov.<span class="col">profile_option_value</span>,
+    <span class="kw">DECODE</span>(fpov.<span class="col">level_id</span>,
+        <span class="num">10001</span>, <span class="str">'Site'</span>,
+        <span class="num">10002</span>, <span class="str">'Application'</span>,
+        <span class="num">10003</span>, <span class="str">'Responsibility'</span>,
+        <span class="num">10004</span>, <span class="str">'User'</span>,
+        <span class="num">10005</span>, <span class="str">'Server'</span>,
+        <span class="str">'Unknown'</span>
+    )                               <span class="alias">AS level_desc</span>,
+    <span class="kw">CASE</span> fpov.<span class="col">level_id</span>
+        <span class="kw">WHEN</span> <span class="num">10003</span> <span class="kw">THEN</span> fr.<span class="col">responsibility_name</span>
+        <span class="kw">WHEN</span> <span class="num">10004</span> <span class="kw">THEN</span> fu.<span class="col">user_name</span>
+        <span class="kw">ELSE</span>             <span class="str">'N/A'</span>
+    <span class="kw">END</span>                             <span class="alias">AS level_context</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_profile_options</span>              fpo
+    <span class="kw">JOIN</span> <span class="tb">fnd_profile_options_tl</span>           fpot
+        <span class="kw">ON</span>  fpo.<span class="col">profile_option_id</span>  = fpot.<span class="col">profile_option_id</span>
+        <span class="kw">AND</span> fpo.<span class="col">application_id</span>    = fpot.<span class="col">application_id</span>
+        <span class="kw">AND</span> fpot.<span class="col">language</span>         = <span class="str">'US'</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_profile_option_values</span>        fpov
+        <span class="kw">ON</span>  fpo.<span class="col">profile_option_id</span>  = fpov.<span class="col">profile_option_id</span>
+        <span class="kw">AND</span> fpo.<span class="col">application_id</span>    = fpov.<span class="col">application_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">fnd_responsibility_tl</span>        fr
+        <span class="kw">ON</span>  fpov.<span class="col">level_id</span>         = <span class="num">10003</span>
+        <span class="kw">AND</span> fpov.<span class="col">level_value</span>      = fr.<span class="col">responsibility_id</span>
+        <span class="kw">AND</span> fr.<span class="col">language</span>           = <span class="str">'US'</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">fnd_user</span>                     fu
+        <span class="kw">ON</span>  fpov.<span class="col">level_id</span>         = <span class="num">10004</span>
+        <span class="kw">AND</span> fpov.<span class="col">level_value</span>      = fu.<span class="col">user_id</span>
+<span class="kw">WHERE</span>
+    fpot.<span class="col">user_profile_option_name</span> <span class="kw">LIKE</span> <span class="str">'%ORG%'</span>  <span class="cmt">-- Change search pattern</span>
+<span class="kw">ORDER BY</span>
+    fpot.<span class="col">user_profile_option_name</span>,
+    fpov.<span class="col">level_id</span>;`,
+   params:[{n:'LIKE pattern',d:"Change '%ORG%' to any profile option name pattern e.g. '%MO%','%HR%'"}]},
+
+  {id:'SYS003', cat:'System Admin', icon:'🔧', color:'red',
+   title:'FND Lookup Values by Type',
+   desc:'All active lookup codes and meanings for a given lookup type — essential for decoding EBS coded values.',
+   tags:['Lookups','Reference','FND'],
+   sql:`<span class="cmt">-- FND lookup values for a given type</span>
+<span class="kw">SELECT</span>
+    fl.<span class="col">lookup_type</span>,
+    fl.<span class="col">lookup_code</span>,
+    fl.<span class="col">meaning</span>,
+    fl.<span class="col">description</span>,
+    fl.<span class="col">enabled_flag</span>,
+    fl.<span class="col">start_date_active</span>,
+    fl.<span class="col">end_date_active</span>,
+    fl.<span class="col">tag</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_lookup_values</span>  fl
+<span class="kw">WHERE</span>
+    fl.<span class="col">lookup_type</span>  = <span class="str">'YES_NO'</span>   <span class="cmt">-- Replace with required lookup type</span>
+    <span class="kw">AND</span> fl.<span class="col">language</span>     = <span class="str">'US'</span>
+    <span class="kw">AND</span> fl.<span class="col">enabled_flag</span> = <span class="str">'Y'</span>
+    <span class="kw">AND</span> <span class="fn">NVL</span>(fl.<span class="col">end_date_active</span>, <span class="fn">SYSDATE</span>) >= <span class="fn">SYSDATE</span>
+<span class="kw">ORDER BY</span>
+    fl.<span class="col">lookup_code</span>;
+
+<span class="cmt">-- Common EBS lookup types:
+-- YES_NO | APPROVAL_STATUS | CP_PHASE_CODE | CP_STATUS_CODE
+-- INVOICE_TYPE | PO_DOCUMENT_TYPE | ORDER_CATEGORY | HOLD_TYPE</span>`,
+   params:[{n:'lookup_type',d:"Replace 'YES_NO' with any type e.g. 'APPROVAL_STATUS', 'CP_PHASE_CODE'"}]},
+
+  // ══════════════════════════════════════
+  //  WORKFLOW
+  // ══════════════════════════════════════
+  {id:'WF001', cat:'Workflow', icon:'🔄', color:'purple',
+   title:'Workflow Items in Error Status',
+   desc:'All workflow process activities currently in ERROR — essential for support and resolution.',
+   tags:['Error','Stuck','Workflow Monitor'],
+   sql:`<span class="cmt">-- Workflow activities in ERROR status</span>
+<span class="kw">SELECT</span>
+    wi.<span class="col">item_type</span>,
+    wi.<span class="col">item_key</span>,
+    wi.<span class="col">user_key</span>,
+    wi.<span class="col">begin_date</span>,
+    wa.<span class="col">activity_status</span>,
+    wa.<span class="col">activity_result_code</span>,
+    wa.<span class="col">error_name</span>,
+    wa.<span class="col">error_message</span>,
+    <span class="fn">SUBSTR</span>(wa.<span class="col">error_stack</span>, <span class="num">1</span>, <span class="num">500</span>) <span class="alias">AS error_stack</span>
+<span class="kw">FROM</span>
+    <span class="tb">wf_items</span>                    wi
+    <span class="kw">JOIN</span> <span class="tb">wf_item_activity_statuses</span>   wa
+        <span class="kw">ON</span>  wi.<span class="col">item_type</span>  = wa.<span class="col">item_type</span>
+        <span class="kw">AND</span> wi.<span class="col">item_key</span>   = wa.<span class="col">item_key</span>
+<span class="kw">WHERE</span>
+    wa.<span class="col">activity_status</span> = <span class="str">'ERROR'</span>
+<span class="kw">ORDER BY</span>
+    wi.<span class="col">begin_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'item_type filter',d:"Add: AND wi.item_type = 'OEOL' to filter to a specific workflow type"}]},
+
+  {id:'WF002', cat:'Workflow', icon:'🔄', color:'purple',
+   title:'Pending Workflow Notifications by User',
+   desc:'All open workflow notifications awaiting user response or acknowledgment.',
+   tags:['Notifications','Pending','Approvals'],
+   sql:`<span class="cmt">-- Pending workflow notifications</span>
+<span class="kw">SELECT</span>
+    wn.<span class="col">notification_id</span>,
+    wn.<span class="col">message_type</span>          <span class="alias">AS item_type</span>,
+    wn.<span class="col">message_name</span>,
+    wn.<span class="col">subject</span>,
+    wn.<span class="col">recipient_role</span>,
+    fu.<span class="col">user_name</span>,
+    wn.<span class="col">send_date</span>,
+    wn.<span class="col">due_date</span>,
+    <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(wn.<span class="col">send_date</span>) <span class="alias">AS days_waiting</span>,
+    wn.<span class="col">status</span>
+<span class="kw">FROM</span>
+    <span class="tb">wf_notifications</span>    wn
+    <span class="kw">JOIN</span> <span class="tb">wf_roles</span>            wr
+        <span class="kw">ON</span>  wn.<span class="col">recipient_role</span> = wr.<span class="col">name</span>
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>            fu
+        <span class="kw">ON</span>  wr.<span class="col">name</span>           = fu.<span class="col">user_name</span>
+<span class="kw">WHERE</span>
+    wn.<span class="col">status</span> = <span class="str">'OPEN'</span>
+<span class="kw">ORDER BY</span>
+    wn.<span class="col">send_date</span>;`,
+   params:[{n:'fu.user_name filter',d:"Add: AND fu.user_name = 'JSMITH' to filter to a specific user"}]},
+
+  // ══════════════════════════════════════
+  //  SUBLEDGER ACCOUNTING
+  // ══════════════════════════════════════
+  {id:'SLA001', cat:'Subledger Accounting', icon:'📒', color:'blue',
+   title:'SLA Journal Entry Headers Not Yet Transferred to GL',
+   desc:'Subledger accounting entries with transfer status N — pending GL transfer.',
+   tags:['SLA','Journal','Transfer'],
+   sql:`<span class="cmt">-- SLA journal headers not yet transferred to GL</span>
+<span class="kw">SELECT</span>
+    xah.<span class="col">ae_header_id</span>,
+    xah.<span class="col">je_category_name</span>,
+    xah.<span class="col">event_type_code</span>,
+    xah.<span class="col">accounting_date</span>,
+    xah.<span class="col">period_name</span>,
+    xah.<span class="col">accounting_entry_status_code</span>  <span class="alias">AS status</span>,
+    xah.<span class="col">transfer_status_code</span>          <span class="alias">AS gl_transfer_status</span>,
+    xah.<span class="col">gl_transfer_date</span>,
+    xah.<span class="col">currency_code</span>,
+    xah.<span class="col">description</span>,
+    xte.<span class="col">application_id</span>
+<span class="kw">FROM</span>
+    <span class="tb">xla_ae_headers</span>           xah
+    <span class="kw">JOIN</span> <span class="tb">xla_transaction_entities</span> xte
+        <span class="kw">ON</span>  xah.<span class="col">entity_id</span>       = xte.<span class="col">entity_id</span>
+        <span class="kw">AND</span> xah.<span class="col">application_id</span>  = xte.<span class="col">application_id</span>
+<span class="kw">WHERE</span>
+    xte.<span class="col">application_id</span>      = <span class="num">200</span>   <span class="cmt">-- 200=AP, 222=AR, 401=PO, 140=FA</span>
+    <span class="kw">AND</span> xah.<span class="col">transfer_status_code</span> = <span class="str">'N'</span>   <span class="cmt">-- N=Not Transferred</span>
+<span class="kw">ORDER BY</span>
+    xah.<span class="col">accounting_date</span> <span class="kw">DESC</span>;`,
+   params:[{n:'application_id',d:'200=AP, 222=AR, 401=PO, 140=FA, 660=INV, 275=PA'},{n:'transfer_status_code',d:"'N'=Not Transferred, 'Y'=Transferred, 'E'=Error"}]},
+
+  // ══════════════════════════════════════
+  //  PROJECT ACCOUNTING
+  // ══════════════════════════════════════
+  {id:'PA001', cat:'Project Accounting', icon:'📋', color:'cyan',
+   title:'Active Projects — Budget vs Actuals',
+   desc:'All approved projects showing baseline budget versus total actual cost incurred.',
+   tags:['Projects','Budget','Actuals'],
+   sql:`<span class="cmt">-- Active projects: approved budget vs actuals</span>
+<span class="kw">SELECT</span>
+    pa.<span class="col">segment1</span>                                           <span class="alias">AS project_number</span>,
+    pa.<span class="col">name</span>                                              <span class="alias">AS project_name</span>,
+    pa.<span class="col">project_status_code</span>,
+    pa.<span class="col">start_date</span>,
+    pa.<span class="col">completion_date</span>,
+    pav.<span class="col">approved_cost</span>                                   <span class="alias">AS approved_budget</span>,
+    <span class="fn">NVL</span>(pac.<span class="col">total_labor_cost</span>, <span class="num">0</span>)
+        + <span class="fn">NVL</span>(pac.<span class="col">total_other_cost</span>, <span class="num">0</span>)                  <span class="alias">AS actual_cost</span>,
+    pav.<span class="col">approved_cost</span>
+        - (<span class="fn">NVL</span>(pac.<span class="col">total_labor_cost</span>, <span class="num">0</span>)
+        +  <span class="fn">NVL</span>(pac.<span class="col">total_other_cost</span>, <span class="num">0</span>))               <span class="alias">AS budget_remaining</span>,
+    ppe.<span class="col">full_name</span>                                        <span class="alias">AS project_manager</span>
+<span class="kw">FROM</span>
+    <span class="tb">pa_projects_all</span>              pa
+    <span class="kw">JOIN</span> <span class="tb">pa_budget_versions</span>           pav
+        <span class="kw">ON</span>  pa.<span class="col">project_id</span>           = pav.<span class="col">project_id</span>
+        <span class="kw">AND</span> pav.<span class="col">budget_status_code</span>  = <span class="str">'B'</span>   <span class="cmt">-- B=Baseline (approved)</span>
+        <span class="kw">AND</span> pav.<span class="col">budget_type_code</span>    = <span class="str">'AC'</span>  <span class="cmt">-- AC=Approved Cost</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">pa_project_accum_commitments</span> pac
+        <span class="kw">ON</span>  pa.<span class="col">project_id</span>           = pac.<span class="col">project_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">per_people_x</span>                 ppe
+        <span class="kw">ON</span>  pa.<span class="col">project_manager_person_id</span> = ppe.<span class="col">person_id</span>
+<span class="kw">WHERE</span>
+    pa.<span class="col">project_status_code</span> = <span class="str">'APPROVED'</span>
+<span class="kw">ORDER BY</span>
+    pa.<span class="col">segment1</span>;`,
+   params:[]},
+
+  // ══════════════════════════════════════
+  //  PAYROLL
+  // ══════════════════════════════════════
+  {id:'PAY001', cat:'Payroll', icon:'💵', color:'amber',
+   title:'Payroll Run Results by Period',
+   desc:'Element results per employee for a completed payroll run, including pay amounts.',
+   tags:['Payroll Run','Earnings','Net Pay'],
+   sql:`<span class="cmt">-- Payroll run results for a specific period</span>
+<span class="kw">SELECT</span>
+    papf.<span class="col">employee_number</span>,
+    papf.<span class="col">full_name</span>,
+    ppa.<span class="col">effective_date</span>             <span class="alias">AS payroll_date</span>,
+    ppa.<span class="col">action_type</span>,
+    ppa.<span class="col">action_status</span>,
+    pet.<span class="col">element_name</span>,
+    piv.<span class="col">name</span>                       <span class="alias">AS input_value</span>,
+    prrv.<span class="col">result_value</span>
+<span class="kw">FROM</span>
+    <span class="tb">per_all_people_f</span>          papf
+    <span class="kw">JOIN</span> <span class="tb">per_all_assignments_f</span>     paaf
+        <span class="kw">ON</span>  papf.<span class="col">person_id</span>           = paaf.<span class="col">person_id</span>
+        <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> paaf.<span class="col">effective_start_date</span>
+                              <span class="kw">AND</span>    paaf.<span class="col">effective_end_date</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_assignment_actions</span>    ppaa
+        <span class="kw">ON</span>  paaf.<span class="col">assignment_id</span>       = ppaa.<span class="col">assignment_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_payroll_actions</span>       ppa
+        <span class="kw">ON</span>  ppaa.<span class="col">payroll_action_id</span>  = ppa.<span class="col">payroll_action_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_run_results</span>           prr
+        <span class="kw">ON</span>  ppaa.<span class="col">assignment_action_id</span> = prr.<span class="col">assignment_action_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_run_result_values</span>     prrv
+        <span class="kw">ON</span>  prr.<span class="col">run_result_id</span>       = prrv.<span class="col">run_result_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_element_types_f</span>       pet
+        <span class="kw">ON</span>  prr.<span class="col">element_type_id</span>     = pet.<span class="col">element_type_id</span>
+    <span class="kw">JOIN</span> <span class="tb">pay_input_values_f</span>        piv
+        <span class="kw">ON</span>  prrv.<span class="col">input_value_id</span>     = piv.<span class="col">input_value_id</span>
+<span class="kw">WHERE</span>
+    ppa.<span class="col">action_type</span>    = <span class="str">'R'</span>    <span class="cmt">-- R=Regular Run</span>
+    <span class="kw">AND</span> ppa.<span class="col">action_status</span>  = <span class="str">'C'</span>    <span class="cmt">-- C=Complete</span>
+    <span class="kw">AND</span> ppa.<span class="col">effective_date</span> = <span class="fn">TO_DATE</span>(<span class="str">'31-JAN-2024'</span>, <span class="str">'DD-MON-YYYY'</span>)
+    <span class="kw">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> papf.<span class="col">effective_start_date</span>
+                        <span class="kw">AND</span>    papf.<span class="col">effective_end_date</span>
+<span class="kw">ORDER BY</span>
+    papf.<span class="col">full_name</span>,
+    pet.<span class="col">element_name</span>;`,
+   params:[{n:'effective_date',d:'The payroll run date — change to your period end date'},{n:'action_type R',d:"'R'=Regular Run, 'Q'=QuickPay, 'B'=Balance Adjustment"}]},
+
+  // ══════════════════════════════════════
+  //  DBA / PERFORMANCE
+  // ══════════════════════════════════════
+  {id:'DBA001', cat:'DBA / Performance', icon:'⚡', color:'red',
+   title:'Active Oracle Sessions from EBS (APPS Schema)',
+   desc:'All active database sessions from the APPS schema with current SQL and wait events.',
+   tags:['Sessions','Blocking','Oracle DB'],
+   sql:`<span class="cmt">-- Active EBS database sessions (APPS schema)</span>
+<span class="kw">SELECT</span>
+    vs.<span class="col">sid</span>,
+    vs.<span class="col">serial#</span>,
+    vs.<span class="col">username</span>,
+    vs.<span class="col">module</span>,
+    vs.<span class="col">action</span>,
+    vs.<span class="col">status</span>,
+    vs.<span class="col">machine</span>,
+    vs.<span class="col">osuser</span>,
+    vs.<span class="col">program</span>,
+    vs.<span class="col">sql_id</span>,
+    vs.<span class="col">event</span>,
+    vs.<span class="col">wait_time</span>,
+    <span class="fn">ROUND</span>(vs.<span class="col">last_call_et</span> / <span class="num">60</span>, <span class="num">2</span>) <span class="alias">AS idle_mins</span>,
+    vsql.<span class="col">sql_text</span>
+<span class="kw">FROM</span>
+    v$session     vs
+    <span class="kw">LEFT JOIN</span> v$sql         vsql
+        <span class="kw">ON</span>  vs.<span class="col">sql_id</span>  = vsql.<span class="col">sql_id</span>
+<span class="kw">WHERE</span>
+    vs.<span class="col">status</span>   = <span class="str">'ACTIVE'</span>
+    <span class="kw">AND</span> vs.<span class="col">username</span> = <span class="str">'APPS'</span>    <span class="cmt">-- EBS APPS schema only</span>
+    <span class="kw">AND</span> vs.<span class="col">type</span>     = <span class="str">'USER'</span>
+<span class="kw">ORDER BY</span>
+    vs.<span class="col">last_call_et</span> <span class="kw">DESC</span>;`,
+   params:[{n:'username',d:"Change 'APPS' to another schema or remove to see all users"}]},
+
+  {id:'DBA002', cat:'DBA / Performance', icon:'⚡', color:'red',
+   title:'Tablespace Usage Summary',
+   desc:'Current tablespace usage in GB with used/free split and percentage full.',
+   tags:['Tablespace','Space','DBA'],
+   sql:`<span class="cmt">-- Tablespace usage summary</span>
+<span class="kw">SELECT</span>
+    ts.<span class="col">tablespace_name</span>,
+    ts.<span class="col">status</span>,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(df.<span class="col">bytes</span>)                         / <span class="num">1073741824</span>, <span class="num">2</span>) <span class="alias">AS total_gb</span>,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(df.<span class="col">bytes</span> - <span class="fn">NVL</span>(fs.<span class="col">free_bytes</span>, <span class="num">0</span>)) / <span class="num">1073741824</span>, <span class="num">2</span>) <span class="alias">AS used_gb</span>,
+    <span class="fn">ROUND</span>(<span class="fn">NVL</span>(<span class="fn">SUM</span>(fs.<span class="col">free_bytes</span>), <span class="num">0</span>)            / <span class="num">1073741824</span>, <span class="num">2</span>) <span class="alias">AS free_gb</span>,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(df.<span class="col">bytes</span> - <span class="fn">NVL</span>(fs.<span class="col">free_bytes</span>, <span class="num">0</span>)) / <span class="fn">SUM</span>(df.<span class="col">bytes</span>) * <span class="num">100</span>,
+        <span class="num">1</span>
+    )                                                                 <span class="alias">AS pct_used</span>
+<span class="kw">FROM</span>
+    dba_tablespaces  ts
+    <span class="kw">JOIN</span> dba_data_files   df
+        <span class="kw">ON</span>  ts.<span class="col">tablespace_name</span> = df.<span class="col">tablespace_name</span>
+    <span class="kw">LEFT JOIN</span> (
+        <span class="kw">SELECT</span>
+            <span class="col">tablespace_name</span>,
+            <span class="fn">SUM</span>(<span class="col">bytes</span>) <span class="alias">AS free_bytes</span>
+        <span class="kw">FROM</span>   dba_free_space
+        <span class="kw">GROUP BY</span> <span class="col">tablespace_name</span>
+    ) fs
+        <span class="kw">ON</span>  ts.<span class="col">tablespace_name</span> = fs.<span class="col">tablespace_name</span>
+<span class="kw">GROUP BY</span>
+    ts.<span class="col">tablespace_name</span>,
+    ts.<span class="col">status</span>
+<span class="kw">ORDER BY</span>
+    pct_used <span class="kw">DESC</span>;`,
+   params:[]},
+
+  // ══════════════════════════════════════
+  //  AUDIT & SECURITY
+  // ══════════════════════════════════════
+  {id:'AUD001', cat:'Audit & Security', icon:'🔐', color:'red',
+   title:'EBS User Login Audit Trail',
+   desc:'Tracks user login sessions from the FND sign-on audit tables with duration and responsibility used.',
+   tags:['Audit','Logins','Security'],
+   sql:`<span class="cmt">-- EBS user login audit trail (last 7 days)</span>
+<span class="kw">SELECT</span>
+    fu.<span class="col">user_name</span>,
+    fsa.<span class="col">login_id</span>,
+    fsa.<span class="col">login_type</span>,
+    fsa.<span class="col">start_time</span>                                         <span class="alias">AS login_time</span>,
+    fsa.<span class="col">end_time</span>                                           <span class="alias">AS logout_time</span>,
+    <span class="fn">ROUND</span>((fsa.<span class="col">end_time</span> - fsa.<span class="col">start_time</span>) * <span class="num">24</span> * <span class="num">60</span>, <span class="num">2</span>) <span class="alias">AS session_mins</span>,
+    fr.<span class="col">responsibility_name</span>
+<span class="kw">FROM</span>
+    <span class="tb">fnd_signon_audit_logins</span>    fsa
+    <span class="kw">JOIN</span> <span class="tb">fnd_user</span>                    fu
+        <span class="kw">ON</span>  fsa.<span class="col">user_id</span>           = fu.<span class="col">user_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">fnd_signon_audit_resps</span>     fsr
+        <span class="kw">ON</span>  fsa.<span class="col">login_id</span>          = fsr.<span class="col">login_id</span>
+    <span class="kw">LEFT JOIN</span> <span class="tb">fnd_responsibility_tl</span>       fr
+        <span class="kw">ON</span>  fsr.<span class="col">responsibility_id</span>  = fr.<span class="col">responsibility_id</span>
+        <span class="kw">AND</span> fr.<span class="col">language</span>            = <span class="str">'US'</span>
+<span class="kw">WHERE</span>
+    fsa.<span class="col">start_time</span> >= <span class="fn">SYSDATE</span> - <span class="num">7</span>
+<span class="kw">ORDER BY</span>
+    fsa.<span class="col">start_time</span> <span class="kw">DESC</span>;`,
+   params:[{n:'SYSDATE - 7',d:'Change to required number of days for lookback period'}]},
+];
+
+// ── CATEGORY META ──
+const CAT_META = {
+  'Concurrent Manager': { icon:'⚙️', color:'blue',  desc:'Request queues, history, errors' },
+  'Accounts Payable':   { icon:'💳', color:'amber', desc:'Invoices, payments, suppliers' },
+  'General Ledger':     { icon:'📊', color:'green', desc:'Balances, journals, periods' },
+  'Accounts Receivable':{ icon:'💰', color:'green', desc:'Invoices, receipts, collections' },
+  'Purchasing':         { icon:'🛒', color:'purple',desc:'POs, receipts, suppliers' },
+  'Order Management':   { icon:'📦', color:'cyan',  desc:'Sales orders, shipments' },
+  'Inventory':          { icon:'🏭', color:'amber', desc:'On-hand, transactions, items' },
+  'Human Resources':    { icon:'👤', color:'purple',desc:'Employees, assignments, HR' },
+  'Fixed Assets':       { icon:'🏢', color:'cyan',  desc:'Asset register, depreciation' },
+  'System Admin':       { icon:'🔧', color:'red',   desc:'Users, profiles, lookups' },
+  'Workflow':           { icon:'🔄', color:'purple',desc:'Notifications, errors, items' },
+  'Subledger Accounting':{ icon:'📒',color:'blue',  desc:'SLA headers, entries, transfer' },
+  'Project Accounting': { icon:'📋', color:'cyan',  desc:'Projects, budget, actuals' },
+  'Payroll':            { icon:'💵', color:'amber', desc:'Pay runs, elements, results' },
+  'DBA / Performance':  { icon:'⚡', color:'red',   desc:'Sessions, tablespace, performance' },
+  'Audit & Security':   { icon:'🔐', color:'red',   desc:'Login audit, access tracking' },
+};
+
+const COLOR_CLASSES = {
+  blue:   { bg:'var(--blue-dim)',   text:'var(--blue)',   tagbg:'rgba(91,156,246,0.12)',   tagtext:'var(--blue)'  },
+  amber:  { bg:'var(--amber-dim)',  text:'var(--amber)',  tagbg:'rgba(245,166,35,0.12)',   tagtext:'var(--amber)' },
+  green:  { bg:'var(--green-dim)',  text:'var(--green)',  tagbg:'rgba(61,220,132,0.12)',   tagtext:'var(--green)' },
+  purple: { bg:'var(--purple-dim)', text:'var(--purple)', tagbg:'rgba(167,139,250,0.12)',  tagtext:'var(--purple)'},
+  cyan:   { bg:'var(--cyan-dim)',   text:'var(--cyan)',   tagbg:'rgba(34,211,238,0.12)',   tagtext:'var(--cyan)'  },
+  red:    { bg:'var(--red-dim)',    text:'var(--red)',    tagbg:'rgba(224,32,32,0.12)',    tagtext:'var(--red)'   },
+};
+
+// ── STATE ──
+const st = { cat:'', search:'', sort:'d', page:1, pp:20, res:[] };
+let openId = null;
+
+function h(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── BUILD SIDEBAR ──
+function buildSidebar(){
+  const cats = {};
+  QUERIES.forEach(q=>{ cats[q.cat]=(cats[q.cat]||0)+1; });
+  const cl = document.getElementById('catList');
+  const mc = document.getElementById('mobCats');
+  cl.innerHTML='';mc.innerHTML='';
+
+  // "All" item
+  const allDiv = document.createElement('div');
+  allDiv.className='sb-section';
+  const allLabel = document.createElement('span');
+  allLabel.className='sb-section-label';
+  allLabel.textContent='MODULES';
+  allDiv.appendChild(allLabel);
+  cl.appendChild(allDiv);
+
+  function makeItem(cat,label,count,isActive){
+    const meta = CAT_META[cat]||{icon:'📄',color:'blue'};
+    const colors = COLOR_CLASSES[meta.color]||COLOR_CLASSES.blue;
+    const d=document.createElement('div');
+    d.className='cat-item'+(isActive?' active':'');
+    d.setAttribute('data-cat',cat);
+    d.innerHTML=`<span class="cat-icon">${meta.icon}</span>
+      <span class="cat-label">${label}</span>
+      <span class="cat-n cat-count" style="${isActive?'background:'+colors.bg+';color:'+colors.text:''}">${count}</span>`;
+    return d;
+  }
+  function makeMob(cat,label,count,isActive){
+    const d=document.createElement('div');
+    d.className='m-cat'+(isActive?' active':'');
+    d.setAttribute('data-cat',cat);
+    d.textContent=label+' ('+count+')';
+    return d;
+  }
+
+  const allItem=makeItem('','All Queries',QUERIES.length,true);
+  const section=document.createElement('div');
+  section.className='sb-section';
+  section.appendChild(allItem);
+
+  Object.entries(cats).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([cat,n])=>{
+    section.appendChild(makeItem(cat,cat,n,false));
+    mc.appendChild(makeMob(cat,cat,n,false));
+  });
+  cl.appendChild(section);
+
+  const allMob=makeMob('','All',QUERIES.length,true);
+  mc.insertBefore(allMob,mc.firstChild);
+
+  function syncCat(cat){
+    st.cat=cat; st.page=1;
+    document.querySelectorAll('.cat-item').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.m-cat').forEach(x=>x.classList.remove('active'));
+    const sel=document.querySelector(`.cat-item[data-cat="${CSS.escape(cat)}"]`);
+    const selm=document.querySelector(`.m-cat[data-cat="${CSS.escape(cat)}"]`);
+    if(sel) sel.classList.add('active');
+    if(selm) selm.classList.add('active');
+    openId=null;
+    applyAll();
+  }
+  document.getElementById('catList').addEventListener('click',e=>{
+    const i=e.target.closest('.cat-item'); if(i) syncCat(i.getAttribute('data-cat'));
+  });
+  mc.addEventListener('click',e=>{
+    const i=e.target.closest('.m-cat'); if(i) syncCat(i.getAttribute('data-cat'));
+  });
+}
+
+// ── APPLY ──
+function applyAll(){
+  const s=st.search.toLowerCase();
+  let r=QUERIES.filter(q=>{
+    if(st.cat!==''&&q.cat!==st.cat) return false;
+    if(s){
+      return (
+        q.title.toLowerCase().includes(s)||
+        q.desc.toLowerCase().includes(s)||
+        q.cat.toLowerCase().includes(s)||
+        (q.tags&&q.tags.some(t=>t.toLowerCase().includes(s)))
+      );
+    }
+    return true;
+  });
+  if(st.sort==='az') r.sort((a,b)=>a.title.localeCompare(b.title));
+  if(st.sort==='za') r.sort((a,b)=>b.title.localeCompare(a.title));
+  st.res=r; render(); renderPager(); updateBar();
+}
+
+// ── RENDER ──
+function render(){
+  const grid=document.getElementById('queryGrid');
+  const s=(st.page-1)*st.pp, e=s+st.pp;
+  const pg=st.res.slice(s,e);
+  if(!pg.length){
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">No queries found</div><p>Try a different search term or category</p></div>`;
+    return;
+  }
+  grid.innerHTML=pg.map(q=>{
+    const meta=CAT_META[q.cat]||{color:'blue'};
+    const col=COLOR_CLASSES[meta.color]||COLOR_CLASSES.blue;
+    const isOpen=openId===q.id;
+    const tags=(q.tags||[]).map(t=>`<span class="q-tag" style="background:${col.tagbg};color:${col.tagtext}">${h(t)}</span>`).join('');
+    const params=q.params&&q.params.length>0?`<div class="sql-params">${q.params.map(p=>`<div class="sql-param"><span class="param-name">${h(p.n)}</span><span class="param-desc">${h(p.d)}</span></div>`).join('')}</div>`:'';
+    return `<div class="q-card${isOpen?' active':''}" data-id="${h(q.id)}">
+      <div class="q-card-head">
+        <div class="q-card-icon" style="background:${col.bg}">${meta.icon||'📄'}</div>
+        <div class="q-card-body">
+          <div class="q-card-title">${h(q.title)}</div>
+          <div class="q-card-desc">${h(q.desc)}</div>
+          <div class="q-card-meta">
+            <span class="q-tag" style="background:${col.bg};color:${col.text};font-size:10px">${h(q.cat)}</span>
+            ${tags}
+          </div>
+        </div>
+        <div class="q-card-toggle">${isOpen?'▲ Hide':'▼ View SQL'}</div>
+      </div>
+      <div class="sql-panel${isOpen?' open':''}">
+        <div class="sql-toolbar">
+          <div class="sql-toolbar-left">
+            <div class="sql-dot sql-dot-r"></div>
+            <div class="sql-dot sql-dot-y"></div>
+            <div class="sql-dot sql-dot-g"></div>
+            <span class="sql-filename">${h(q.id)}.sql</span>
+          </div>
+          <div class="sql-toolbar-right">
+            <button class="sql-action" onclick="copySql('${h(q.id)}',this);event.stopPropagation()">📋 Copy</button>
+          </div>
+        </div>
+        <div class="sql-code" id="code-${h(q.id)}">${q.sql}</div>
+        <div class="sql-desc">
+          <strong>${h(q.title)}</strong> &mdash; ${h(q.desc)}
+          ${params}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── TOGGLE EXPAND ──
+document.getElementById('queryGrid').addEventListener('click',e=>{
+  const card=e.target.closest('.q-card');
+  if(!card) return;
+  if(e.target.closest('.sql-action')) return; // don't toggle on copy button
+  const id=card.getAttribute('data-id');
+  openId=openId===id?null:id;
+  render();
+  if(openId){
+    // Scroll card into view
+    const el=document.querySelector(`.q-card[data-id="${CSS.escape(openId)}"]`);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+});
+
+// ── COPY SQL ──
+function copySql(id,btn){
+  const el=document.getElementById('code-'+id);
+  if(!el) return;
+  // Strip HTML tags to get plain SQL
+  const plainText=el.innerText||el.textContent;
+  navigator.clipboard.writeText(plainText).then(()=>{
+    btn.textContent='✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='📋 Copy'; btn.classList.remove('copied'); },2000);
+  }).catch(()=>{
+    // Fallback
+    const ta=document.createElement('textarea');
+    ta.value=plainText; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent='✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='📋 Copy'; btn.classList.remove('copied'); },2000);
+  });
+}
+
+// ── SEARCH ──
+document.getElementById('navSearch').addEventListener('input',e=>{
+  st.search=e.target.value.trim(); st.page=1;
+  document.getElementById('heroSearch').value=st.search;
+  applyAll();
+});
+document.getElementById('heroSearch').addEventListener('input',e=>{
+  st.search=e.target.value.trim(); st.page=1;
+  document.getElementById('navSearch').value=st.search;
+  applyAll();
+});
+function doSearch(){
+  st.search=document.getElementById('heroSearch').value.trim();
+  document.getElementById('navSearch').value=st.search;
+  st.page=1; applyAll();
+  window.scrollTo({top:400,behavior:'smooth'});
+}
+document.getElementById('heroSearch').addEventListener('keydown',e=>{ if(e.key==='Enter') doSearch(); });
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const q=c.getAttribute('data-q');
+    st.search=q;
+    document.getElementById('heroSearch').value=q;
+    document.getElementById('navSearch').value=q;
+    st.page=1; applyAll();
+    window.scrollTo({top:400,behavior:'smooth'});
+  });
+});
+
+// ── SORT / PAGINATION CONTROLS ──
+document.getElementById('sortSel').addEventListener('change',e=>{ st.sort=e.target.value; st.page=1; applyAll(); });
+document.getElementById('ppSel').addEventListener('change',e=>{ st.pp=parseInt(e.target.value); st.page=1; applyAll(); });
+
+// ── UPDATE BAR ──
+function updateBar(){
+  const tot=st.res.length, s=(st.page-1)*st.pp+1, e=Math.min(s+st.pp-1,tot);
+  document.getElementById('rInfo').innerHTML=`Showing <strong>${s}&ndash;${e}</strong> of <strong>${tot}</strong> queries${st.search?` &mdash; matching <em>"${h(st.search)}"</em>`:''}`;
+  document.getElementById('dispTotal').textContent=tot;
+}
+
+// ── PAGINATION ──
+function renderPager(){
+  const tot=st.res.length, tp=Math.ceil(tot/st.pp), cur=st.page;
+  const pg=document.getElementById('pager');
+  if(tp<=1){pg.innerHTML='';return;}
+  let pages=[];
+  if(tp<=7){for(let i=1;i<=tp;i++) pages.push(i);}
+  else{
+    pages=[1];
+    if(cur>3) pages.push('…');
+    for(let i=Math.max(2,cur-1);i<=Math.min(tp-1,cur+1);i++) pages.push(i);
+    if(cur<tp-2) pages.push('…');
+    pages.push(tp);
+  }
+  pg.innerHTML=
+    `<button class="pg-btn" id="pgP" ${cur===1?'disabled':''}>&lsaquo;</button>`+
+    pages.map(p=>typeof p==='string'
+      ?`<span class="pg-btn" style="pointer-events:none">${p}</span>`
+      :`<button class="pg-btn${p===cur?' active':''}" data-p="${p}">${p}</button>`
+    ).join('')+
+    `<button class="pg-btn" id="pgN" ${cur===tp?'disabled':''}>&rsaquo;</button>`;
+}
+document.getElementById('pager').addEventListener('click',e=>{
+  const btn=e.target.closest('.pg-btn');
+  if(!btn||btn.disabled) return;
+  const tp=Math.ceil(st.res.length/st.pp);
+  if(btn.id==='pgP') gp(st.page-1);
+  else if(btn.id==='pgN') gp(st.page+1);
+  else if(btn.dataset.p) gp(parseInt(btn.dataset.p));
+});
+function gp(p){
+  const tp=Math.ceil(st.res.length/st.pp);
+  if(p<1||p>tp) return;
+  st.page=p; render(); renderPager(); updateBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',()=>{
+  buildSidebar();
+  applyAll();
+  document.getElementById('dispCats').textContent=Object.keys(CAT_META).length;
+});
+</script>
+</body>
+</html>
