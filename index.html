@@ -394,6 +394,8 @@ body{
 .cmt{color:#5c6370;font-style:italic;} /* Comments */
 .op{color:#56b6c2;}              /* Operators = <> AND OR */
 .alias{color:#e06c75;}
+[data-theme="dark"]  .schema{color:#e5c07b;font-style:italic;}
+[data-theme="light"] .schema{color:#c07020;font-style:italic;}
 [data-theme="dark"]  .tbalias{color:#4ec9b0;}
 [data-theme="light"] .tbalias{color:#0e7490;}           /* Aliases */
 
@@ -619,9 +621,9 @@ const QUERIES = [
     fcr.<span class="col">status_code</span>,
     fcr.<span class="col">argument_text</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -647,11 +649,11 @@ const QUERIES = [
     fl_s.<span class="col">meaning</span>                                           <span class="alias">AS status</span>,
     fcr.<span class="col">priority</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>,
-    <span class="tb">fnd_lookups</span>                <span class="tbalias">fl_p</span>,
-    <span class="tb">fnd_lookups</span>                <span class="tbalias">fl_s</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_lookups</span>                <span class="tbalias">fl_p</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_lookups</span>                <span class="tbalias">fl_s</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -688,9 +690,9 @@ const QUERIES = [
         <span class="kw">ELSE</span>      fcr.<span class="col">status_code</span>
     <span class="kw">END</span>                                                          <span class="alias">AS status_desc</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -716,10 +718,10 @@ const QUERIES = [
     fcr.<span class="col">os_process_id</span>,
     fcq.<span class="col">concurrent_queue_name</span>                                <span class="alias">AS manager</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>,
-    <span class="tb">fnd_concurrent_queues_tl</span>   <span class="tbalias">fcq</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_queues_tl</span>   <span class="tbalias">fcq</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -754,10 +756,10 @@ const QUERIES = [
     ai.<span class="col">creation_date</span>,
     fu.<span class="col">user_name</span>               <span class="alias">AS created_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>       <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
-    <span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>       <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>      <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">vendor_site_id</span>  <span class="op">=</span> apss.<span class="col">vendor_site_id</span>
@@ -791,9 +793,9 @@ const QUERIES = [
         <span class="kw">ELSE</span> <span class="str">'Over 90 Days'</span>
     <span class="kw">END</span>                                                      <span class="alias">AS aging_bucket</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
-    <span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>             <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">invoice_id</span>           <span class="op">=</span> apsch.<span class="col">invoice_id</span>
@@ -826,14 +828,14 @@ const QUERIES = [
             ai.<span class="col">invoice_currency_code</span>
     )                                <span class="alias">AS duplicate_count</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>      <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">cancelled_date</span> <span class="kw">IS NULL</span>
     <span class="op">AND</span> <span class="num">1</span> < (
         <span class="kw">SELECT</span> <span class="fn">COUNT</span>(*)
-        <span class="kw">FROM</span>   <span class="tb">ap_invoices_all</span> <span class="tbalias">ai2</span>
+        <span class="kw">FROM</span>   <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span> <span class="tbalias">ai2</span>
         <span class="kw">WHERE</span>  ai2.<span class="col">vendor_id</span>             <span class="op">=</span> ai.<span class="col">vendor_id</span>
         <span class="op">AND</span>    ai2.<span class="col">invoice_num</span>           <span class="op">=</span> ai.<span class="col">invoice_num</span>
         <span class="op">AND</span>    ai2.<span class="col">invoice_amount</span>        <span class="op">=</span> ai.<span class="col">invoice_amount</span>
@@ -866,8 +868,8 @@ const QUERIES = [
     ai.<span class="col">approval_status</span>,
     ai.<span class="col">org_id</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>        <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">cancelled_date</span>   <span class="kw">IS NULL</span>
@@ -893,10 +895,10 @@ const QUERIES = [
     ac.<span class="col">payment_method_lookup_code</span> <span class="alias">AS payment_method</span>,
     ieba.<span class="col">bank_account_num</span>       <span class="alias">AS bank_account</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_checks_all</span>           <span class="tbalias">ac</span>,
-    <span class="tb">ap_suppliers</span>            <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span>   <span class="tbalias">apss</span>,
-    <span class="tb">iby_ext_bank_accounts</span>   <span class="tbalias">ieba</span>
+    <span class="schema">AP</span>.<span class="tb">ap_checks_all</span>           <span class="tbalias">ac</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>            <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span>   <span class="tbalias">apss</span>,
+    <span class="schema">IBY</span>.<span class="tb">iby_ext_bank_accounts</span>   <span class="tbalias">ieba</span>
 <span class="kw">WHERE</span>
     ac.<span class="col">vendor_id</span>            <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ac.<span class="col">vendor_site_id</span>      <span class="op">=</span> apss.<span class="col">vendor_site_id</span>
@@ -927,9 +929,9 @@ const QUERIES = [
     gb.<span class="col">period_net_dr</span> - gb.<span class="col">period_net_cr</span>      <span class="alias">AS net_balance</span>,
     gb.<span class="col">begin_balance_dr</span> - gb.<span class="col">begin_balance_cr</span> <span class="alias">AS opening_balance</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
-    <span class="tb">gl_ledgers</span>           <span class="tbalias">gl</span>
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_ledgers</span>           <span class="tbalias">gl</span>
 <span class="kw">WHERE</span>
     gb.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
     <span class="op">AND</span> gb.<span class="col">ledger_id</span>           <span class="op">=</span> gl.<span class="col">ledger_id</span>
@@ -962,9 +964,9 @@ const QUERIES = [
     fu.<span class="col">user_name</span>            <span class="alias">AS entered_by</span>,
     gjh.<span class="col">creation_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_batches</span>  <span class="tbalias">gjb</span>,
-    <span class="tb">gl_je_headers</span>  <span class="tbalias">gjh</span>,
-    <span class="tb">fnd_user</span>       <span class="tbalias">fu</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_batches</span>  <span class="tbalias">gjb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>  <span class="tbalias">gjh</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>       <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     gjb.<span class="col">je_batch_id</span>  <span class="op">=</span> gjh.<span class="col">je_batch_id</span>
     <span class="op">AND</span> gjh.<span class="col">created_by</span>   <span class="op">=</span> fu.<span class="col">user_id</span>
@@ -996,8 +998,8 @@ const QUERIES = [
         <span class="kw">ELSE</span>       gps.<span class="col">closing_status</span>
     <span class="kw">END</span>                  <span class="alias">AS period_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_period_statuses</span>  <span class="tbalias">gps</span>,
-    <span class="tb">gl_ledgers</span>          <span class="tbalias">gl</span>
+    <span class="schema">GL</span>.<span class="tb">gl_period_statuses</span>  <span class="tbalias">gps</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_ledgers</span>          <span class="tbalias">gl</span>
 <span class="kw">WHERE</span>
     gps.<span class="col">ledger_id</span>       <span class="op">=</span> gl.<span class="col">ledger_id</span>
     <span class="op">AND</span> gps.<span class="col">application_id</span> <span class="op">=</span> <span class="num">101</span>   <span class="cmt">-- 101=GL, 200=AP, 222=AR, 401=PO</span>
@@ -1029,11 +1031,11 @@ const QUERIES = [
     gjl.<span class="col">description</span>         <span class="alias">AS line_desc</span>,
     fu.<span class="col">user_name</span>             <span class="alias">AS posted_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
-    <span class="tb">fnd_user</span>             <span class="tbalias">fu</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>             <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     gjb.<span class="col">je_batch_id</span>           <span class="op">=</span> gjh.<span class="col">je_batch_id</span>
     <span class="op">AND</span> gjh.<span class="col">je_header_id</span>          <span class="op">=</span> gjl.<span class="col">je_header_id</span>
@@ -1069,10 +1071,10 @@ const QUERIES = [
     rps.<span class="col">status</span>                                               <span class="alias">AS payment_status</span>,
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(rps.<span class="col">due_date</span>)                   <span class="alias">AS days_past_due</span>
 <span class="kw">FROM</span>
-    <span class="tb">ra_customer_trx_all</span>       <span class="tbalias">rct</span>,
-    <span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
-    <span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>       <span class="tbalias">rct</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     rct.<span class="col">customer_trx_id</span>      <span class="op">=</span> rps.<span class="col">customer_trx_id</span>
     <span class="op">AND</span> rct.<span class="col">bill_to_customer_id</span>  <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -1102,9 +1104,9 @@ const QUERIES = [
     acr.<span class="col">unidentified_amount</span>,
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(acr.<span class="col">receipt_date</span>)            <span class="alias">AS days_outstanding</span>
 <span class="kw">FROM</span>
-    <span class="tb">ar_cash_receipts_all</span>  <span class="tbalias">acr</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ar_cash_receipts_all</span>  <span class="tbalias">acr</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     acr.<span class="col">pay_from_customer</span>  <span class="op">=</span> hca.<span class="col">cust_account_id</span> <span class="op">(+)</span>
     <span class="op">AND</span> hca.<span class="col">party_id</span>          <span class="op">=</span> hp.<span class="col">party_id</span> <span class="op">(+)</span>
@@ -1131,9 +1133,9 @@ const QUERIES = [
             <span class="kw">ELSE</span> <span class="num">0</span>
         <span class="kw">END</span>)                                                <span class="alias">AS overdue_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
-    <span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     rps.<span class="col">customer_id</span>          <span class="op">=</span> hca.<span class="col">cust_account_id</span>
     <span class="op">AND</span> hca.<span class="col">party_id</span>             <span class="op">=</span> hp.<span class="col">party_id</span>
@@ -1173,10 +1175,10 @@ const QUERIES = [
     pol.<span class="col">unit_price</span>,
     poh.<span class="col">creation_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>       <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> poh.<span class="col">vendor_id</span>          <span class="op">=</span> aps.<span class="col">vendor_id</span>
@@ -1209,11 +1211,11 @@ const QUERIES = [
     (rt.<span class="col">quantity</span> - <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>, <span class="num">0</span>))
         * pol.<span class="col">unit_price</span>                                    <span class="alias">AS accrual_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>      <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>        <span class="tbalias">pol</span>,
-    <span class="tb">rcv_transactions</span>    <span class="tbalias">rt</span>,
-    <span class="tb">ap_suppliers</span>        <span class="tbalias">aps</span>,
-    <span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>      <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>        <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>    <span class="tbalias">rt</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>        <span class="tbalias">aps</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>      <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> pol.<span class="col">po_line_id</span>        <span class="op">=</span> rt.<span class="col">po_line_id</span>
@@ -1245,9 +1247,9 @@ const QUERIES = [
     prl.<span class="col">need_by_date</span>,
     fu.<span class="col">user_name</span>                   <span class="alias">AS prepared_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
-    <span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
-    <span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
+    <span class="schema">PO</span>.<span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     prh.<span class="col">requisition_header_id</span>  <span class="op">=</span> prl.<span class="col">requisition_header_id</span>
     <span class="op">AND</span> prh.<span class="col">created_by</span>             <span class="op">=</span> fu.<span class="col">user_id</span>
@@ -1280,10 +1282,10 @@ const QUERIES = [
     ool.<span class="col">flow_status_code</span>                                   <span class="alias">AS line_status</span>,
     ool.<span class="col">schedule_ship_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>           <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>     <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -1313,10 +1315,10 @@ const QUERIES = [
     ool.<span class="col">ship_from_org_id</span>                                  <span class="alias">AS warehouse_id</span>,
     ool.<span class="col">flow_status_code</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>         <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>   <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -1344,14 +1346,14 @@ const QUERIES = [
     ohd.<span class="col">creation_date</span>             <span class="alias">AS hold_applied_date</span>,
     fu.<span class="col">user_name</span>                   <span class="alias">AS held_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_holds_all</span>    <span class="tbalias">ohd</span>,
-    <span class="tb">oe_hold_sources_all</span>   <span class="tbalias">ohs</span>,
-    <span class="tb">oe_hold_definitions</span>   <span class="tbalias">whd</span>,
-    <span class="tb">wsh_hold_source_lines</span> <span class="tbalias">whs</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>,
-    <span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_holds_all</span>    <span class="tbalias">ohd</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_hold_sources_all</span>   <span class="tbalias">ohs</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_hold_definitions</span>   <span class="tbalias">whd</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_hold_source_lines</span> <span class="tbalias">whs</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>         <span class="op">=</span> ohd.<span class="col">header_id</span>
     <span class="op">AND</span> ohd.<span class="col">hold_source_id</span>    <span class="op">=</span> ohs.<span class="col">hold_source_id</span>
@@ -1383,10 +1385,10 @@ const QUERIES = [
     <span class="fn">SUM</span>(moqd.<span class="col">transaction_quantity</span>)
         * msi.<span class="col">list_price_per_unit</span>                        <span class="alias">AS stock_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
-    <span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>,
-    <span class="tb">mtl_secondary_inventories</span>     <span class="tbalias">msub</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_secondary_inventories</span>     <span class="tbalias">msub</span>
 <span class="kw">WHERE</span>
     moqd.<span class="col">inventory_item_id</span>   <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> moqd.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -1425,11 +1427,11 @@ const QUERIES = [
     mmt.<span class="col">reference</span>,
     fu.<span class="col">user_name</span>                <span class="alias">AS created_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_material_transactions</span>  <span class="tbalias">mmt</span>,
-    <span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
-    <span class="tb">mtl_transaction_types</span>      <span class="tbalias">mtt</span>,
-    <span class="tb">mtl_parameters</span>             <span class="tbalias">mp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_material_transactions</span>  <span class="tbalias">mmt</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_transaction_types</span>      <span class="tbalias">mtt</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>             <span class="tbalias">mp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     mmt.<span class="col">inventory_item_id</span>   <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> mmt.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -1462,12 +1464,12 @@ const QUERIES = [
     hl.<span class="col">location_code</span>         <span class="alias">AS location</span>,
     paaf.<span class="col">employment_category</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">per_grades</span>                 <span class="tbalias">pg</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
-    <span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">per_grades</span>                 <span class="tbalias">pg</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>          <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">job_id</span>             <span class="op">=</span> pj.<span class="col">job_id</span> <span class="op">(+)</span>
@@ -1498,13 +1500,13 @@ const QUERIES = [
     peef.<span class="col">effective_end_date</span>,
     haou.<span class="col">name</span>                 <span class="alias">AS department</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">pay_element_entries_f</span>      <span class="tbalias">peef</span>,
-    <span class="tb">pay_element_entry_values_f</span> <span class="tbalias">peevf</span>,
-    <span class="tb">pay_element_types_f</span>        <span class="tbalias">pet</span>,
-    <span class="tb">pay_input_values_f</span>         <span class="tbalias">piv</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_entries_f</span>      <span class="tbalias">peef</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_entry_values_f</span> <span class="tbalias">peevf</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_types_f</span>        <span class="tbalias">pet</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_input_values_f</span>         <span class="tbalias">piv</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>           <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">assignment_id</span>      <span class="op">=</span> peef.<span class="col">assignment_id</span>
@@ -1547,10 +1549,10 @@ const QUERIES = [
     fd.<span class="col">ytd_deprn</span>,
     fb.<span class="col">cost</span> - fd.<span class="col">deprn_reserve</span>  <span class="alias">AS net_book_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
-    <span class="tb">fa_books</span>         <span class="tbalias">fb</span>,
-    <span class="tb">fa_deprn_summary</span> <span class="tbalias">fd</span>,
-    <span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>
+    <span class="schema">FA</span>.<span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_books</span>         <span class="tbalias">fb</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_deprn_summary</span> <span class="tbalias">fd</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>
 <span class="kw">WHERE</span>
     fa.<span class="col">asset_id</span>         <span class="op">=</span> fb.<span class="col">asset_id</span>
     <span class="op">AND</span> fa.<span class="col">asset_id</span>         <span class="op">=</span> fd.<span class="col">asset_id</span>
@@ -1582,10 +1584,10 @@ const QUERIES = [
     papf.<span class="col">full_name</span>             <span class="alias">AS employee_name</span>,
     papf.<span class="col">employee_number</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_user</span>              <span class="tbalias">fu</span>,
-    <span class="tb">fnd_user_resp_groups</span>  <span class="tbalias">frg</span>,
-    <span class="tb">fnd_responsibility_tl</span> <span class="tbalias">fr</span>,
-    <span class="tb">per_all_people_f</span>      <span class="tbalias">papf</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>              <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user_resp_groups</span>  <span class="tbalias">frg</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span> <span class="tbalias">fr</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>      <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     fu.<span class="col">user_id</span>             <span class="op">=</span> frg.<span class="col">user_id</span>
     <span class="op">AND</span> frg.<span class="col">responsibility_id</span>  <span class="op">=</span> fr.<span class="col">responsibility_id</span>
@@ -1623,11 +1625,11 @@ const QUERIES = [
         <span class="kw">ELSE</span>             <span class="str">'N/A'</span>
     <span class="kw">END</span>                              <span class="alias">AS level_context</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_profile_options</span>        <span class="tbalias">fpo</span>,
-    <span class="tb">fnd_profile_options_tl</span>     <span class="tbalias">fpot</span>,
-    <span class="tb">fnd_profile_option_values</span>  <span class="tbalias">fpov</span>,
-    <span class="tb">fnd_responsibility_tl</span>      <span class="tbalias">fr</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_profile_options</span>        <span class="tbalias">fpo</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_profile_options_tl</span>     <span class="tbalias">fpot</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_profile_option_values</span>  <span class="tbalias">fpov</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span>      <span class="tbalias">fr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fpo.<span class="col">profile_option_id</span>   <span class="op">=</span> fpot.<span class="col">profile_option_id</span>
     <span class="op">AND</span> fpo.<span class="col">application_id</span>     <span class="op">=</span> fpot.<span class="col">application_id</span>
@@ -1658,7 +1660,7 @@ const QUERIES = [
     fl.<span class="col">end_date_active</span>,
     fl.<span class="col">tag</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_lookup_values</span>  <span class="tbalias">fl</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_lookup_values</span>  <span class="tbalias">fl</span>
 <span class="kw">WHERE</span>
     fl.<span class="col">lookup_type</span>  <span class="op">=</span> <span class="str">'YES_NO'</span>   <span class="cmt">-- Replace with required lookup type</span>
     <span class="op">AND</span> fl.<span class="col">language</span>     <span class="op">=</span> <span class="str">'US'</span>
@@ -1691,8 +1693,8 @@ const QUERIES = [
     wa.<span class="col">error_message</span>,
     <span class="fn">SUBSTR</span>(wa.<span class="col">error_stack</span>, <span class="num">1</span>, <span class="num">500</span>)  <span class="alias">AS error_stack</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
-    <span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
+    <span class="schema">APPS</span>.<span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
 <span class="kw">WHERE</span>
     wi.<span class="col">item_type</span>        <span class="op">=</span> wa.<span class="col">item_type</span>
     <span class="op">AND</span> wi.<span class="col">item_key</span>         <span class="op">=</span> wa.<span class="col">item_key</span>
@@ -1718,9 +1720,9 @@ const QUERIES = [
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(wn.<span class="col">send_date</span>) <span class="alias">AS days_waiting</span>,
     wn.<span class="col">status</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_notifications</span>  <span class="tbalias">wn</span>,
-    <span class="tb">wf_roles</span>          <span class="tbalias">wr</span>,
-    <span class="tb">fnd_user</span>          <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_notifications</span>  <span class="tbalias">wn</span>,
+    <span class="schema">APPS</span>.<span class="tb">wf_roles</span>          <span class="tbalias">wr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>          <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     wn.<span class="col">recipient_role</span>  <span class="op">=</span> wr.<span class="col">name</span>
     <span class="op">AND</span> wr.<span class="col">name</span>            <span class="op">=</span> fu.<span class="col">user_name</span>
@@ -1749,8 +1751,8 @@ const QUERIES = [
     xah.<span class="col">description</span>,
     xte.<span class="col">application_id</span>
 <span class="kw">FROM</span>
-    <span class="tb">xla_ae_headers</span>           <span class="tbalias">xah</span>,
-    <span class="tb">xla_transaction_entities</span> <span class="tbalias">xte</span>
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_headers</span>           <span class="tbalias">xah</span>,
+    <span class="schema">XLA</span>.<span class="tb">xla_transaction_entities</span> <span class="tbalias">xte</span>
 <span class="kw">WHERE</span>
     xah.<span class="col">entity_id</span>            <span class="op">=</span> xte.<span class="col">entity_id</span>
     <span class="op">AND</span> xah.<span class="col">application_id</span>      <span class="op">=</span> xte.<span class="col">application_id</span>
@@ -1782,10 +1784,10 @@ const QUERIES = [
         +  <span class="fn">NVL</span>(pac.<span class="col">total_other_cost</span>, <span class="num">0</span>))              <span class="alias">AS budget_remaining</span>,
     ppe.<span class="col">full_name</span>                                       <span class="alias">AS project_manager</span>
 <span class="kw">FROM</span>
-    <span class="tb">pa_projects_all</span>              <span class="tbalias">pa</span>,
-    <span class="tb">pa_budget_versions</span>           <span class="tbalias">pav</span>,
-    <span class="tb">pa_project_accum_commitments</span> <span class="tbalias">pac</span>,
-    <span class="tb">per_people_x</span>                 <span class="tbalias">ppe</span>
+    <span class="schema">PA</span>.<span class="tb">pa_projects_all</span>              <span class="tbalias">pa</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_budget_versions</span>           <span class="tbalias">pav</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_project_accum_commitments</span> <span class="tbalias">pac</span>,
+    <span class="schema">HR</span>.<span class="tb">per_people_x</span>                 <span class="tbalias">ppe</span>
 <span class="kw">WHERE</span>
     pa.<span class="col">project_id</span>                   <span class="op">=</span> pav.<span class="col">project_id</span>
     <span class="op">AND</span> pa.<span class="col">project_id</span>                   <span class="op">=</span> pac.<span class="col">project_id</span> <span class="op">(+)</span>
@@ -1815,14 +1817,14 @@ const QUERIES = [
     piv.<span class="col">name</span>                   <span class="alias">AS input_value</span>,
     prrv.<span class="col">result_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>     <span class="tbalias">paaf</span>,
-    <span class="tb">pay_assignment_actions</span>    <span class="tbalias">ppaa</span>,
-    <span class="tb">pay_payroll_actions</span>       <span class="tbalias">ppa</span>,
-    <span class="tb">pay_run_results</span>           <span class="tbalias">prr</span>,
-    <span class="tb">pay_run_result_values</span>     <span class="tbalias">prrv</span>,
-    <span class="tb">pay_element_types_f</span>       <span class="tbalias">pet</span>,
-    <span class="tb">pay_input_values_f</span>        <span class="tbalias">piv</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>     <span class="tbalias">paaf</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_assignment_actions</span>    <span class="tbalias">ppaa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_payroll_actions</span>       <span class="tbalias">ppa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_results</span>           <span class="tbalias">prr</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_result_values</span>     <span class="tbalias">prrv</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_types_f</span>       <span class="tbalias">pet</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_input_values_f</span>        <span class="tbalias">piv</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>              <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">assignment_id</span>         <span class="op">=</span> ppaa.<span class="col">assignment_id</span>
@@ -1930,10 +1932,10 @@ const QUERIES = [
     <span class="fn">ROUND</span>((fsa.<span class="col">end_time</span> - fsa.<span class="col">start_time</span>) * <span class="num">24</span> * <span class="num">60</span>, <span class="num">2</span>)  <span class="alias">AS session_mins</span>,
     fr.<span class="col">responsibility_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_signon_audit_logins</span>  <span class="tbalias">fsa</span>,
-    <span class="tb">fnd_user</span>                 <span class="tbalias">fu</span>,
-    <span class="tb">fnd_signon_audit_resps</span>   <span class="tbalias">fsr</span>,
-    <span class="tb">fnd_responsibility_tl</span>    <span class="tbalias">fr</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_signon_audit_logins</span>  <span class="tbalias">fsa</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                 <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_signon_audit_resps</span>   <span class="tbalias">fsr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span>    <span class="tbalias">fr</span>
 <span class="kw">WHERE</span>
     fsa.<span class="col">user_id</span>            <span class="op">=</span> fu.<span class="col">user_id</span>
     <span class="op">AND</span> fsa.<span class="col">login_id</span>          <span class="op">=</span> fsr.<span class="col">login_id</span> <span class="op">(+)</span>
@@ -1960,9 +1962,9 @@ const QUERIES = [
     apt.<span class="col">name</span>                      <span class="alias">AS payment_terms</span>,
     apss.<span class="col">org_id</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
-    <span class="tb">ap_terms</span>              <span class="tbalias">apt</span>
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_terms</span>              <span class="tbalias">apt</span>
 <span class="kw">WHERE</span>
     aps.<span class="col">vendor_id</span>        <span class="op">=</span> apss.<span class="col">vendor_id</span>
     <span class="op">AND</span> apss.<span class="col">terms_id</span>        <span class="op">=</span> apt.<span class="col">term_id</span> <span class="op">(+)</span>
@@ -1989,10 +1991,10 @@ const QUERIES = [
     gcc.<span class="col">segment3</span>                     <span class="alias">AS account</span>,
     aid.<span class="col">posted_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
-    <span class="tb">gl_code_combinations</span>         <span class="tbalias">gcc</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>         <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">invoice_id</span>                 <span class="op">=</span> aid.<span class="col">invoice_id</span>
     <span class="op">AND</span> ai.<span class="col">vendor_id</span>                 <span class="op">=</span> aps.<span class="col">vendor_id</span>
@@ -2019,12 +2021,12 @@ const QUERIES = [
     rt.<span class="col">transaction_date</span>           <span class="alias">AS receipt_date</span>,
     rt.<span class="col">quantity</span>                    <span class="alias">AS qty_received</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
-    <span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
-    <span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">invoice_id</span>           <span class="op">=</span> aid.<span class="col">invoice_id</span>
     <span class="op">AND</span> ai.<span class="col">vendor_id</span>           <span class="op">=</span> aps.<span class="col">vendor_id</span>
@@ -2052,10 +2054,10 @@ const QUERIES = [
     ac.<span class="col">void_reason</span>,
     fu.<span class="col">user_name</span>             <span class="alias">AS voided_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_checks_all</span>         <span class="tbalias">ac</span>,
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
-    <span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
+    <span class="schema">AP</span>.<span class="tb">ap_checks_all</span>         <span class="tbalias">ac</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span> <span class="tbalias">apss</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     ac.<span class="col">vendor_id</span>           <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ac.<span class="col">vendor_site_id</span>     <span class="op">=</span> apss.<span class="col">vendor_site_id</span>
@@ -2079,9 +2081,9 @@ const QUERIES = [
     <span class="fn">SUM</span>(ai.<span class="col">invoice_amount</span>)
         - <span class="fn">SUM</span>(apsch.<span class="col">amount_remaining</span>)   <span class="alias">AS total_paid</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
-    <span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>       <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">invoice_id</span>    <span class="op">=</span> apsch.<span class="col">invoice_id</span>
@@ -2107,10 +2109,10 @@ const QUERIES = [
     aid.<span class="col">amount</span>                    <span class="alias">AS applied_amount</span>,
     aid.<span class="col">creation_date</span>            <span class="alias">AS applied_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai_prep</span>,
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai_inv</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai_prep</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai_inv</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     ai_prep.<span class="col">invoice_type_lookup_code</span> <span class="op">=</span> <span class="str">'PREPAYMENT'</span>
     <span class="op">AND</span> ai_prep.<span class="col">vendor_id</span>              <span class="op">=</span> aps.<span class="col">vendor_id</span>
@@ -2136,11 +2138,11 @@ const QUERIES = [
     iebb.<span class="col">bank_name</span>,
     iebb.<span class="col">bank_branch_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_suppliers</span>               <span class="tbalias">aps</span>,
-    <span class="tb">ap_supplier_sites_all</span>      <span class="tbalias">apss</span>,
-    <span class="tb">iby_ext_bank_accounts</span>      <span class="tbalias">ieba</span>,
-    <span class="tb">iby_account_owners</span>         <span class="tbalias">iao</span>,
-    <span class="tb">iby_ext_banks_v</span>            <span class="tbalias">iebb</span>
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>               <span class="tbalias">aps</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_supplier_sites_all</span>      <span class="tbalias">apss</span>,
+    <span class="schema">IBY</span>.<span class="tb">iby_ext_bank_accounts</span>      <span class="tbalias">ieba</span>,
+    <span class="schema">APPS</span>.<span class="tb">iby_account_owners</span>         <span class="tbalias">iao</span>,
+    <span class="schema">APPS</span>.<span class="tb">iby_ext_banks_v</span>            <span class="tbalias">iebb</span>
 <span class="kw">WHERE</span>
     aps.<span class="col">vendor_id</span>          <span class="op">=</span> apss.<span class="col">vendor_id</span>
     <span class="op">AND</span> iao.<span class="col">account_owner_party_id</span> <span class="op">=</span> aps.<span class="col">party_id</span>
@@ -2167,8 +2169,8 @@ const QUERIES = [
     gb.<span class="col">begin_balance_dr</span> - gb.<span class="col">begin_balance_cr</span>
         + gb.<span class="col">period_net_dr</span> - gb.<span class="col">period_net_cr</span>  <span class="alias">AS closing_balance</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gb.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
     <span class="op">AND</span> gb.<span class="col">actual_flag</span>         <span class="op">=</span> <span class="str">'A'</span>
@@ -2193,9 +2195,9 @@ const QUERIES = [
     (gb_a.<span class="col">period_net_dr</span> - gb_a.<span class="col">period_net_cr</span>)
   - (gb_b.<span class="col">period_net_dr</span> - gb_b.<span class="col">period_net_cr</span>)  <span class="alias">AS variance</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb_a</span>,
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb_b</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb_a</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb_b</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gb_a.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
     <span class="op">AND</span> gb_b.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -2226,7 +2228,7 @@ const QUERIES = [
     gcc.<span class="col">start_date_active</span>,
     gcc.<span class="col">end_date_active</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gcc.<span class="col">enabled_flag</span>  <span class="op">=</span> <span class="str">'Y'</span>
     <span class="op">AND</span> gcc.<span class="col">summary_flag</span>  <span class="op">=</span> <span class="str">'N'</span>
@@ -2252,10 +2254,10 @@ const QUERIES = [
     gjl.<span class="col">entered_cr</span>,
     gjl.<span class="col">description</span>          <span class="alias">AS line_desc</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gjb.<span class="col">je_batch_id</span>           <span class="op">=</span> gjh.<span class="col">je_batch_id</span>
     <span class="op">AND</span> gjh.<span class="col">je_header_id</span>          <span class="op">=</span> gjl.<span class="col">je_header_id</span>
@@ -2287,8 +2289,8 @@ const QUERIES = [
     gb.<span class="col">period_name</span>,
     gb.<span class="col">period_net_dr</span> - gb.<span class="col">period_net_cr</span>        <span class="alias">AS net_balance</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gb.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
     <span class="op">AND</span> gb.<span class="col">actual_flag</span>         <span class="op">=</span> <span class="str">'E'</span>
@@ -2316,9 +2318,9 @@ const QUERIES = [
     gjl.<span class="col">entered_cr</span>,
     gjl.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gjh.<span class="col">je_header_id</span>        <span class="op">=</span> gjl.<span class="col">je_header_id</span>
     <span class="op">AND</span> gjl.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -2345,8 +2347,8 @@ const QUERIES = [
     poh.<span class="col">currency_code</span>,
     poh.<span class="col">authorization_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>   <span class="tbalias">poh</span>,
-    <span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>   <span class="tbalias">poh</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">vendor_id</span>           <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> poh.<span class="col">type_lookup_code</span>    <span class="op">=</span> <span class="str">'BLANKET'</span>
@@ -2373,10 +2375,10 @@ const QUERIES = [
     pol.<span class="col">unit_price</span>,
     pol.<span class="col">quantity</span> * pol.<span class="col">unit_price</span>     <span class="alias">AS line_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
-    <span class="tb">po_line_locations_all</span> <span class="tbalias">pll</span>,
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">po_line_locations_all</span> <span class="tbalias">pll</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>          <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> pol.<span class="col">po_line_id</span>           <span class="op">=</span> pll.<span class="col">po_line_id</span>
@@ -2406,12 +2408,12 @@ const QUERIES = [
     rsh.<span class="col">receipt_num</span>,
     mp.<span class="col">organization_code</span>      <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">rcv_transactions</span>     <span class="tbalias">rt</span>,
-    <span class="tb">rcv_shipment_headers</span> <span class="tbalias">rsh</span>,
-    <span class="tb">po_headers_all</span>       <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>         <span class="tbalias">pol</span>,
-    <span class="tb">ap_suppliers</span>         <span class="tbalias">aps</span>,
-    <span class="tb">mtl_parameters</span>       <span class="tbalias">mp</span>
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>     <span class="tbalias">rt</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_shipment_headers</span> <span class="tbalias">rsh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>       <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>         <span class="tbalias">pol</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>         <span class="tbalias">aps</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>       <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     rt.<span class="col">shipment_header_id</span>  <span class="op">=</span> rsh.<span class="col">shipment_header_id</span>
     <span class="op">AND</span> rt.<span class="col">po_header_id</span>       <span class="op">=</span> poh.<span class="col">po_header_id</span> <span class="op">(+)</span>
@@ -2441,9 +2443,9 @@ const QUERIES = [
     prl.<span class="col">need_by_date</span>,
     fu.<span class="col">user_name</span>                    <span class="alias">AS prepared_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
-    <span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
-    <span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
+    <span class="schema">PO</span>.<span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     prh.<span class="col">requisition_header_id</span>   <span class="op">=</span> prl.<span class="col">requisition_header_id</span>
     <span class="op">AND</span> prh.<span class="col">created_by</span>              <span class="op">=</span> fu.<span class="col">user_id</span>
@@ -2469,12 +2471,12 @@ const QUERIES = [
     gcc.<span class="col">segment3</span>                 <span class="alias">AS account</span>,
     pod.<span class="col">encumbered_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
-    <span class="tb">po_line_locations_all</span> <span class="tbalias">pll</span>,
-    <span class="tb">po_distributions_all</span>  <span class="tbalias">pod</span>,
-    <span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
-    <span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>        <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>          <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">po_line_locations_all</span> <span class="tbalias">pll</span>,
+    <span class="schema">PO</span>.<span class="tb">po_distributions_all</span>  <span class="tbalias">pod</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>          <span class="tbalias">aps</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>       <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> pol.<span class="col">po_line_id</span>        <span class="op">=</span> pll.<span class="col">po_line_id</span>
@@ -2503,10 +2505,10 @@ const QUERIES = [
         - <span class="fn">NVL</span>(ool.<span class="col">shipped_quantity</span>,<span class="num">0</span>) <span class="alias">AS backorder_qty</span>,
     ool.<span class="col">schedule_ship_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>          <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>    <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -2533,10 +2535,10 @@ const QUERIES = [
     ool.<span class="col">return_reason_code</span>,
     ool.<span class="col">flow_status_code</span>      <span class="alias">AS return_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>              <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>        <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -2557,10 +2559,10 @@ const QUERIES = [
     <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> ooh.<span class="col">order_number</span>)                   <span class="alias">AS order_count</span>,
     <span class="fn">SUM</span>(ool.<span class="col">ordered_quantity</span> * ool.<span class="col">unit_selling_price</span>) <span class="alias">AS revenue</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>    <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>         <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>   <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -2588,13 +2590,13 @@ const QUERIES = [
     ohd.<span class="col">creation_date</span>         <span class="alias">AS hold_applied_date</span>,
     fu.<span class="col">user_name</span>              <span class="alias">AS held_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_holds_all</span>    <span class="tbalias">ohd</span>,
-    <span class="tb">oe_hold_sources_all</span>   <span class="tbalias">ohs</span>,
-    <span class="tb">oe_hold_definitions</span>   <span class="tbalias">whd</span>,
-    <span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>            <span class="tbalias">hp</span>,
-    <span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>  <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_holds_all</span>    <span class="tbalias">ohd</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_hold_sources_all</span>   <span class="tbalias">ohs</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_hold_definitions</span>   <span class="tbalias">whd</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>      <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>            <span class="tbalias">hp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>              <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>         <span class="op">=</span> ohd.<span class="col">header_id</span>
     <span class="op">AND</span> ohd.<span class="col">hold_source_id</span>    <span class="op">=</span> ohs.<span class="col">hold_source_id</span>
@@ -2625,8 +2627,8 @@ const QUERIES = [
     msi.<span class="col">list_price_per_unit</span>,
     mp.<span class="col">organization_code</span>             <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     msi.<span class="col">organization_id</span>              <span class="op">=</span> mp.<span class="col">organization_id</span>
     <span class="op">AND</span> msi.<span class="col">inventory_item_status_code</span>  <span class="op">=</span> <span class="str">'Active'</span>
@@ -2652,10 +2654,10 @@ const QUERIES = [
         - mcce.<span class="col">system_quantity_current</span> <span class="alias">AS variance_qty</span>,
     mcce.<span class="col">entry_status_code</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_cycle_count_headers</span>   <span class="tbalias">mcc</span>,
-    <span class="tb">mtl_cycle_count_entries</span>   <span class="tbalias">mcce</span>,
-    <span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
-    <span class="tb">mtl_secondary_inventories</span>  <span class="tbalias">msub</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_cycle_count_headers</span>   <span class="tbalias">mcc</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_cycle_count_entries</span>   <span class="tbalias">mcce</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_secondary_inventories</span>  <span class="tbalias">msub</span>
 <span class="kw">WHERE</span>
     mcc.<span class="col">cycle_count_header_id</span>  <span class="op">=</span> mcce.<span class="col">cycle_count_header_id</span>
     <span class="op">AND</span> mcce.<span class="col">inventory_item_id</span>    <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
@@ -2682,10 +2684,10 @@ const QUERIES = [
     moqd.<span class="col">transaction_quantity</span>  <span class="alias">AS on_hand_qty</span>,
     mp.<span class="col">organization_code</span>      <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
-    <span class="tb">mtl_lot_numbers</span>               <span class="tbalias">mln</span>,
-    <span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
-    <span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_lot_numbers</span>               <span class="tbalias">mln</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     msi.<span class="col">inventory_item_id</span>  <span class="op">=</span> mln.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> msi.<span class="col">organization_id</span>    <span class="op">=</span> mln.<span class="col">organization_id</span>
@@ -2711,12 +2713,12 @@ const QUERIES = [
     cil.<span class="col">item_cost</span>,
     mp.<span class="col">organization_code</span>   <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>    <span class="tbalias">msi</span>,
-    <span class="tb">cst_item_costs</span>        <span class="tbalias">cic</span>,
-    <span class="tb">cst_item_cost_details</span> <span class="tbalias">cil</span>,
-    <span class="tb">cst_cost_types</span>        <span class="tbalias">cct</span>,
-    <span class="tb">cst_cost_elements</span>     <span class="tbalias">cce</span>,
-    <span class="tb">mtl_parameters</span>        <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>    <span class="tbalias">msi</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_item_costs</span>        <span class="tbalias">cic</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_item_cost_details</span> <span class="tbalias">cil</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_cost_types</span>        <span class="tbalias">cct</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_cost_elements</span>     <span class="tbalias">cce</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>        <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     msi.<span class="col">inventory_item_id</span>  <span class="op">=</span> cic.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> msi.<span class="col">organization_id</span>    <span class="op">=</span> cic.<span class="col">organization_id</span>
@@ -2747,10 +2749,10 @@ const QUERIES = [
     mp.<span class="col">organization_code</span>        <span class="alias">AS org</span>,
     fu.<span class="col">user_name</span>                <span class="alias">AS transacted_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_material_transactions</span>  <span class="tbalias">mmt</span>,
-    <span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>             <span class="tbalias">mp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_material_transactions</span>  <span class="tbalias">mmt</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>         <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>             <span class="tbalias">mp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     mmt.<span class="col">inventory_item_id</span>   <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> mmt.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -2776,9 +2778,9 @@ const QUERIES = [
     <span class="fn">SUM</span>(<span class="kw">CASE</span> <span class="kw">WHEN</span> paaf.<span class="col">employment_category</span> <span class="op">=</span> <span class="str">'PR'</span>
               <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>)       <span class="alias">AS part_time</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>               <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">organization_id</span>        <span class="op">=</span> haou.<span class="col">organization_id</span>
@@ -2807,11 +2809,11 @@ const QUERIES = [
     haou.<span class="col">name</span>              <span class="alias">AS department</span>,
     hl.<span class="col">location_code</span>     <span class="alias">AS location</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
-    <span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>           <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">job_id</span>             <span class="op">=</span> pj.<span class="col">job_id</span> <span class="op">(+)</span>
@@ -2842,11 +2844,11 @@ const QUERIES = [
     pj.<span class="col">name</span>                  <span class="alias">AS last_job</span>,
     haou.<span class="col">name</span>               <span class="alias">AS last_department</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_periods_of_service</span>    <span class="tbalias">pos</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_periods_of_service</span>    <span class="tbalias">pos</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>               <span class="op">=</span> pos.<span class="col">person_id</span>
     <span class="op">AND</span> papf.<span class="col">person_id</span>               <span class="op">=</span> paaf.<span class="col">person_id</span>
@@ -2877,11 +2879,11 @@ const QUERIES = [
     paa.<span class="col">absence_hours</span>,
     paa.<span class="col">approval_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>              <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>         <span class="tbalias">paaf</span>,
-    <span class="tb">per_absence_attendances</span>       <span class="tbalias">paa</span>,
-    <span class="tb">per_absence_attendance_types</span>  <span class="tbalias">pat</span>,
-    <span class="tb">hr_all_organization_units</span>     <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>              <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>         <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_absence_attendances</span>       <span class="tbalias">paa</span>,
+    <span class="schema">HR</span>.<span class="tb">per_absence_attendance_types</span>  <span class="tbalias">pat</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>     <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>           <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> papf.<span class="col">person_id</span>           <span class="op">=</span> paa.<span class="col">person_id</span>
@@ -2915,10 +2917,10 @@ const QUERIES = [
     fa.<span class="col">serial_number</span>,
     fu.<span class="col">user_name</span>                 <span class="alias">AS added_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
-    <span class="tb">fa_books</span>         <span class="tbalias">fb</span>,
-    <span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>,
-    <span class="tb">fnd_user</span>         <span class="tbalias">fu</span>
+    <span class="schema">FA</span>.<span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_books</span>         <span class="tbalias">fb</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>         <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fa.<span class="col">asset_id</span>          <span class="op">=</span> fb.<span class="col">asset_id</span>
     <span class="op">AND</span> fa.<span class="col">asset_category_id</span> <span class="op">=</span> fcat.<span class="col">category_id</span>
@@ -2946,9 +2948,9 @@ const QUERIES = [
     fr.<span class="col">gain_loss_amount</span>,
     fr.<span class="col">status</span>               <span class="alias">AS retirement_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
-    <span class="tb">fa_retirements</span>   <span class="tbalias">fr</span>,
-    <span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>
+    <span class="schema">FA</span>.<span class="tb">fa_additions</span>     <span class="tbalias">fa</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_retirements</span>   <span class="tbalias">fr</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_categories_b</span>  <span class="tbalias">fcat</span>
 <span class="kw">WHERE</span>
     fa.<span class="col">asset_id</span>          <span class="op">=</span> fr.<span class="col">asset_id</span>
     <span class="op">AND</span> fa.<span class="col">asset_category_id</span> <span class="op">=</span> fcat.<span class="col">category_id</span>
@@ -2972,8 +2974,8 @@ const QUERIES = [
     ril.<span class="col">description</span>,
     rierr.<span class="col">message_text</span>            <span class="alias">AS error_message</span>
 <span class="kw">FROM</span>
-    <span class="tb">ra_interface_lines_all</span>  <span class="tbalias">ril</span>,
-    <span class="tb">ra_interface_errors_all</span> <span class="tbalias">rierr</span>
+    <span class="schema">AR</span>.<span class="tb">ra_interface_lines_all</span>  <span class="tbalias">ril</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_interface_errors_all</span> <span class="tbalias">rierr</span>
 <span class="kw">WHERE</span>
     ril.<span class="col">interface_line_id</span>  <span class="op">=</span> rierr.<span class="col">interface_line_id</span>
 <span class="kw">ORDER BY</span>
@@ -2994,12 +2996,12 @@ const QUERIES = [
     rct_inv.<span class="col">trx_number</span>        <span class="alias">AS applied_to_invoice</span>,
     rct.<span class="col">comments</span>              <span class="alias">AS reason</span>
 <span class="kw">FROM</span>
-    <span class="tb">ra_customer_trx_all</span>      <span class="tbalias">rct</span>,
-    <span class="tb">ra_customer_trx_all</span>      <span class="tbalias">rct_inv</span>,
-    <span class="tb">ar_payment_schedules_all</span> <span class="tbalias">rps</span>,
-    <span class="tb">hz_cust_accounts</span>         <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>               <span class="tbalias">hp</span>,
-    <span class="tb">ra_cust_trx_types_all</span>    <span class="tbalias">rctt</span>
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>      <span class="tbalias">rct</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>      <span class="tbalias">rct_inv</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span> <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>         <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>               <span class="tbalias">hp</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_cust_trx_types_all</span>    <span class="tbalias">rctt</span>
 <span class="kw">WHERE</span>
     rct.<span class="col">bill_to_customer_id</span>         <span class="op">=</span> hca.<span class="col">cust_account_id</span>
     <span class="op">AND</span> hca.<span class="col">party_id</span>                    <span class="op">=</span> hp.<span class="col">party_id</span>
@@ -3025,9 +3027,9 @@ const QUERIES = [
     haou.<span class="col">date_from</span>,
     haou.<span class="col">date_to</span>
 <span class="kw">FROM</span>
-    <span class="tb">hr_all_organization_units</span>   <span class="tbalias">haou</span>,
-    <span class="tb">hr_organization_information</span> <span class="tbalias">hoi</span>,
-    <span class="tb">gl_ledgers</span>                  <span class="tbalias">gl</span>
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>   <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_organization_information</span> <span class="tbalias">hoi</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_ledgers</span>                  <span class="tbalias">gl</span>
 <span class="kw">WHERE</span>
     haou.<span class="col">organization_id</span>          <span class="op">=</span> hoi.<span class="col">organization_id</span>
     <span class="op">AND</span> hoi.<span class="col">org_information_context</span>  <span class="op">=</span> <span class="str">'Operating Unit Information'</span>
@@ -3052,10 +3054,10 @@ const QUERIES = [
     fcp.<span class="col">output_file_type</span>,
     fcp.<span class="col">enabled_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>,
-    <span class="tb">fnd_executables</span>            <span class="tbalias">fce</span>,
-    <span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_executables</span>            <span class="tbalias">fce</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fcp.<span class="col">concurrent_program_id</span>        <span class="op">=</span> fcpt.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcp.<span class="col">application_id</span>              <span class="op">=</span> fcpt.<span class="col">application_id</span>
@@ -3085,7 +3087,7 @@ const QUERIES = [
     ffvs.<span class="col">maximum_size</span>,
     ffvs.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_flex_value_sets</span>  <span class="tbalias">ffvs</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_flex_value_sets</span>  <span class="tbalias">ffvs</span>
 <span class="kw">ORDER BY</span>
     ffvs.<span class="col">flex_value_set_name</span>;`,
    params:[]},
@@ -3104,8 +3106,8 @@ const QUERIES = [
     fds.<span class="col">end_date</span>,
     fa.<span class="col">application_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_document_sequences</span>  <span class="tbalias">fds</span>,
-    <span class="tb">fnd_application_tl</span>      <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_document_sequences</span>  <span class="tbalias">fds</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>      <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fds.<span class="col">application_id</span>  <span class="op">=</span> fa.<span class="col">application_id</span>
     <span class="op">AND</span> fa.<span class="col">language</span>        <span class="op">=</span> <span class="str">'US'</span>
@@ -3128,7 +3130,7 @@ const QUERIES = [
     wias.<span class="col">number_value</span>,
     wias.<span class="col">date_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_item_attribute_values</span>  <span class="tbalias">wias</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_item_attribute_values</span>  <span class="tbalias">wias</span>
 <span class="kw">WHERE</span>
     wias.<span class="col">item_type</span>  <span class="op">=</span> <span class="str">'OEOH'</span>   <span class="cmt">-- Change to required item type</span>
     <span class="op">AND</span> wias.<span class="col">item_key</span>   <span class="op">=</span> <span class="str">'1234'</span>  <span class="cmt">-- Change to required item key</span>
@@ -3146,8 +3148,8 @@ const QUERIES = [
     wa.<span class="col">activity_status</span>,
     <span class="fn">COUNT</span>(*)             <span class="alias">AS count</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
-    <span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
+    <span class="schema">APPS</span>.<span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
 <span class="kw">WHERE</span>
     wi.<span class="col">item_type</span>  <span class="op">=</span> wa.<span class="col">item_type</span>
     <span class="op">AND</span> wi.<span class="col">item_key</span>   <span class="op">=</span> wa.<span class="col">item_key</span>
@@ -3262,8 +3264,8 @@ const QUERIES = [
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(fu.<span class="col">last_logon_date</span>) <span class="alias">AS days_since_login</span>,
     papf.<span class="col">full_name</span>                <span class="alias">AS employee_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_user</span>          <span class="tbalias">fu</span>,
-    <span class="tb">per_all_people_f</span>  <span class="tbalias">papf</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>          <span class="tbalias">fu</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>  <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     fu.<span class="col">end_date</span>         <span class="kw">IS NULL</span>
     <span class="op">AND</span> fu.<span class="col">last_logon_date</span>  < <span class="fn">SYSDATE</span> - <span class="num">90</span>
@@ -3284,10 +3286,10 @@ const QUERIES = [
     fa.<span class="col">application_name</span>,
     <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> fu.<span class="col">user_id</span>)  <span class="alias">AS user_count</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
-    <span class="tb">fnd_user_resp_groups</span>   <span class="tbalias">frg</span>,
-    <span class="tb">fnd_user</span>               <span class="tbalias">fu</span>,
-    <span class="tb">fnd_application_tl</span>     <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user_resp_groups</span>   <span class="tbalias">frg</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>               <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>     <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fr.<span class="col">responsibility_id</span>  <span class="op">=</span> frg.<span class="col">responsibility_id</span>
     <span class="op">AND</span> fr.<span class="col">application_id</span>   <span class="op">=</span> frg.<span class="col">application_id</span>
@@ -3324,9 +3326,9 @@ const QUERIES = [
     xal.<span class="col">currency_code</span>,
     xal.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">xla_ae_headers</span>        <span class="tbalias">xah</span>,
-    <span class="tb">xla_ae_lines</span>          <span class="tbalias">xal</span>,
-    <span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_headers</span>        <span class="tbalias">xah</span>,
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_lines</span>          <span class="tbalias">xal</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     xah.<span class="col">ae_header_id</span>          <span class="op">=</span> xal.<span class="col">ae_header_id</span>
     <span class="op">AND</span> xal.<span class="col">code_combination_id</span>   <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -3354,12 +3356,12 @@ const QUERIES = [
     pei.<span class="col">burdened_cost</span>,
     papf.<span class="col">full_name</span>               <span class="alias">AS employee</span>
 <span class="kw">FROM</span>
-    <span class="tb">pa_projects_all</span>           <span class="tbalias">pa</span>,
-    <span class="tb">pa_tasks</span>                  <span class="tbalias">pt</span>,
-    <span class="tb">pa_expenditure_items_all</span>  <span class="tbalias">pei</span>,
-    <span class="tb">pa_expenditure_types</span>      <span class="tbalias">pet</span>,
-    <span class="tb">pa_expenditures_all</span>       <span class="tbalias">pe</span>,
-    <span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>
+    <span class="schema">PA</span>.<span class="tb">pa_projects_all</span>           <span class="tbalias">pa</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_tasks</span>                  <span class="tbalias">pt</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditure_items_all</span>  <span class="tbalias">pei</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditure_types</span>      <span class="tbalias">pet</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditures_all</span>       <span class="tbalias">pe</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     pa.<span class="col">project_id</span>              <span class="op">=</span> pt.<span class="col">project_id</span>
     <span class="op">AND</span> pt.<span class="col">task_id</span>                <span class="op">=</span> pei.<span class="col">task_id</span>
@@ -3386,14 +3388,14 @@ const QUERIES = [
     piv.<span class="col">name</span>                   <span class="alias">AS input_value</span>,
     prrv.<span class="col">result_value</span>         <span class="alias">AS retro_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>     <span class="tbalias">paaf</span>,
-    <span class="tb">pay_assignment_actions</span>    <span class="tbalias">ppaa</span>,
-    <span class="tb">pay_payroll_actions</span>       <span class="tbalias">ppa</span>,
-    <span class="tb">pay_run_results</span>           <span class="tbalias">prr</span>,
-    <span class="tb">pay_run_result_values</span>     <span class="tbalias">prrv</span>,
-    <span class="tb">pay_element_types_f</span>       <span class="tbalias">pet</span>,
-    <span class="tb">pay_input_values_f</span>        <span class="tbalias">piv</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>     <span class="tbalias">paaf</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_assignment_actions</span>    <span class="tbalias">ppaa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_payroll_actions</span>       <span class="tbalias">ppa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_results</span>           <span class="tbalias">prr</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_result_values</span>     <span class="tbalias">prrv</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_types_f</span>       <span class="tbalias">pet</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_input_values_f</span>        <span class="tbalias">piv</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>              <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">assignment_id</span>         <span class="op">=</span> ppaa.<span class="col">assignment_id</span>
@@ -3430,15 +3432,15 @@ const QUERIES = [
     ac.<span class="col">check_date</span>,
     ac.<span class="col">amount</span>                  <span class="alias">AS payment_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
-    <span class="tb">rcv_shipment_headers</span>         <span class="tbalias">rsh</span>,
-    <span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>,
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_invoice_payments_all</span>      <span class="tbalias">aip</span>,
-    <span class="tb">ap_checks_all</span>                <span class="tbalias">ac</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_shipment_headers</span>         <span class="tbalias">rsh</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_payments_all</span>      <span class="tbalias">aip</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_checks_all</span>                <span class="tbalias">ac</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>        <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> poh.<span class="col">po_header_id</span>        <span class="op">=</span> rt.<span class="col">po_header_id</span> <span class="op">(+)</span>
@@ -3471,17 +3473,17 @@ const QUERIES = [
     acr.<span class="col">receipt_date</span>,
     acr.<span class="col">amount</span>                 <span class="alias">AS cash_received</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>          <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>            <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>,
-    <span class="tb">wsh_delivery_details</span>          <span class="tbalias">wdd</span>,
-    <span class="tb">wsh_delivery_assignments</span>      <span class="tbalias">wda</span>,
-    <span class="tb">wsh_new_deliveries</span>            <span class="tbalias">wnd</span>,
-    <span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
-    <span class="tb">ar_payment_schedules_all</span>      <span class="tbalias">rps</span>,
-    <span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
-    <span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>          <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>            <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_delivery_details</span>          <span class="tbalias">wdd</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_delivery_assignments</span>      <span class="tbalias">wda</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_new_deliveries</span>            <span class="tbalias">wnd</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span>      <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>               <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>         <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -3512,10 +3514,10 @@ const QUERIES = [
     gcc.<span class="col">segment3</span>               <span class="alias">AS account</span>,
     aid.<span class="col">amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
-    <span class="tb">gl_code_combinations</span>         <span class="tbalias">gcc</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>         <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">invoice_id</span>          <span class="op">=</span> aid.<span class="col">invoice_id</span>
     <span class="op">AND</span> ai.<span class="col">vendor_id</span>          <span class="op">=</span> aps.<span class="col">vendor_id</span>
@@ -3531,9 +3533,9 @@ const QUERIES = [
     gcc2.<span class="col">segment3</span>              <span class="alias">AS account</span>,
     gjl.<span class="col">entered_dr</span> - gjl.<span class="col">entered_cr</span> <span class="alias">AS amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc2</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc2</span>
 <span class="kw">WHERE</span>
     gjh.<span class="col">je_header_id</span>       <span class="op">=</span> gjl.<span class="col">je_header_id</span>
     <span class="op">AND</span> gjl.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc2.<span class="col">code_combination_id</span>
@@ -3563,9 +3565,9 @@ const QUERIES = [
     fcq.<span class="col">enabled_flag</span>,
     fa.<span class="col">application_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_queues</span>     <span class="tbalias">fcq</span>,
-    <span class="tb">fnd_concurrent_queues_tl</span>  <span class="tbalias">fcqt</span>,
-    <span class="tb">fnd_application_tl</span>        <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_queues</span>     <span class="tbalias">fcq</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_queues_tl</span>  <span class="tbalias">fcqt</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>        <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fcq.<span class="col">concurrent_queue_id</span>  <span class="op">=</span> fcqt.<span class="col">concurrent_queue_id</span>
     <span class="op">AND</span> fcq.<span class="col">application_id</span>     <span class="op">=</span> fcqt.<span class="col">application_id</span>
@@ -3591,9 +3593,9 @@ const QUERIES = [
     fcr.<span class="col">resubmit_interval_unit_code</span>   <span class="alias">AS interval_unit</span>,
     fcr.<span class="col">increment_dates</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -3620,9 +3622,9 @@ const QUERIES = [
     fcr.<span class="col">outfile_node_name</span>,
     fu.<span class="col">user_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fcr.<span class="col">concurrent_program_id</span>  <span class="op">=</span> fcp.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcr.<span class="col">program_application_id</span> <span class="op">=</span> fcp.<span class="col">application_id</span>
@@ -3652,10 +3654,10 @@ const QUERIES = [
     gjl.<span class="col">entered_cr</span>,
     gjl.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
-    <span class="tb">gl_ledgers</span>           <span class="tbalias">gl</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_ledgers</span>           <span class="tbalias">gl</span>
 <span class="kw">WHERE</span>
     gjh.<span class="col">je_header_id</span>        <span class="op">=</span> gjl.<span class="col">je_header_id</span>
     <span class="op">AND</span> gjl.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -3679,8 +3681,8 @@ const QUERIES = [
     <span class="fn">SUM</span>(gb.<span class="col">ytd_debit_balance_e</span>
         - gb.<span class="col">ytd_credit_balance_e</span>)                    <span class="alias">AS ytd_net</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gb.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
     <span class="op">AND</span> gb.<span class="col">actual_flag</span>          <span class="op">=</span> <span class="str">'A'</span>
@@ -3715,9 +3717,9 @@ const QUERIES = [
               <span class="kw">THEN</span> rps.<span class="col">amount_due_remaining</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="alias">AS over_90</span>,
     <span class="fn">SUM</span>(rps.<span class="col">amount_due_remaining</span>)                       <span class="alias">AS total_outstanding</span>
 <span class="kw">FROM</span>
-    <span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
-    <span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span>  <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>          <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     rps.<span class="col">customer_id</span>          <span class="op">=</span> hca.<span class="col">cust_account_id</span>
     <span class="op">AND</span> hca.<span class="col">party_id</span>             <span class="op">=</span> hp.<span class="col">party_id</span>
@@ -3744,11 +3746,11 @@ const QUERIES = [
     ara.<span class="col">apply_date</span>,
     ara.<span class="col">status</span>                   <span class="alias">AS application_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>,
-    <span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
-    <span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
-    <span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     acr.<span class="col">cash_receipt_id</span>     <span class="op">=</span> ara.<span class="col">cash_receipt_id</span>
     <span class="op">AND</span> ara.<span class="col">applied_customer_trx_id</span> <span class="op">=</span> rct.<span class="col">customer_trx_id</span> <span class="op">(+)</span>
@@ -3776,14 +3778,14 @@ const QUERIES = [
     msi.<span class="col">min_minmax_quantity</span>
         - <span class="fn">NVL</span>(moqd_sum.<span class="col">on_hand</span>,<span class="num">0</span>)     <span class="alias">AS shortage</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>,
     (
         <span class="kw">SELECT</span>
             moqd.<span class="col">inventory_item_id</span>,
             moqd.<span class="col">organization_id</span>,
             <span class="fn">SUM</span>(moqd.<span class="col">transaction_quantity</span>) <span class="alias">AS on_hand</span>
-        <span class="kw">FROM</span>   <span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>
+        <span class="kw">FROM</span>   <span class="schema">INV</span>.<span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>
         <span class="kw">GROUP BY</span>
             moqd.<span class="col">inventory_item_id</span>,
             moqd.<span class="col">organization_id</span>
@@ -3819,9 +3821,9 @@ const QUERIES = [
     wdj.<span class="col">scheduled_completion_date</span>,
     mp.<span class="col">organization_code</span>       <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">wip_discrete_jobs</span>   <span class="tbalias">wdj</span>,
-    <span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
+    <span class="schema">APPS</span>.<span class="tb">wip_discrete_jobs</span>   <span class="tbalias">wdj</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     wdj.<span class="col">primary_item_id</span>   <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> wdj.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -3849,9 +3851,9 @@ const QUERIES = [
     )                             <span class="alias">AS demand_source</span>,
     mp.<span class="col">organization_code</span>        <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_reservations</span>    <span class="tbalias">mr</span>,
-    <span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
-    <span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
+    <span class="schema">APPS</span>.<span class="tb">mtl_reservations</span>    <span class="tbalias">mr</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>  <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>      <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     mr.<span class="col">inventory_item_id</span>  <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> mr.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -3877,11 +3879,11 @@ const QUERIES = [
     papf.<span class="col">full_name</span>            <span class="alias">AS incumbent</span>,
     papf.<span class="col">employee_number</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_positions</span>          <span class="tbalias">pp</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>
+    <span class="schema">APPS</span>.<span class="tb">per_all_positions</span>          <span class="tbalias">pp</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     pp.<span class="col">organization_id</span>       <span class="op">=</span> haou.<span class="col">organization_id</span>
     <span class="op">AND</span> pp.<span class="col">job_id</span>                <span class="op">=</span> pj.<span class="col">job_id</span> <span class="op">(+)</span>
@@ -3910,11 +3912,11 @@ const QUERIES = [
     psp.<span class="col">pay_scale</span>          <span class="alias">AS pay_scale</span>,
     pcn.<span class="col">currency_code</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_grades</span>            <span class="tbalias">pg</span>,
-    <span class="tb">per_grade_rules_f</span>     <span class="tbalias">pgr</span>,
-    <span class="tb">per_spinal_point_steps_f</span> <span class="tbalias">pgsp</span>,
-    <span class="tb">per_spinal_points</span>      <span class="tbalias">psp</span>,
-    <span class="tb">pay_cost_allocation_keyflex</span> <span class="tbalias">pcn</span>
+    <span class="schema">HR</span>.<span class="tb">per_grades</span>            <span class="tbalias">pg</span>,
+    <span class="schema">APPS</span>.<span class="tb">per_grade_rules_f</span>     <span class="tbalias">pgr</span>,
+    <span class="schema">APPS</span>.<span class="tb">per_spinal_point_steps_f</span> <span class="tbalias">pgsp</span>,
+    <span class="schema">APPS</span>.<span class="tb">per_spinal_points</span>      <span class="tbalias">psp</span>,
+    <span class="schema">APPS</span>.<span class="tb">pay_cost_allocation_keyflex</span> <span class="tbalias">pcn</span>
 <span class="kw">WHERE</span>
     pg.<span class="col">grade_id</span>            <span class="op">=</span> pgr.<span class="col">grade_id</span> <span class="op">(+)</span>
     <span class="op">AND</span> pgr.<span class="col">grade_rule_id</span>     <span class="op">=</span> pgsp.<span class="col">grade_rule_id</span> <span class="op">(+)</span>
@@ -3942,11 +3944,11 @@ const QUERIES = [
     fcp.<span class="col">concurrent_program_name</span>,
     fcpt.<span class="col">user_concurrent_program_name</span> <span class="alias">AS program_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_request_groups</span>         <span class="tbalias">frg</span>,
-    <span class="tb">fnd_request_group_units</span>    <span class="tbalias">frgc</span>,
-    <span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>,
-    <span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_request_groups</span>         <span class="tbalias">frg</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_request_group_units</span>    <span class="tbalias">frgc</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>
 <span class="kw">WHERE</span>
     frg.<span class="col">request_group_id</span>       <span class="op">=</span> frgc.<span class="col">request_group_id</span>
     <span class="op">AND</span> frg.<span class="col">application_id</span>        <span class="op">=</span> fa.<span class="col">application_id</span>
@@ -3970,8 +3972,8 @@ const QUERIES = [
     fm.<span class="col">message_text</span>,
     fm.<span class="col">type</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_new_messages</span>    <span class="tbalias">fm</span>,
-    <span class="tb">fnd_application_tl</span> <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_new_messages</span>    <span class="tbalias">fm</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span> <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fm.<span class="col">application_id</span>  <span class="op">=</span> fa.<span class="col">application_id</span>
     <span class="op">AND</span> fa.<span class="col">language</span>        <span class="op">=</span> <span class="str">'US'</span>
@@ -3993,12 +3995,12 @@ const QUERIES = [
     fm.<span class="col">menu_name</span>,
     fme.<span class="col">grant_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
-    <span class="tb">fnd_responsibility</span>     <span class="tbalias">frb</span>,
-    <span class="tb">fnd_menus</span>              <span class="tbalias">fm</span>,
-    <span class="tb">fnd_menu_entries</span>       <span class="tbalias">fme</span>,
-    <span class="tb">fnd_form_functions</span>     <span class="tbalias">ff</span>,
-    <span class="tb">fnd_form_functions_tl</span>  <span class="tbalias">fft</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility</span>     <span class="tbalias">frb</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_menus</span>              <span class="tbalias">fm</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_menu_entries</span>       <span class="tbalias">fme</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_form_functions</span>     <span class="tbalias">ff</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_form_functions_tl</span>  <span class="tbalias">fft</span>
 <span class="kw">WHERE</span>
     fr.<span class="col">responsibility_id</span>   <span class="op">=</span> frb.<span class="col">responsibility_id</span>
     <span class="op">AND</span> fr.<span class="col">language</span>            <span class="op">=</span> <span class="str">'US'</span>
@@ -4026,8 +4028,8 @@ const QUERIES = [
     wura.<span class="col">start_date</span>,
     wura.<span class="col">expiration_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_user_role_assignments</span>  <span class="tbalias">wura</span>,
-    <span class="tb">fnd_user</span>                  <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_user_role_assignments</span>  <span class="tbalias">wura</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                  <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     wura.<span class="col">user_name</span>  <span class="op">=</span> fu.<span class="col">user_name</span> <span class="op">(+)</span>
     <span class="op">AND</span> <span class="fn">NVL</span>(wura.<span class="col">expiration_date</span>, <span class="fn">SYSDATE</span>) <span class="op"><</span>span class<span class="op">=</span>"op"<span class="op">></span><span class="op">>=</span></span<span class="op">></span> <span class="fn">SYSDATE</span>
@@ -4052,10 +4054,10 @@ const QUERIES = [
     pb.<span class="col">raw_cost</span>                  <span class="alias">AS budgeted_cost</span>,
     pb.<span class="col">burdened_cost</span>            <span class="alias">AS budgeted_burdened</span>
 <span class="kw">FROM</span>
-    <span class="tb">pa_projects_all</span>   <span class="tbalias">pa</span>,
-    <span class="tb">pa_tasks</span>          <span class="tbalias">pt</span>,
-    <span class="tb">pa_budget_lines</span>   <span class="tbalias">pb</span>,
-    <span class="tb">pa_budget_versions</span> <span class="tbalias">pav</span>
+    <span class="schema">PA</span>.<span class="tb">pa_projects_all</span>   <span class="tbalias">pa</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_tasks</span>          <span class="tbalias">pt</span>,
+    <span class="schema">APPS</span>.<span class="tb">pa_budget_lines</span>   <span class="tbalias">pb</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_budget_versions</span> <span class="tbalias">pav</span>
 <span class="kw">WHERE</span>
     pa.<span class="col">project_id</span>           <span class="op">=</span> pt.<span class="col">project_id</span>
     <span class="op">AND</span> pt.<span class="col">task_id</span>              <span class="op">=</span> pb.<span class="col">task_id</span> <span class="op">(+)</span>
@@ -4084,8 +4086,8 @@ const QUERIES = [
     pet.<span class="col">effective_start_date</span>,
     pet.<span class="col">effective_end_date</span>
 <span class="kw">FROM</span>
-    <span class="tb">pay_element_types_f</span>          <span class="tbalias">pet</span>,
-    <span class="tb">pay_element_classifications</span>  <span class="tbalias">pecl</span>
+    <span class="schema">PAY</span>.<span class="tb">pay_element_types_f</span>          <span class="tbalias">pet</span>,
+    <span class="schema">APPS</span>.<span class="tb">pay_element_classifications</span>  <span class="tbalias">pecl</span>
 <span class="kw">WHERE</span>
     pet.<span class="col">classification_id</span>  <span class="op">=</span> pecl.<span class="col">classification_id</span>
     <span class="op">AND</span> <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) <span class="kw">BETWEEN</span> pet.<span class="col">effective_start_date</span>
@@ -4200,7 +4202,7 @@ const QUERIES = [
     <span class="fn">COUNT</span>(*)                   <span class="alias">AS count</span>,
     <span class="kw">CASE</span> <span class="kw">WHEN</span> <span class="fn">COUNT</span>(*) <span class="op">=</span> <span class="num">0</span> <span class="kw">THEN</span> <span class="str">'CLEAR'</span> <span class="kw">ELSE</span> <span class="str">'OPEN'</span> <span class="kw">END</span> <span class="alias">AS status</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">approval_status</span> <span class="op">=</span> <span class="str">'APPROVED'</span>
     <span class="op">AND</span> ai.<span class="col">posting_status</span>  <span class="op"><</span>span class<span class="op">=</span>"op"<span class="op">></span><></span<span class="op">></span> <span class="str">'Y'</span>
@@ -4211,7 +4213,7 @@ const QUERIES = [
     <span class="fn">COUNT</span>(*),
     <span class="kw">CASE</span> <span class="kw">WHEN</span> <span class="fn">COUNT</span>(*) <span class="op">=</span> <span class="num">0</span> <span class="kw">THEN</span> <span class="str">'CLEAR'</span> <span class="kw">ELSE</span> <span class="str">'OPEN'</span> <span class="kw">END</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_batches</span>  <span class="tbalias">gjb</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_batches</span>  <span class="tbalias">gjb</span>
 <span class="kw">WHERE</span>
     gjb.<span class="col">status</span> <span class="op">=</span> <span class="str">'U'</span>
 <span class="kw">UNION ALL</span>
@@ -4220,7 +4222,7 @@ const QUERIES = [
     <span class="fn">COUNT</span>(*),
     <span class="kw">CASE</span> <span class="kw">WHEN</span> <span class="fn">COUNT</span>(*) <span class="op">=</span> <span class="num">0</span> <span class="kw">THEN</span> <span class="str">'CLEAR'</span> <span class="kw">ELSE</span> <span class="str">'OPEN'</span> <span class="kw">END</span>
 <span class="kw">FROM</span>
-    <span class="tb">xla_ae_headers</span>  <span class="tbalias">xah</span>
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_headers</span>  <span class="tbalias">xah</span>
 <span class="kw">WHERE</span>
     xah.<span class="col">transfer_status_code</span> <span class="op">=</span> <span class="str">'N'</span>
 <span class="kw">UNION ALL</span>
@@ -4229,7 +4231,7 @@ const QUERIES = [
     <span class="fn">COUNT</span>(*),
     <span class="kw">CASE</span> <span class="kw">WHEN</span> <span class="fn">COUNT</span>(*) <span class="op">=</span> <span class="num">0</span> <span class="kw">THEN</span> <span class="str">'CLEAR'</span> <span class="kw">ELSE</span> <span class="str">'OPEN'</span> <span class="kw">END</span>
 <span class="kw">FROM</span>
-    <span class="tb">ar_cash_receipts_all</span>  <span class="tbalias">acr</span>
+    <span class="schema">AR</span>.<span class="tb">ar_cash_receipts_all</span>  <span class="tbalias">acr</span>
 <span class="kw">WHERE</span>
     acr.<span class="col">status</span> <span class="op">=</span> <span class="str">'UNAPP'</span>;`,
    params:[]},
@@ -4246,16 +4248,16 @@ const QUERIES = [
     <span class="fn">SUM</span>(cql.<span class="col">rollback_value</span>)
         - gl_bal.<span class="col">net_balance</span>        <span class="alias">AS difference</span>
 <span class="kw">FROM</span>
-    <span class="tb">cst_quantity_layers</span>  <span class="tbalias">cql</span>,
-    <span class="tb">mtl_parameters</span>       <span class="tbalias">mp</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_quantity_layers</span>  <span class="tbalias">cql</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>       <span class="tbalias">mp</span>,
     (
         <span class="kw">SELECT</span>
             gcc2.<span class="col">segment1</span>,
             <span class="fn">SUM</span>(gb2.<span class="col">period_net_dr</span> - gb2.<span class="col">period_net_cr</span>
                 + gb2.<span class="col">begin_balance_dr</span> - gb2.<span class="col">begin_balance_cr</span>) <span class="alias">AS net_balance</span>
         <span class="kw">FROM</span>
-            <span class="tb">gl_balances</span>          <span class="tbalias">gb2</span>,
-            <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc2</span>
+            <span class="schema">GL</span>.<span class="tb">gl_balances</span>          <span class="tbalias">gb2</span>,
+            <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc2</span>
         <span class="kw">WHERE</span>
             gb2.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc2.<span class="col">code_combination_id</span>
             <span class="op">AND</span> gcc2.<span class="col">segment3</span>           <span class="op">=</span> <span class="str">'12100'</span>   <span class="cmt">-- Inventory GL account</span>
@@ -4291,8 +4293,8 @@ const QUERIES = [
     aptl.<span class="col">discount_days</span>,
     apt.<span class="col">enabled_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_terms</span>       <span class="tbalias">apt</span>,
-    <span class="tb">ap_terms_lines</span> <span class="tbalias">aptl</span>
+    <span class="schema">AP</span>.<span class="tb">ap_terms</span>       <span class="tbalias">apt</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_terms_lines</span> <span class="tbalias">aptl</span>
 <span class="kw">WHERE</span>
     apt.<span class="col">term_id</span>     <span class="op">=</span> aptl.<span class="col">term_id</span>
     <span class="op">AND</span> apt.<span class="col">enabled_flag</span> <span class="op">=</span> <span class="str">'Y'</span>
@@ -4315,9 +4317,9 @@ const QUERIES = [
     fu.<span class="col">user_name</span>         <span class="alias">AS cancelled_by</span>,
     ai.<span class="col">cancel_description</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
-    <span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>,
-    <span class="tb">fnd_user</span>         <span class="tbalias">fu</span>
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>  <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>     <span class="tbalias">aps</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>         <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     ai.<span class="col">vendor_id</span>        <span class="op">=</span> aps.<span class="col">vendor_id</span>
     <span class="op">AND</span> ai.<span class="col">cancelled_by</span>     <span class="op">=</span> fu.<span class="col">user_id</span> <span class="op">(+)</span>
@@ -4343,10 +4345,10 @@ const QUERIES = [
     (rt.<span class="col">quantity</span> - <span class="fn">NVL</span>(pol.<span class="col">quantity_billed</span>,<span class="num">0</span>))
         * pol.<span class="col">unit_price</span>                    <span class="alias">AS accrual_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_headers_all</span>      <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>        <span class="tbalias">pol</span>,
-    <span class="tb">rcv_transactions</span>    <span class="tbalias">rt</span>,
-    <span class="tb">ap_suppliers</span>        <span class="tbalias">aps</span>
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>      <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>        <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>    <span class="tbalias">rt</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>        <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     poh.<span class="col">po_header_id</span>    <span class="op">=</span> pol.<span class="col">po_header_id</span>
     <span class="op">AND</span> pol.<span class="col">po_line_id</span>     <span class="op">=</span> rt.<span class="col">po_line_id</span>
@@ -4379,10 +4381,10 @@ const QUERIES = [
     gjl.<span class="col">entered_cr</span>,
     gjl.<span class="col">description</span>           <span class="alias">AS line_desc</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_batches</span>        <span class="tbalias">gjb</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gjb.<span class="col">je_batch_id</span>          <span class="op">=</span> gjh.<span class="col">je_batch_id</span>
     <span class="op">AND</span> gjh.<span class="col">je_header_id</span>         <span class="op">=</span> gjl.<span class="col">je_header_id</span>
@@ -4411,9 +4413,9 @@ const QUERIES = [
     gjl.<span class="col">entered_cr</span>,
     gjl.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
-    <span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
-    <span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
+    <span class="schema">GL</span>.<span class="tb">gl_je_headers</span>        <span class="tbalias">gjh</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_je_lines</span>          <span class="tbalias">gjl</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span> <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     gjh.<span class="col">je_header_id</span>      <span class="op">=</span> gjl.<span class="col">je_header_id</span>
     <span class="op">AND</span> gjl.<span class="col">code_combination_id</span> <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -4440,9 +4442,9 @@ const QUERIES = [
     <span class="fn">SUM</span>(<span class="kw">CASE</span> <span class="kw">WHEN</span> paaf.<span class="col">employment_category</span> <span class="op">=</span> <span class="str">'PR'</span>
               <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>)           <span class="alias">AS part_time</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>              <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">organization_id</span>      <span class="op">=</span> haou.<span class="col">organization_id</span>
@@ -4471,11 +4473,11 @@ const QUERIES = [
     haou.<span class="col">name</span>              <span class="alias">AS department</span>,
     hl.<span class="col">location_code</span>     <span class="alias">AS location</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
-    <span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_locations_all</span>           <span class="tbalias">hl</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>            <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">job_id</span>              <span class="op">=</span> pj.<span class="col">job_id</span> <span class="op">(+)</span>
@@ -4506,11 +4508,11 @@ const QUERIES = [
     pj.<span class="col">name</span>                    <span class="alias">AS last_job</span>,
     haou.<span class="col">name</span>                  <span class="alias">AS last_department</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
-    <span class="tb">per_periods_of_service</span>     <span class="tbalias">pos</span>,
-    <span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
-    <span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
-    <span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>           <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_periods_of_service</span>     <span class="tbalias">pos</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>      <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_jobs</span>                   <span class="tbalias">pj</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>  <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>                <span class="op">=</span> pos.<span class="col">person_id</span>
     <span class="op">AND</span> papf.<span class="col">person_id</span>                <span class="op">=</span> paaf.<span class="col">person_id</span>
@@ -4541,11 +4543,11 @@ const QUERIES = [
     paa.<span class="col">absence_hours</span>,
     paa.<span class="col">approval_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>             <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>        <span class="tbalias">paaf</span>,
-    <span class="tb">per_absence_attendances</span>      <span class="tbalias">paa</span>,
-    <span class="tb">per_absence_attendance_types</span> <span class="tbalias">pat</span>,
-    <span class="tb">hr_all_organization_units</span>    <span class="tbalias">haou</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>             <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>        <span class="tbalias">paaf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_absence_attendances</span>      <span class="tbalias">paa</span>,
+    <span class="schema">HR</span>.<span class="tb">per_absence_attendance_types</span> <span class="tbalias">pat</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>    <span class="tbalias">haou</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>                       <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> papf.<span class="col">person_id</span>                       <span class="op">=</span> paa.<span class="col">person_id</span>
@@ -4581,10 +4583,10 @@ const QUERIES = [
     fa.<span class="col">serial_number</span>,
     fu.<span class="col">user_name</span>                   <span class="alias">AS added_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">fa_additions</span>    <span class="tbalias">fa</span>,
-    <span class="tb">fa_books</span>        <span class="tbalias">fb</span>,
-    <span class="tb">fa_categories_b</span> <span class="tbalias">fcat</span>,
-    <span class="tb">fnd_user</span>        <span class="tbalias">fu</span>
+    <span class="schema">FA</span>.<span class="tb">fa_additions</span>    <span class="tbalias">fa</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_books</span>        <span class="tbalias">fb</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_categories_b</span> <span class="tbalias">fcat</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>        <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fa.<span class="col">asset_id</span>          <span class="op">=</span> fb.<span class="col">asset_id</span>
     <span class="op">AND</span> fa.<span class="col">asset_category_id</span> <span class="op">=</span> fcat.<span class="col">category_id</span>
@@ -4612,9 +4614,9 @@ const QUERIES = [
     fr.<span class="col">gain_loss_amount</span>,
     fr.<span class="col">status</span>              <span class="alias">AS retirement_status</span>
 <span class="kw">FROM</span>
-    <span class="tb">fa_additions</span>    <span class="tbalias">fa</span>,
-    <span class="tb">fa_retirements</span>  <span class="tbalias">fr</span>,
-    <span class="tb">fa_categories_b</span> <span class="tbalias">fcat</span>
+    <span class="schema">FA</span>.<span class="tb">fa_additions</span>    <span class="tbalias">fa</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_retirements</span>  <span class="tbalias">fr</span>,
+    <span class="schema">FA</span>.<span class="tb">fa_categories_b</span> <span class="tbalias">fcat</span>
 <span class="kw">WHERE</span>
     fa.<span class="col">asset_id</span>          <span class="op">=</span> fr.<span class="col">asset_id</span>
     <span class="op">AND</span> fa.<span class="col">asset_category_id</span> <span class="op">=</span> fcat.<span class="col">category_id</span>
@@ -4640,9 +4642,9 @@ const QUERIES = [
     haou.<span class="col">date_from</span>,
     haou.<span class="col">date_to</span>
 <span class="kw">FROM</span>
-    <span class="tb">hr_all_organization_units</span>   <span class="tbalias">haou</span>,
-    <span class="tb">hr_organization_information</span> <span class="tbalias">hoi</span>,
-    <span class="tb">gl_ledgers</span>                  <span class="tbalias">gl</span>
+    <span class="schema">HR</span>.<span class="tb">hr_all_organization_units</span>   <span class="tbalias">haou</span>,
+    <span class="schema">HR</span>.<span class="tb">hr_organization_information</span> <span class="tbalias">hoi</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_ledgers</span>                  <span class="tbalias">gl</span>
 <span class="kw">WHERE</span>
     haou.<span class="col">organization_id</span>          <span class="op">=</span> hoi.<span class="col">organization_id</span>
     <span class="op">AND</span> hoi.<span class="col">org_information_context</span>  <span class="op">=</span> <span class="str">'Operating Unit Information'</span>
@@ -4667,10 +4669,10 @@ const QUERIES = [
     fcp.<span class="col">output_file_type</span>,
     fcp.<span class="col">enabled_flag</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>,
-    <span class="tb">fnd_executables</span>            <span class="tbalias">fce</span>,
-    <span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs</span>    <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcpt</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_executables</span>            <span class="tbalias">fce</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>         <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fcp.<span class="col">concurrent_program_id</span>    <span class="op">=</span> fcpt.<span class="col">concurrent_program_id</span>
     <span class="op">AND</span> fcp.<span class="col">application_id</span>          <span class="op">=</span> fcpt.<span class="col">application_id</span>
@@ -4793,8 +4795,8 @@ const QUERIES = [
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">TRUNC</span>(fu.<span class="col">last_logon_date</span>) <span class="alias">AS days_since_login</span>,
     papf.<span class="col">full_name</span>                             <span class="alias">AS employee_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_user</span>         <span class="tbalias">fu</span>,
-    <span class="tb">per_all_people_f</span> <span class="tbalias">papf</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>         <span class="tbalias">fu</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span> <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     fu.<span class="col">end_date</span>          <span class="kw">IS NULL</span>
     <span class="op">AND</span> fu.<span class="col">last_logon_date</span>  < <span class="fn">SYSDATE</span> - <span class="num">90</span>
@@ -4815,10 +4817,10 @@ const QUERIES = [
     fa.<span class="col">application_name</span>,
     <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> fu.<span class="col">user_id</span>)   <span class="alias">AS user_count</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
-    <span class="tb">fnd_user_resp_groups</span>   <span class="tbalias">frg</span>,
-    <span class="tb">fnd_user</span>               <span class="tbalias">fu</span>,
-    <span class="tb">fnd_application_tl</span>     <span class="tbalias">fa</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_responsibility_tl</span>  <span class="tbalias">fr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user_resp_groups</span>   <span class="tbalias">frg</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>               <span class="tbalias">fu</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_application_tl</span>     <span class="tbalias">fa</span>
 <span class="kw">WHERE</span>
     fr.<span class="col">responsibility_id</span>  <span class="op">=</span> frg.<span class="col">responsibility_id</span>
     <span class="op">AND</span> fr.<span class="col">application_id</span>   <span class="op">=</span> frg.<span class="col">application_id</span>
@@ -4856,17 +4858,17 @@ const QUERIES = [
     ac.<span class="col">amount</span>                 <span class="alias">AS payment_amount</span>,
     aps.<span class="col">vendor_name</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_requisition_headers_all</span>   <span class="tbalias">prh</span>,
-    <span class="tb">po_requisition_lines_all</span>     <span class="tbalias">prl</span>,
-    <span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
-    <span class="tb">rcv_shipment_headers</span>         <span class="tbalias">rsh</span>,
-    <span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>,
-    <span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
-    <span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
-    <span class="tb">ap_invoice_payments_all</span>      <span class="tbalias">aip</span>,
-    <span class="tb">ap_checks_all</span>                <span class="tbalias">ac</span>,
-    <span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
+    <span class="schema">PO</span>.<span class="tb">po_requisition_headers_all</span>   <span class="tbalias">prh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_requisition_lines_all</span>     <span class="tbalias">prl</span>,
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>               <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>                 <span class="tbalias">pol</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_shipment_headers</span>         <span class="tbalias">rsh</span>,
+    <span class="schema">PO</span>.<span class="tb">rcv_transactions</span>             <span class="tbalias">rt</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>              <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_distributions_all</span> <span class="tbalias">aid</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoice_payments_all</span>      <span class="tbalias">aip</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_checks_all</span>                <span class="tbalias">ac</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>                 <span class="tbalias">aps</span>
 <span class="kw">WHERE</span>
     prh.<span class="col">requisition_header_id</span> <span class="op">=</span> prl.<span class="col">requisition_header_id</span>
     <span class="op">AND</span> prl.<span class="col">line_location_id</span>    <span class="op">=</span> pol.<span class="col">po_line_id</span> <span class="op">(+)</span>
@@ -4902,17 +4904,17 @@ const QUERIES = [
     acr.<span class="col">receipt_date</span>,
     acr.<span class="col">amount</span>                <span class="alias">AS cash_received</span>
 <span class="kw">FROM</span>
-    <span class="tb">oe_order_headers_all</span>          <span class="tbalias">ooh</span>,
-    <span class="tb">oe_order_lines_all</span>            <span class="tbalias">ool</span>,
-    <span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>,
-    <span class="tb">wsh_delivery_details</span>          <span class="tbalias">wdd</span>,
-    <span class="tb">wsh_delivery_assignments</span>      <span class="tbalias">wda</span>,
-    <span class="tb">wsh_new_deliveries</span>            <span class="tbalias">wnd</span>,
-    <span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
-    <span class="tb">ar_payment_schedules_all</span>      <span class="tbalias">rps</span>,
-    <span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
-    <span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>
+    <span class="schema">ONT</span>.<span class="tb">oe_order_headers_all</span>          <span class="tbalias">ooh</span>,
+    <span class="schema">ONT</span>.<span class="tb">oe_order_lines_all</span>            <span class="tbalias">ool</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>              <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                    <span class="tbalias">hp</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_delivery_details</span>          <span class="tbalias">wdd</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_delivery_assignments</span>      <span class="tbalias">wda</span>,
+    <span class="schema">WSH</span>.<span class="tb">wsh_new_deliveries</span>            <span class="tbalias">wnd</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>           <span class="tbalias">rct</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_payment_schedules_all</span>      <span class="tbalias">rps</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_receivable_applications_all</span> <span class="tbalias">ara</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_cash_receipts_all</span>          <span class="tbalias">acr</span>
 <span class="kw">WHERE</span>
     ooh.<span class="col">header_id</span>                      <span class="op">=</span> ool.<span class="col">header_id</span>
     <span class="op">AND</span> ooh.<span class="col">sold_to_org_id</span>               <span class="op">=</span> hca.<span class="col">cust_account_id</span>
@@ -4940,11 +4942,11 @@ const QUERIES = [
     <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> ai.<span class="col">invoice_id</span>)     <span class="alias">AS open_invoices</span>,
     <span class="fn">SUM</span>(<span class="kw">DISTINCT</span> apsch.<span class="col">amount_remaining</span>) <span class="alias">AS outstanding_payable</span>
 <span class="kw">FROM</span>
-    <span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
-    <span class="tb">po_headers_all</span>           <span class="tbalias">poh</span>,
-    <span class="tb">po_lines_all</span>             <span class="tbalias">pol</span>,
-    <span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
-    <span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
+    <span class="schema">AP</span>.<span class="tb">ap_suppliers</span>             <span class="tbalias">aps</span>,
+    <span class="schema">PO</span>.<span class="tb">po_headers_all</span>           <span class="tbalias">poh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_lines_all</span>             <span class="tbalias">pol</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_invoices_all</span>          <span class="tbalias">ai</span>,
+    <span class="schema">AP</span>.<span class="tb">ap_payment_schedules_all</span> <span class="tbalias">apsch</span>
 <span class="kw">WHERE</span>
     aps.<span class="col">vendor_id</span>          <span class="op">=</span> poh.<span class="col">vendor_id</span> <span class="op">(+)</span>
     <span class="op">AND</span> poh.<span class="col">po_header_id</span>     <span class="op">=</span> pol.<span class="col">po_header_id</span> <span class="op">(+)</span>
@@ -4970,10 +4972,10 @@ const QUERIES = [
     <span class="fn">MAX</span>(mmt.<span class="col">transaction_date</span>)              <span class="alias">AS last_txn_date</span>,
     <span class="fn">TRUNC</span>(<span class="fn">SYSDATE</span>) - <span class="fn">MAX</span>(<span class="fn">TRUNC</span>(mmt.<span class="col">transaction_date</span>)) <span class="alias">AS days_idle</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
-    <span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
-    <span class="tb">mtl_material_transactions</span>     <span class="tbalias">mmt</span>,
-    <span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_onhand_quantities_detail</span>  <span class="tbalias">moqd</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>            <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_material_transactions</span>     <span class="tbalias">mmt</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>                <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     moqd.<span class="col">inventory_item_id</span>  <span class="op">=</span> msi.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> moqd.<span class="col">organization_id</span>    <span class="op">=</span> msi.<span class="col">organization_id</span>
@@ -5005,11 +5007,11 @@ const QUERIES = [
     mmr.<span class="col">minimum_quantity</span>
         - <span class="fn">SUM</span>(moqd.<span class="col">transaction_quantity</span>)     <span class="alias">AS shortfall</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>           <span class="tbalias">msi</span>,
-    <span class="tb">mtl_item_sub_inventories</span>     <span class="tbalias">mmr</span>,
-    <span class="tb">mtl_onhand_quantities_detail</span> <span class="tbalias">moqd</span>,
-    <span class="tb">mtl_secondary_inventories</span>    <span class="tbalias">msub</span>,
-    <span class="tb">mtl_parameters</span>               <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>           <span class="tbalias">msi</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_item_sub_inventories</span>     <span class="tbalias">mmr</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_onhand_quantities_detail</span> <span class="tbalias">moqd</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_secondary_inventories</span>    <span class="tbalias">msub</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>               <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     msi.<span class="col">inventory_item_id</span>   <span class="op">=</span> mmr.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> msi.<span class="col">organization_id</span>    <span class="op">=</span> mmr.<span class="col">organization_id</span>
@@ -5041,12 +5043,12 @@ const QUERIES = [
     cild.<span class="col">item_cost</span>,
     mp.<span class="col">organization_code</span>    <span class="alias">AS org</span>
 <span class="kw">FROM</span>
-    <span class="tb">mtl_system_items_b</span>      <span class="tbalias">msi</span>,
-    <span class="tb">cst_item_costs</span>          <span class="tbalias">cic</span>,
-    <span class="tb">cst_item_cost_details</span>   <span class="tbalias">cild</span>,
-    <span class="tb">cst_cost_types</span>          <span class="tbalias">cct</span>,
-    <span class="tb">cst_cost_elements</span>       <span class="tbalias">cce</span>,
-    <span class="tb">mtl_parameters</span>          <span class="tbalias">mp</span>
+    <span class="schema">INV</span>.<span class="tb">mtl_system_items_b</span>      <span class="tbalias">msi</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_item_costs</span>          <span class="tbalias">cic</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_item_cost_details</span>   <span class="tbalias">cild</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_cost_types</span>          <span class="tbalias">cct</span>,
+    <span class="schema">BOM</span>.<span class="tb">cst_cost_elements</span>       <span class="tbalias">cce</span>,
+    <span class="schema">INV</span>.<span class="tb">mtl_parameters</span>          <span class="tbalias">mp</span>
 <span class="kw">WHERE</span>
     msi.<span class="col">inventory_item_id</span>  <span class="op">=</span> cic.<span class="col">inventory_item_id</span>
     <span class="op">AND</span> msi.<span class="col">organization_id</span>   <span class="op">=</span> cic.<span class="col">organization_id</span>
@@ -5078,12 +5080,12 @@ const QUERIES = [
     pei.<span class="col">burdened_cost</span>,
     papf.<span class="col">full_name</span>              <span class="alias">AS employee</span>
 <span class="kw">FROM</span>
-    <span class="tb">pa_projects_all</span>           <span class="tbalias">pa</span>,
-    <span class="tb">pa_tasks</span>                  <span class="tbalias">pt</span>,
-    <span class="tb">pa_expenditure_items_all</span>  <span class="tbalias">pei</span>,
-    <span class="tb">pa_expenditure_types</span>      <span class="tbalias">pet</span>,
-    <span class="tb">pa_expenditures_all</span>       <span class="tbalias">pe</span>,
-    <span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>
+    <span class="schema">PA</span>.<span class="tb">pa_projects_all</span>           <span class="tbalias">pa</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_tasks</span>                  <span class="tbalias">pt</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditure_items_all</span>  <span class="tbalias">pei</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditure_types</span>      <span class="tbalias">pet</span>,
+    <span class="schema">PA</span>.<span class="tb">pa_expenditures_all</span>       <span class="tbalias">pe</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>          <span class="tbalias">papf</span>
 <span class="kw">WHERE</span>
     pa.<span class="col">project_id</span>              <span class="op">=</span> pt.<span class="col">project_id</span>
     <span class="op">AND</span> pt.<span class="col">task_id</span>               <span class="op">=</span> pei.<span class="col">task_id</span>
@@ -5106,8 +5108,8 @@ const QUERIES = [
     wa.<span class="col">activity_status</span>,
     <span class="fn">COUNT</span>(*)           <span class="alias">AS process_count</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
-    <span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_items</span>                   <span class="tbalias">wi</span>,
+    <span class="schema">APPS</span>.<span class="tb">wf_item_activity_statuses</span>  <span class="tbalias">wa</span>
 <span class="kw">WHERE</span>
     wi.<span class="col">item_type</span> <span class="op">=</span> wa.<span class="col">item_type</span>
     <span class="op">AND</span> wi.<span class="col">item_key</span>  <span class="op">=</span> wa.<span class="col">item_key</span>
@@ -5130,7 +5132,7 @@ const QUERIES = [
     wias.<span class="col">number_value</span>,
     wias.<span class="col">date_value</span>
 <span class="kw">FROM</span>
-    <span class="tb">wf_item_attribute_values</span>  <span class="tbalias">wias</span>
+    <span class="schema">APPS</span>.<span class="tb">wf_item_attribute_values</span>  <span class="tbalias">wias</span>
 <span class="kw">WHERE</span>
     wias.<span class="col">item_type</span> <span class="op">=</span> <span class="str">'OEOH'</span>    <span class="cmt">-- Change item type</span>
     <span class="op">AND</span> wias.<span class="col">item_key</span>  <span class="op">=</span> <span class="str">'1234'</span>   <span class="cmt">-- Change item key (order/invoice ID)</span>
@@ -5158,9 +5160,9 @@ const QUERIES = [
     xal.<span class="col">currency_code</span>,
     xal.<span class="col">description</span>
 <span class="kw">FROM</span>
-    <span class="tb">xla_ae_headers</span>        <span class="tbalias">xah</span>,
-    <span class="tb">xla_ae_lines</span>          <span class="tbalias">xal</span>,
-    <span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_headers</span>        <span class="tbalias">xah</span>,
+    <span class="schema">XLA</span>.<span class="tb">xla_ae_lines</span>          <span class="tbalias">xal</span>,
+    <span class="schema">GL</span>.<span class="tb">gl_code_combinations</span>  <span class="tbalias">gcc</span>
 <span class="kw">WHERE</span>
     xah.<span class="col">ae_header_id</span>         <span class="op">=</span> xal.<span class="col">ae_header_id</span>
     <span class="op">AND</span> xal.<span class="col">code_combination_id</span>  <span class="op">=</span> gcc.<span class="col">code_combination_id</span>
@@ -5183,14 +5185,14 @@ const QUERIES = [
     piv.<span class="col">name</span>                 <span class="alias">AS input_value</span>,
     prrv.<span class="col">result_value</span>      <span class="alias">AS pay_amount</span>
 <span class="kw">FROM</span>
-    <span class="tb">per_all_people_f</span>        <span class="tbalias">papf</span>,
-    <span class="tb">per_all_assignments_f</span>   <span class="tbalias">paaf</span>,
-    <span class="tb">pay_assignment_actions</span>  <span class="tbalias">ppaa</span>,
-    <span class="tb">pay_payroll_actions</span>     <span class="tbalias">ppa</span>,
-    <span class="tb">pay_run_results</span>         <span class="tbalias">prr</span>,
-    <span class="tb">pay_run_result_values</span>   <span class="tbalias">prrv</span>,
-    <span class="tb">pay_element_types_f</span>     <span class="tbalias">pet</span>,
-    <span class="tb">pay_input_values_f</span>      <span class="tbalias">piv</span>
+    <span class="schema">HR</span>.<span class="tb">per_all_people_f</span>        <span class="tbalias">papf</span>,
+    <span class="schema">HR</span>.<span class="tb">per_all_assignments_f</span>   <span class="tbalias">paaf</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_assignment_actions</span>  <span class="tbalias">ppaa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_payroll_actions</span>     <span class="tbalias">ppa</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_results</span>         <span class="tbalias">prr</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_run_result_values</span>   <span class="tbalias">prrv</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_element_types_f</span>     <span class="tbalias">pet</span>,
+    <span class="schema">PAY</span>.<span class="tb">pay_input_values_f</span>      <span class="tbalias">piv</span>
 <span class="kw">WHERE</span>
     papf.<span class="col">person_id</span>              <span class="op">=</span> paaf.<span class="col">person_id</span>
     <span class="op">AND</span> paaf.<span class="col">assignment_id</span>         <span class="op">=</span> ppaa.<span class="col">assignment_id</span>
@@ -5224,8 +5226,8 @@ const QUERIES = [
     fcq.<span class="col">enabled_flag</span>,
     fcq.<span class="col">processor_application_id</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_concurrent_queues</span>    <span class="tbalias">fcq</span>,
-    <span class="tb">fnd_concurrent_queues_tl</span> <span class="tbalias">fcqt</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_queues</span>    <span class="tbalias">fcq</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_queues_tl</span> <span class="tbalias">fcqt</span>
 <span class="kw">WHERE</span>
     fcq.<span class="col">concurrent_queue_id</span> <span class="op">=</span> fcqt.<span class="col">concurrent_queue_id</span>
     <span class="op">AND</span> fcq.<span class="col">application_id</span>    <span class="op">=</span> fcqt.<span class="col">application_id</span>
@@ -5251,11 +5253,11 @@ const QUERIES = [
     fcr.<span class="col">status_code</span>,
     fu.<span class="col">user_name</span>                    <span class="alias">AS submitted_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">fnd_request_sets</span>           <span class="tbalias">fcrs</span>,
-    <span class="tb">fnd_request_sets_tl</span>        <span class="tbalias">fcrst</span>,
-    <span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
-    <span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
-    <span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
+    <span class="schema">APPS</span>.<span class="tb">fnd_request_sets</span>           <span class="tbalias">fcrs</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_request_sets_tl</span>        <span class="tbalias">fcrst</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_requests</span>    <span class="tbalias">fcr</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_concurrent_programs_tl</span> <span class="tbalias">fcp</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                   <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     fcrs.<span class="col">request_set_id</span>          <span class="op">=</span> fcrst.<span class="col">request_set_id</span>
     <span class="op">AND</span> fcrs.<span class="col">set_application_id</span>    <span class="op">=</span> fcrst.<span class="col">set_application_id</span>
@@ -5284,8 +5286,8 @@ const QUERIES = [
     ril.<span class="col">request_id</span>,
     rierr.<span class="col">message_text</span>             <span class="alias">AS error_message</span>
 <span class="kw">FROM</span>
-    <span class="tb">ra_interface_lines_all</span>   <span class="tbalias">ril</span>,
-    <span class="tb">ra_interface_errors_all</span>  <span class="tbalias">rierr</span>
+    <span class="schema">AR</span>.<span class="tb">ra_interface_lines_all</span>   <span class="tbalias">ril</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_interface_errors_all</span>  <span class="tbalias">rierr</span>
 <span class="kw">WHERE</span>
     ril.<span class="col">interface_line_id</span>  <span class="op">=</span> rierr.<span class="col">interface_line_id</span>
 <span class="kw">ORDER BY</span>
@@ -5306,11 +5308,11 @@ const QUERIES = [
     ara.<span class="col">apply_date</span>,
     rct_cm.<span class="col">invoice_currency_code</span> <span class="alias">AS currency</span>
 <span class="kw">FROM</span>
-    <span class="tb">ra_customer_trx_all</span>             <span class="tbalias">rct_cm</span>,
-    <span class="tb">ra_customer_trx_all</span>             <span class="tbalias">rct_inv</span>,
-    <span class="tb">ar_receivable_applications_all</span>  <span class="tbalias">ara</span>,
-    <span class="tb">hz_cust_accounts</span>                <span class="tbalias">hca</span>,
-    <span class="tb">hz_parties</span>                      <span class="tbalias">hp</span>
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>             <span class="tbalias">rct_cm</span>,
+    <span class="schema">AR</span>.<span class="tb">ra_customer_trx_all</span>             <span class="tbalias">rct_inv</span>,
+    <span class="schema">AR</span>.<span class="tb">ar_receivable_applications_all</span>  <span class="tbalias">ara</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_cust_accounts</span>                <span class="tbalias">hca</span>,
+    <span class="schema">AR</span>.<span class="tb">hz_parties</span>                      <span class="tbalias">hp</span>
 <span class="kw">WHERE</span>
     rct_cm.<span class="col">customer_trx_id</span>     <span class="op">=</span> ara.<span class="col">customer_trx_id</span>
     <span class="op">AND</span> ara.<span class="col">applied_customer_trx_id</span> <span class="op">=</span> rct_inv.<span class="col">customer_trx_id</span>
@@ -5340,9 +5342,9 @@ const QUERIES = [
     prl.<span class="col">need_by_date</span>,
     fu.<span class="col">user_name</span>                    <span class="alias">AS prepared_by</span>
 <span class="kw">FROM</span>
-    <span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
-    <span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
-    <span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
+    <span class="schema">PO</span>.<span class="tb">po_requisition_headers_all</span>  <span class="tbalias">prh</span>,
+    <span class="schema">PO</span>.<span class="tb">po_requisition_lines_all</span>    <span class="tbalias">prl</span>,
+    <span class="schema">APPS</span>.<span class="tb">fnd_user</span>                    <span class="tbalias">fu</span>
 <span class="kw">WHERE</span>
     prh.<span class="col">requisition_header_id</span>  <span class="op">=</span> prl.<span class="col">requisition_header_id</span>
     <span class="op">AND</span> prh.<span class="col">created_by</span>             <span class="op">=</span> fu.<span class="col">user_id</span>
